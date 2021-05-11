@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>peana</title>
+  
+  <subtitle>人生没有白走的路，每一步都算数</subtitle>
+  <link href="http://peana.github.io/atom.xml" rel="self"/>
+  
+  <link href="http://peana.github.io/"/>
+  <updated>2021-05-11T15:06:11.614Z</updated>
+  <id>http://peana.github.io/</id>
+  
+  <author>
+    <name>peana</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第三周：数据库系统表相关学习</title>
+    <link href="http://peana.github.io/2019/09/04/third-week-work/"/>
+    <id>http://peana.github.io/2019/09/04/third-week-work/</id>
+    <published>2019-09-04T12:08:35.000Z</published>
+    <updated>2021-05-11T15:06:11.614Z</updated>
+    
+    
+    <summary type="html">信安之路WEB安全第三周学习报告：数据库系统表相关学习</summary>
+    
+    
+    
+    <category term="信安之路学习" scheme="http://peana.github.io/categories/%E4%BF%A1%E5%AE%89%E4%B9%8B%E8%B7%AF%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="SQL学习" scheme="http://peana.github.io/tags/SQL%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="WEB安全" scheme="http://peana.github.io/tags/WEB%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第二周：认识 sql 并学习数据库的基础操作</title>
+    <link href="http://peana.github.io/2019/08/24/second-week-work/"/>
+    <id>http://peana.github.io/2019/08/24/second-week-work/</id>
+    <published>2019-08-24T12:08:35.000Z</published>
+    <updated>2021-05-11T14:13:31.193Z</updated>
+    
+    
+    <summary type="html">信安之路WEB安全第二周学习报告：认识 sql 并学习数据库的基础操作</summary>
+    
+    
+    
+    <category term="信安之路学习" scheme="http://peana.github.io/categories/%E4%BF%A1%E5%AE%89%E4%B9%8B%E8%B7%AF%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="SQL学习" scheme="http://peana.github.io/tags/SQL%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="WEB安全" scheme="http://peana.github.io/tags/WEB%E5%AE%89%E5%85%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>第一周：学籍备案以及环境准备</title>
+    <link href="http://peana.github.io/2019/08/15/first-week-work/"/>
+    <id>http://peana.github.io/2019/08/15/first-week-work/</id>
+    <published>2019-08-15T03:10:59.000Z</published>
+    <updated>2021-05-11T15:06:17.223Z</updated>
+    
+    
+    <summary type="html">信安之路WEB安全第一周学习报告：学籍备案以及环境准备</summary>
+    
+    
+    
+    <category term="信安之路学习" scheme="http://peana.github.io/categories/%E4%BF%A1%E5%AE%89%E4%B9%8B%E8%B7%AF%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="环境搭建" scheme="http://peana.github.io/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ubuntu系统中利用 github page+hexo搭建blog</title>
+    <link href="http://peana.github.io/2019/08/14/build-blog/"/>
+    <id>http://peana.github.io/2019/08/14/build-blog/</id>
+    <published>2019-08-14T09:38:44.000Z</published>
+    <updated>2021-05-11T15:01:46.824Z</updated>
+    
+    
+    <summary type="html">记录在ubuntu子系统中首次搭建blog，使用annie主题美化</summary>
+    
+    
+    
+    <category term="others" scheme="http://peana.github.io/categories/others/"/>
+    
+    
+    <category term="环境搭建" scheme="http://peana.github.io/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    
+  </entry>
+  
+</feed>

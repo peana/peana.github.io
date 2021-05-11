@@ -1,0 +1,1261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;peana.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:&quot;default&quot;,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="信安之路WEB安全第三周学习报告：数据库系统表相关学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三周：数据库系统表相关学习">
+<meta property="og:url" content="http://peana.github.io/2019/09/04/third-week-work/index.html">
+<meta property="og:site_name" content="peana">
+<meta property="og:description" content="信安之路WEB安全第三周学习报告：数据库系统表相关学习">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://peana.github.io/2019/09/04/third-week-work/1.jpg">
+<meta property="og:image" content="http://peana.github.io/2019/09/04/third-week-work/2.png">
+<meta property="article:published_time" content="2019-09-04T12:08:35.000Z">
+<meta property="article:modified_time" content="2021-05-11T15:06:11.614Z">
+<meta property="article:author" content="peana">
+<meta property="article:tag" content="SQL学习">
+<meta property="article:tag" content="WEB安全">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peana.github.io/2019/09/04/third-week-work/1.jpg">
+
+
+<link rel="canonical" href="http://peana.github.io/2019/09/04/third-week-work/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2019&#x2F;09&#x2F;04&#x2F;third-week-work&#x2F;&quot;,&quot;path&quot;:&quot;2019&#x2F;09&#x2F;04&#x2F;third-week-work&#x2F;&quot;,&quot;title&quot;:&quot;第三周：数据库系统表相关学习&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>第三周：数据库系统表相关学习 | peana</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="peana" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">peana</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E8%A1%A8%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">数据库系统表相关学习</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%A6%82%E4%BD%95%E5%88%A9%E7%94%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">一、如何利用数据库读取文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-load-file"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 load_file()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-load-data-infile"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 load data infile()</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81mysql%E7%B3%BB%E7%BB%9F%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">二、mysql系统表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL5-7%E9%BB%98%E8%AE%A4%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">MySQL5.7默认模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Information-schema"><span class="nav-number">3.2.</span> <span class="nav-text">Information_schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%83%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.1.</span> <span class="nav-text">元数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#information-schema-%E6%95%B0%E6%8D%AE%E5%BA%93%E9%83%A8%E5%88%86%E8%A1%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">3.2.2.</span> <span class="nav-text">information_schema 数据库部分表说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#performance-schema"><span class="nav-number">3.3.</span> <span class="nav-text">performance_schema</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#performance-schema%E6%95%B0%E6%8D%AE%E5%BA%93%E9%83%A8%E5%88%86%E8%A1%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">3.3.1.</span> <span class="nav-text">performance_schema数据库部分表说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mysql"><span class="nav-number">3.4.</span> <span class="nav-text">mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E9%83%A8%E5%88%86%E8%A1%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">3.4.1.</span> <span class="nav-text">mysql数据库部分表说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sys"><span class="nav-number">3.5.</span> <span class="nav-text">sys</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sys%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%AF%B4%E6%98%8E"><span class="nav-number">3.5.1.</span> <span class="nav-text">sys数据库表说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sys-config%E7%9A%84%E4%B8%A4%E4%B8%AA%E8%A7%A6%E5%8F%91%E5%99%A8"><span class="nav-number">3.5.2.</span> <span class="nav-text">sys_config的两个触发器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9F%A5%E8%AF%A2%E7%94%A8%E6%88%B7hash%EF%BC%8C%E4%BD%BF%E7%94%A8hashcat%E7%88%86%E7%A0%B4"><span class="nav-number">4.</span> <span class="nav-text">三、查询用户hash，使用hashcat爆破</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%9C%A8%E7%BA%BF%E7%A0%B4%E8%A7%A3hash"><span class="nav-number">4.1.</span> <span class="nav-text">3.1 在线破解hash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E4%BD%BF%E7%94%A8hashcat"><span class="nav-number">4.2.</span> <span class="nav-text">3.2 使用hashcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-1-%E5%A4%84%E7%90%86kali%E4%B8%AD%E7%9A%84hashcat%E6%8A%A5%E9%94%99%E4%BF%A1%E6%81%AF"><span class="nav-number">4.2.1.</span> <span class="nav-text">3.2.1 处理kali中的hashcat报错信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-2-%E5%88%A9%E7%94%A8hashcat%E7%A0%B4%E8%A7%A3%E4%B8%8A%E6%96%87%E4%B8%AD%E7%9A%84mysql%E7%94%A8%E6%88%B7%E7%9A%84hash%E5%80%BC"><span class="nav-number">4.2.2.</span> <span class="nav-text">3.2.2 利用hashcat破解上文中的mysql用户的hash值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-3-hashcat-%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3"><span class="nav-number">4.2.3.</span> <span class="nav-text">3.2.3 hashcat 使用详解</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="peana"
+      src="/images/peana_black.png">
+  <p class="site-author-name" itemprop="name">peana</p>
+  <div class="site-description" itemprop="description">胖花</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/peana" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;peana" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://peana.github.io/2019/09/04/third-week-work/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/peana_black.png">
+      <meta itemprop="name" content="peana">
+      <meta itemprop="description" content="胖花">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="peana">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三周：数据库系统表相关学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-09-04 20:08:35" itemprop="dateCreated datePublished" datetime="2019-09-04T20:08:35+08:00">2019-09-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-11 23:06:11" itemprop="dateModified" datetime="2021-05-11T23:06:11+08:00">2021-05-11</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E4%BF%A1%E5%AE%89%E4%B9%8B%E8%B7%AF%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index"><span itemprop="name">信安之路学习</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">信安之路WEB安全第三周学习报告：数据库系统表相关学习</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="数据库系统表相关学习"><a href="#数据库系统表相关学习" class="headerlink" title="数据库系统表相关学习"></a>数据库系统表相关学习</h1><p>Date：第三周<br>Auther：胖花<br>Blog：<a href="http://peana.github.io/2019/09/04/third-week-work/">http://peana.github.io/2019/09/04/third-week-work/</a></p>
+<h1 id="一、如何利用数据库读取文件"><a href="#一、如何利用数据库读取文件" class="headerlink" title="一、如何利用数据库读取文件"></a>一、如何利用数据库读取文件</h1><p><strong>读取方法：1.load_file()    2. load data infile()</strong></p>
+<h2 id="1-1-load-file"><a href="#1-1-load-file" class="headerlink" title="1.1 load_file()"></a>1.1 load_file()</h2><ul>
+<li>成功执行的前提条件：<pre><code>  1. 运行mysql进程的用户拥有文件读权限
+</code></pre>
+  ps 命令中的 <code>-u</code> 参数为查看进程用户<pre><code>  2. 文件在该sql服务器上
+  3. 路径完整
+  4. 文件大小小于`max_allowed_packet`
+  5. secure_file_priv不为NULL
+</code></pre>
+  查看secure_file_priv值：<code>show global variables like &quot;secure_file_priv&quot;</code><pre><code>  - 若为NULL，修改方法如下：
+</code></pre>
+  windows：修改mysql.ini 文件，在[mysqld] 下添加条目: secure_file_priv =<br>  linux： 修改/etc/my.cnf的[mysqld]下面添加local-infile=0<pre><code>  - 若`secure_file_priv`为具体某目录，一般为`/var/lib/mysql-files/`则此时只可对该目录下的文件进行读写操作
+  - 若为空，则可操作服务器中权限允许下的全部目录
+</code></pre>
+</li>
+<li>使用方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#1. 读取文件以字符串形式插入表中，然后去读表中数据</span><br><span class="line">create table readFile(txt text);</span><br><span class="line">insert into readFile (txt) values (load_file(&#39;&#x2F;etc&#x2F;passwd&#39;));</span><br><span class="line">select * from readFile;</span><br><span class="line">#2. 直接使用select 命令查看</span><br><span class="line">select load_file(&#39;&#x2F;var&#x2F;lib&#x2F;mysql-files&#x2F;test.txt&#39;)\G</span><br><span class="line">#3. 使用SELECT...INTO OOUTFILE将load_file函数读取的信息写入文件</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>拓展用法：利用load_file函数和DNSlog获取sql盲注回显：<a target="_blank" rel="noopener" href="https://bbs.ichunqiu.com/thread-22002-1-1.html?from=timeline">利用DNSLOG获取看不到的信息（给盲注带上眼镜）</a></p>
+</blockquote>
+<h2 id="1-2-load-data-infile"><a href="#1-2-load-data-infile" class="headerlink" title="1.2 load data infile()"></a>1.2 load data infile()</h2><ul>
+<li><p>成功执行的前提条件：同上</p>
+</li>
+<li><p>使用方法：<br><code>load data infile &#39;/var/lib/mysql-files/test.txt&#39; into table readFile;</code><br><code>select * from readFile;</code></p>
+</li>
+<li><p>语法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">LOAD DATA [LOW_PRIORITY | CONCURRENT] [LOCAL] INFILE &#39;file_name&#39;</span><br><span class="line">[REPLACE | IGNORE]</span><br><span class="line">INTO TABLE tbl_name</span><br><span class="line">[PARTITION (partition_name,...)]</span><br><span class="line">[CHARACTER SET charset_name]</span><br><span class="line">[&#123;FIELDS | COLUMNS&#125;</span><br><span class="line">[TERMINATED BY &#39;string&#39;]</span><br><span class="line">[[OPTIONALLY] ENCLOSED BY &#39;char&#39;]</span><br><span class="line">[ESCAPED BY &#39;char&#39;]</span><br><span class="line">]</span><br><span class="line">[LINES</span><br><span class="line">[STARTING BY &#39;string&#39;]</span><br><span class="line">[TERMINATED BY &#39;string&#39;]</span><br><span class="line">]</span><br><span class="line">[IGNORE number &#123;LINES | ROWS&#125;]</span><br><span class="line">[(col_name_or_user_var,...)]</span><br><span class="line">[SET col_name &#x3D; expr,...]</span><br></pre></td></tr></table></figure></li>
+<li><p>学习资料<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/c1e4r/articles/8618692.html">https://www.cnblogs.com/c1e4r/articles/8618692.html</a><br><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/3973">https://xz.aliyun.com/t/3973</a><br><a target="_blank" rel="noopener" href="https://www.smi1e.top/mysql-load-data-%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/">https://www.smi1e.top/mysql-load-data-%E8%AF%BB%E5%8F%96%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6/</a><br><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1426503">https://cloud.tencent.com/developer/article/1426503</a><br><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/173039">https://www.anquanke.com/post/id/173039</a></p>
+<h1 id="二、mysql系统表"><a href="#二、mysql系统表" class="headerlink" title="二、mysql系统表"></a>二、mysql系统表</h1><p>本单元学习汇总自：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1340819">MySQL常用系统表汇总</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/huwei0518/article/details/43563583">Mysql数据库主要系统表说明</a>、<a target="_blank" rel="noopener" href="https://blog.csdn.net/xlxxcc/article/details/51754524">MySQL常用系统表大全</a></p>
+<h2 id="MySQL5-7默认模式"><a href="#MySQL5-7默认模式" class="headerlink" title="MySQL5.7默认模式"></a>MySQL5.7默认模式</h2><table>
+<thead>
+<tr>
+<th>库名</th>
+<th>表数量</th>
+<th>视图数量</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>information_schema</td>
+<td>61</td>
+<td>0</td>
+</tr>
+<tr>
+<td>mysql</td>
+<td>32</td>
+<td>0</td>
+</tr>
+<tr>
+<td>performance_schema</td>
+<td>87</td>
+<td>0</td>
+</tr>
+<tr>
+<td>sys</td>
+<td>1</td>
+<td>100</td>
+</tr>
+</tbody></table>
+<h2 id="Information-schema"><a href="#Information-schema" class="headerlink" title="Information_schema"></a>Information_schema</h2><p>由MySQL自带，它提供了访问数据库元数据的方式</p>
+<h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><p>元数据是关于数据的数据，如数据库名或表名，列的数据类型，或访问权限等。有些时候用于表述该信息的其他术语包括“数据词典”和“系统目录”。</p>
+</li>
+</ul>
+<p>在MySQL中，把 information_schema 看作是一个数据库，确切说是信息数据库。其中保存着关于MySQL服务器所维护的所有其他数据库的信息。如数据库名，数据库的表，表栏的数据类型与访问权限等。在INFORMATION_SCHEMA中，有数个只读表。它们实际上是视图，而不是基本表，因此，你将无法看到与之相关的任何文件</p>
+<h3 id="information-schema-数据库部分表说明"><a href="#information-schema-数据库部分表说明" class="headerlink" title="information_schema 数据库部分表说明"></a>information_schema 数据库部分表说明</h3><table>
+<thead>
+<tr>
+<th align="left">表名</th>
+<th align="left">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">SCHEMATA</td>
+<td align="left">提供了当前mysql实例中所有数据库的信息。是show databases的结果取之此表</td>
+</tr>
+<tr>
+<td align="left">TABLES</td>
+<td align="left">提供了关于数据库中的表的信息（包括视图）。详细表述了某个表属于哪个schema、表类型、表引擎、创建时间等信息。是show tables from schemaname的结果取之此表</td>
+</tr>
+<tr>
+<td align="left">COLUMNS</td>
+<td align="left">提供了表中的列信息。详细表述了某张表的所有列以及每个列的信息。是show columns from schemaname.tablename的结果取之此表</td>
+</tr>
+<tr>
+<td align="left">STATISTICS</td>
+<td align="left">提供了关于表索引的信息。是show index from schemaname.tablename的结果取之此表</td>
+</tr>
+<tr>
+<td align="left">USER_PRIVILEGES</td>
+<td align="left">用户权限表:给出了关于全程权限的信息。该信息源自mysql.user授权表。是非标准表</td>
+</tr>
+<tr>
+<td align="left">SCHEMA_PRIVILEGES</td>
+<td align="left">方案权限表:给出了关于方案（数据库）权限的信息。该信息来自mysql.db授权表。是非标准表</td>
+</tr>
+<tr>
+<td align="left">TABLE_PRIVILEGES</td>
+<td align="left">表权限表:给出了关于表权限的信息。该信息源自mysql.tables_priv授权表。是非标准表</td>
+</tr>
+<tr>
+<td align="left">COLUMN_PRIVILEGES</td>
+<td align="left">列权限表:给出了关于列权限的信息。该信息源自mysql.columns_priv授权表。是非标准表</td>
+</tr>
+<tr>
+<td align="left">CHARACTER_SETS</td>
+<td align="left">字符集表:提供了mysql实例可用字符集的信息。是SHOW CHARACTER SET结果集取之此表</td>
+</tr>
+<tr>
+<td align="left">COLLATIONS</td>
+<td align="left">提供了关于各字符集的对照信息</td>
+</tr>
+<tr>
+<td align="left">COLLATION_CHARACTER_SET_APPLICABILITY</td>
+<td align="left">指明了可用于校对的字符集。这些列等效于SHOW COLLATION的前两个显示字段。</td>
+</tr>
+<tr>
+<td align="left">TABLE_CONSTRAINTS</td>
+<td align="left">描述了存在约束的表。以及表的约束类型</td>
+</tr>
+<tr>
+<td align="left">KEY_COLUMN_USAGE</td>
+<td align="left">描述了具有约束的键列</td>
+</tr>
+<tr>
+<td align="left">ROUTINES</td>
+<td align="left">提供了关于存储子程序（存储程序和函数）的信息。此时，ROUTINES表不包含自定义函数（UDF）。名为“mysql.proc name”的列指明了对应于INFORMATION_SCHEMA.ROUTINES表的mysql.proc表列</td>
+</tr>
+<tr>
+<td align="left">VIEWS</td>
+<td align="left">给出了关于数据库中的视图的信息。需要有show views权限，否则无法查看视图信息</td>
+</tr>
+<tr>
+<td align="left">TRIGGERS</td>
+<td align="left">提供了关于触发程序的信息。必须有super权限才能查看该表</td>
+</tr>
+</tbody></table>
+<h2 id="performance-schema"><a href="#performance-schema" class="headerlink" title="performance_schema"></a>performance_schema</h2><p>PERFORMANCE_SCHEMA这个功能默认是关闭的。需要设置参数： performance_schema 才可以启动该功能，这个参数是静态参数，只能写在my.cnf 中 不能动态修改。</p>
+<h3 id="performance-schema数据库部分表说明"><a href="#performance-schema数据库部分表说明" class="headerlink" title="performance_schema数据库部分表说明"></a>performance_schema数据库部分表说明</h3><table>
+<thead>
+<tr>
+<th align="left">表名</th>
+<th align="left">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">setup_table</td>
+<td align="left">设置表，配置监控选项</td>
+</tr>
+<tr>
+<td align="left">current_events_table</td>
+<td align="left">记录当前那些thread 正在发生什么事情</td>
+</tr>
+<tr>
+<td align="left">history_table</td>
+<td align="left">发生的各种事件的历史记录表</td>
+</tr>
+<tr>
+<td align="left">summary_table</td>
+<td align="left">对各种事件的统计表</td>
+</tr>
+<tr>
+<td align="left">setup_consumers\setup_instruments</td>
+<td align="left">描述各种事件, 设置哪些事件能够被收集</td>
+</tr>
+<tr>
+<td align="left">setup_instruments</td>
+<td align="left">描述这个数据库下的表名以及是否开启监控</td>
+</tr>
+<tr>
+<td align="left">setup_timers</td>
+<td align="left">描述监控选项已经采样频率的时间间隔</td>
+</tr>
+<tr>
+<td align="left">threads</td>
+<td align="left">监控服务器所有连接</td>
+</tr>
+<tr>
+<td align="left">performance_timers</td>
+<td align="left">设置一些监控信息, 指定mysql服务可用的监控周期，CYCLE表示按每秒检测2603393034次, 目前 performance-schema 只支持’wait’时间的监控，代码树上 wait/ 下的函数都可以监控到</td>
+</tr>
+</tbody></table>
+<h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><p>在mysql数据库中，有mysql_install_db脚本初始化权限表，存储权限的表</p>
+<h3 id="mysql数据库部分表说明"><a href="#mysql数据库部分表说明" class="headerlink" title="mysql数据库部分表说明"></a>mysql数据库部分表说明</h3><table>
+<thead>
+<tr>
+<th align="left">表名</th>
+<th align="left">注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">user</td>
+<td align="left">用户列、权限列、安全列、资源控制列</td>
+</tr>
+<tr>
+<td align="left">db</td>
+<td align="left">用户列、权限列</td>
+</tr>
+<tr>
+<td align="left">host</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">table_priv</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">columns_priv</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">proc_priv</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="sys"><a href="#sys" class="headerlink" title="sys"></a>sys</h2><p>sys_config ： 这是在这个系统库上存在的唯一一个表</p>
+<h3 id="sys数据库表说明"><a href="#sys数据库表说明" class="headerlink" title="sys数据库表说明"></a>sys数据库表说明</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> `sys_config` (</span><br><span class="line">  `variable` <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">NOT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `<span class="keyword">value</span>` <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  `set_time` <span class="type">timestamp</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span> <span class="keyword">DEFAULT</span> <span class="built_in">CURRENT_TIMESTAMP</span> <span class="keyword">ON</span> UPDATE <span class="built_in">CURRENT_TIMESTAMP</span>,</span><br><span class="line">  `set_by` <span class="type">varchar</span>(<span class="number">128</span>) <span class="keyword">DEFAULT</span> <span class="keyword">NULL</span>,</span><br><span class="line">  <span class="keyword">PRIMARY</span> KEY (`variable`)</span><br><span class="line">) ENGINE<span class="operator">=</span>InnoDB <span class="keyword">DEFAULT</span> CHARSET<span class="operator">=</span>utf8</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>variable ： 配置选项名称</li>
+<li>value    ： 配置选项值</li>
+<li>set_time ： 该行配置修改的时间</li>
+<li>set_by   ： 该行配置信息修改者，如果从被安装没有修改过，那么这个数据应该为NULL</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>配置选项名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>diagnostics.allow_i_s_tables</td>
+<td>默认为OFF ，如果开启表示允许diagnostics() 存储过程执行扫描information_schema.tables 表，如果表很多，那么可能会很耗性能</td>
+</tr>
+<tr>
+<td>diagnostics.include_raw</td>
+<td>默认为OFF,开启将会从metrics 视图输出未加工处理的数据</td>
+</tr>
+<tr>
+<td>statement_performance_analyzer.limit</td>
+<td>视图在没有加limit限制时，返回的最大行数</td>
+</tr>
+<tr>
+<td>statement_truncate_len</td>
+<td>通过format_statement()函数返回值的最大长度</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>这个表非默认选项还有一个@sys.debug参数,可以手动加入<br>INSERT INTO sys_config (variable, value) VALUES(‘debug’, ‘ON’);<br>UPDATE sys_config SET value = ‘OFF’ WHERE variable = ‘debug’;<br>SET @sys.debug = NULL;</td>
+</tr>
+<tr>
+<td>INSERT INTO sys_config (variable, value) VALUES(‘debug’, ‘ON’);</td>
+<td></td>
+</tr>
+<tr>
+<td>UPDATE sys_config SET value = ‘OFF’ WHERE variable = ‘debug’;</td>
+<td></td>
+</tr>
+<tr>
+<td>SET @sys.debug = NULL;</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="sys-config的两个触发器"><a href="#sys-config的两个触发器" class="headerlink" title="sys_config的两个触发器"></a>sys_config的两个触发器</h3><p><strong>sys_config_insert_set_user触发器</strong><br>如果加入新行通过insert语句，那么这个触发器会把set_by列设置为当前操作者</p>
+<p><strong>sys_config_update_set_user触发器</strong><br>如果加入新行通过update语句，那么这个触发器会把set_by列设置为当前操作者</p>
+<h1 id="三、查询用户hash，使用hashcat爆破"><a href="#三、查询用户hash，使用hashcat爆破" class="headerlink" title="三、查询用户hash，使用hashcat爆破"></a>三、查询用户hash，使用hashcat爆破</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">查看<span class="keyword">sql</span>用户密码</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">user</span>,authentication_string <span class="keyword">from</span>  mysql.user;</span><br><span class="line"><span class="operator">+</span><span class="comment">------+-------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> <span class="keyword">user</span> <span class="operator">|</span> authentication_string                     <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">------+-------------------------------------------+</span></span><br><span class="line"><span class="operator">|</span> test <span class="operator">|</span> <span class="operator">*</span>B26F1F68545E03329BCF36B143376E1249C936CE <span class="operator">|</span></span><br><span class="line"><span class="operator">+</span><span class="comment">------+-------------------------------------------+</span></span><br><span class="line"><span class="number">1</span> <span class="type">row</span> <span class="keyword">in</span> <span class="keyword">set</span> (<span class="number">0.02</span> sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-1-在线破解hash"><a href="#3-1-在线破解hash" class="headerlink" title="3.1 在线破解hash"></a>3.1 在线破解hash</h2><p><a target="_blank" rel="noopener" href="https://www.somd5.com/">https://www.somd5.com/</a></p>
+<p><img src="1.jpg" alt="1"></p>
+<h2 id="3-2-使用hashcat"><a href="#3-2-使用hashcat" class="headerlink" title="3.2 使用hashcat"></a>3.2 使用hashcat</h2><h3 id="3-2-1-处理kali中的hashcat报错信息"><a href="#3-2-1-处理kali中的hashcat报错信息" class="headerlink" title="3.2.1 处理kali中的hashcat报错信息"></a>3.2.1 处理kali中的hashcat报错信息</h3><p>使用kali自带的hashcat 一开始报错<code>No device found/left</code>，百度得知缺少驱动’OpenCL’</p>
+<p><img src="2.png" alt="2"></p>
+<p>登录opencl官网下载安装包（现在需要先注册intel会员）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tar -zxvf l_opencl_p_18.1.0.015.tgz</span><br><span class="line"><span class="built_in">cd</span> /opt/l_opencl_p_18.1.0.015</span><br><span class="line">bash install.sh</span><br><span class="line"><span class="comment">#按照提示进行安装</span></span><br></pre></td></tr></table></figure>
+<h3 id="3-2-2-利用hashcat破解上文中的mysql用户的hash值"><a href="#3-2-2-利用hashcat破解上文中的mysql用户的hash值" class="headerlink" title="3.2.2 利用hashcat破解上文中的mysql用户的hash值"></a>3.2.2 利用hashcat破解上文中的mysql用户的hash值</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># hashcat -a 3 -m300 -1 Ttestafg1234@#$ --force B26F1F68545E03329BCF36B143376E1249C936CE  ?1?1?1?1?1?1?1?1?1 </span></span><br><span class="line">hashcat (v5.1.0) starting...</span><br><span class="line"></span><br><span class="line">* Device <span class="comment">#2: This device&#x27;s constant buffer size is too small.</span></span><br><span class="line"></span><br><span class="line">* Device <span class="comment">#2: This device&#x27;s local mem size is too small.</span></span><br><span class="line"></span><br><span class="line">OpenCL Platform <span class="comment">#1: Intel(R) Corporation</span></span><br><span class="line">========================================</span><br><span class="line">* Device <span class="comment">#1: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, 491/1966 MB allocatable, 8MCU</span></span><br><span class="line"></span><br><span class="line">OpenCL Platform <span class="comment">#2: The pocl project</span></span><br><span class="line">====================================</span><br><span class="line">* Device <span class="comment">#2: pthread-Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz, skipped.</span></span><br><span class="line"></span><br><span class="line">INFO: All hashes found <span class="keyword">in</span> potfile! Use --show to display them.</span><br><span class="line"></span><br><span class="line">Started: Wed Sep 25 16:53:35 2019</span><br><span class="line">Stopped: Wed Sep 25 16:53:35 2019</span><br><span class="line">root@kali:~<span class="comment"># hashcat -a 3 -m300 -1 Ttestafg1234@#$ --force B26F1F68545E03329BCF36B143376E1249C936CE  ?1?1?1?1?1?1?1?1?1 --show</span></span><br><span class="line">b26f1f68545e03329bcf36b143376e1249c936ce:Test@1234</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-3-hashcat-使用详解"><a href="#3-2-3-hashcat-使用详解" class="headerlink" title="3.2.3 hashcat 使用详解"></a>3.2.3 hashcat 使用详解</h3><p><code>hashcat --help</code><br><strong>参数</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-a  指定要使用的破解模式，其值参考后面对参数。“-a 0”字典攻击，“-a 1” 组合攻击；“-a 3”掩码攻击。</span><br><span class="line">-m  指定要破解的<span class="built_in">hash</span>类型，如果不指定类型，则默认是MD5</span><br><span class="line">-o  指定破解成功后的<span class="built_in">hash</span>及所对应的明文密码的存放位置,可以用它把破解成功的<span class="built_in">hash</span>写到指定的文件中</span><br><span class="line">--force 忽略破解过程中的警告信息,跑单条<span class="built_in">hash</span>可能需要加上此选项</span><br><span class="line">--show  显示已经破解的<span class="built_in">hash</span>及该<span class="built_in">hash</span>所对应的明文</span><br><span class="line">--increment  启用增量破解模式,你可以利用此模式让hashcat在指定的密码长度范围内执行破解过程</span><br><span class="line">--increment-min  密码最小长度,后面直接等于一个整数即可,配置increment模式一起使用</span><br><span class="line">--increment-max  密码最大长度,同上</span><br><span class="line">--outfile-format 指定破解结果的输出格式id,默认是3</span><br><span class="line">--username   忽略<span class="built_in">hash</span>文件中的指定的用户名,在破解linux系统用户密码<span class="built_in">hash</span>可能会用到</span><br><span class="line">--remove     删除已被破解成功的<span class="built_in">hash</span></span><br><span class="line">-r       使用自定义破解规则</span><br></pre></td></tr></table></figure>
+<p><strong>攻击模式</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># | Mode</span><br><span class="line"> &#x3D;&#x3D;&#x3D;+&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</span><br><span class="line">  0 | Straight（字段破解）</span><br><span class="line">  1 | Combination（组合破解）</span><br><span class="line">  3 | Brute-force（掩码暴力破解）</span><br><span class="line">  6 | Hybrid Wordlist + Mask（字典+掩码破解）</span><br><span class="line">  7 | Hybrid Mask + Wordlist（掩码+字典破解）</span><br></pre></td></tr></table></figure>
+<p><strong>Hash id 对照表</strong></p>
+<table>
+<thead>
+<tr>
+<th>num</th>
+<th>Name</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>900</td>
+<td>MD4</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>0</td>
+<td>MD5</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>5100</td>
+<td>HalfMD5</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>100</td>
+<td>SHA1</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>1300</td>
+<td>SHA2-224</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>1400</td>
+<td>SHA2-256</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>10800</td>
+<td>SHA2-384</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>1700</td>
+<td>SHA2-512</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>17300</td>
+<td>SHA3-224</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>17400</td>
+<td>SHA3-256</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>17500</td>
+<td>SHA3-384</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>17600</td>
+<td>SHA3-512</td>
+<td>RawHash</td>
+</tr>
+<tr>
+<td>10</td>
+<td>md5($pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>20</td>
+<td>md5($salt.$pass)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>30</td>
+<td>md5(utf16le($pass).$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>40</td>
+<td>md5($salt.utf16le($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>3800</td>
+<td>md5($salt.$pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>3710</td>
+<td>md5($salt.md5($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4010</td>
+<td>md5($salt.md5($salt.$pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4110</td>
+<td>md5($salt.md5($pass.$salt))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>2600</td>
+<td>md5(md5($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>3910</td>
+<td>md5(md5($pass).md5($salt))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4300</td>
+<td>md5(strtoupper(md5($pass)))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4400</td>
+<td>md5(sha1($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>110</td>
+<td>sha1($pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>120</td>
+<td>sha1($salt.$pass)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>130</td>
+<td>sha1(utf16le($pass).$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>140</td>
+<td>sha1($salt.utf16le($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4500</td>
+<td>sha1(sha1($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4520</td>
+<td>sha1($salt.sha1($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4700</td>
+<td>sha1(md5($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>4900</td>
+<td>sha1($salt.$pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>14400</td>
+<td>sha1(CX)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1410</td>
+<td>sha256($pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1420</td>
+<td>sha256($salt.$pass)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1430</td>
+<td>sha256(utf16le($pass).$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1440</td>
+<td>sha256($salt.utf16le($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1710</td>
+<td>sha512($pass.$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1720</td>
+<td>sha512($salt.$pass)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1730</td>
+<td>sha512(utf16le($pass).$salt)</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>1740</td>
+<td>sha512($salt.utf16le($pass))</td>
+<td>RawHash,Saltedand/orIterated</td>
+</tr>
+<tr>
+<td>14000</td>
+<td>DES(PT=$salt,key=$pass)</td>
+<td>RawCipher,Known-Plaintextattack</td>
+</tr>
+<tr>
+<td>14100</td>
+<td>3DES(PT=$salt,key=$pass)</td>
+<td>RawCipher,Known-Plaintextattack</td>
+</tr>
+<tr>
+<td>14900</td>
+<td>Skip32(PT=$salt,key=$pass)</td>
+<td>RawCipher,Known-Plaintextattack</td>
+</tr>
+<tr>
+<td>15400</td>
+<td>ChaCha20</td>
+<td>RawCipher,Known-Plaintextattack</td>
+</tr>
+<tr>
+<td>2500</td>
+<td>WPA-EAPOL-PBKDF2</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>2501</td>
+<td>WPA-EAPOL-PMK</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>16800</td>
+<td>WPA-PMKID-PBKDF2</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>16801</td>
+<td>WPA-PMKID-PMK</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>7300</td>
+<td>IPMI2RAKPHMAC-SHA1</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>7500</td>
+<td>Kerberos5AS-REQPre-Authetype23</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>8300</td>
+<td>DNSSEC(NSEC3)</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>10200</td>
+<td>CRAM-MD5</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>11100</td>
+<td>PostgreSQLCRAM(MD5)</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>11200</td>
+<td>MySQLCRAM(SHA1)</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>16100</td>
+<td>TACACS+</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>16500</td>
+<td>JWT(JSONWebToken)</td>
+<td>NetworkProtocols</td>
+</tr>
+<tr>
+<td>121</td>
+<td>SMF(SimpleMachinesForum)&gt;v1.1</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>400</td>
+<td>phpBB3(MD5)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>2811</td>
+<td>MyBB1.2+</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>2811</td>
+<td>IPB2+(InvisionPowerBoard)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>8400</td>
+<td>WBB3(WoltlabBurningBoard)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Joomla&lt;2.5.18</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Joomla&gt;=2.5.18(MD5)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>400</td>
+<td>WordPress(MD5)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>2612</td>
+<td>PHPS</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>7900</td>
+<td>Drupal7</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>21</td>
+<td>osCommerce</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>21</td>
+<td>xt:Commerce</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>11000</td>
+<td>PrestaShop</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>124</td>
+<td>Django(SHA-1)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>10000</td>
+<td>Django(PBKDF2-SHA256)</td>
+<td>Forums,CMS,E-Commerce,Frameworks</td>
+</tr>
+<tr>
+<td>12</td>
+<td>PostgreSQL</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>131</td>
+<td>MSSQL(2000)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>132</td>
+<td>MSSQL(2005)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>1731</td>
+<td>MSSQL(2012,2014)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>200</td>
+<td>MySQL323</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>300</td>
+<td>MySQL4.1/MySQL5</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>3100</td>
+<td>OracleH:Type(Oracle7+)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>112</td>
+<td>OracleS:Type(Oracle11+)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>12300</td>
+<td>OracleT:Type(Oracle12+)</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>8000</td>
+<td>SybaseASE</td>
+<td>DatabaseServer</td>
+</tr>
+<tr>
+<td>15000</td>
+<td>FileZillaServer&gt;=0.9.55</td>
+<td>FTPServer</td>
+</tr>
+<tr>
+<td>11500</td>
+<td>CRC32</td>
+<td>Checksums</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>LM</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>NTLM</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>500</td>
+<td>md5crypt,MD5(Unix),Cisco-IOS$1$(MD5)</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>3200</td>
+<td>bcrypt$2*$,Blowfish(Unix)</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>7400</td>
+<td>sha256crypt$5$,SHA256(Unix)</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>1800</td>
+<td>sha512crypt$6$,SHA512(Unix)</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>122</td>
+<td>macOSv10.4,MacOSv10.5,MacOSv10.6</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>1722</td>
+<td>macOSv10.7</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>7100</td>
+<td>macOSv10.8+(PBKDF2-SHA512)</td>
+<td>OperatingSystems</td>
+</tr>
+<tr>
+<td>11600</td>
+<td>7-Zip</td>
+<td>Archives</td>
+</tr>
+<tr>
+<td>12500</td>
+<td>RAR3-hp</td>
+<td>Archives</td>
+</tr>
+<tr>
+<td>13000</td>
+<td>RAR5</td>
+<td>Archives</td>
+</tr>
+<tr>
+<td>13600</td>
+<td>WinZip</td>
+<td>Archives</td>
+</tr>
+<tr>
+<td>9700</td>
+<td>MSOffice&lt;=2003$0/$1,MD5+RC4</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9710</td>
+<td>MSOffice&lt;=2003$0/$1,MD5+RC4,collider#1</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9720</td>
+<td>MSOffice&lt;=2003$0/$1,MD5+RC4,collider#2</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9800</td>
+<td>MSOffice&lt;=2003$3/$4,SHA1+RC4</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9810</td>
+<td>MSOffice&lt;=2003$3,SHA1+RC4,collider#1</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9820</td>
+<td>MSOffice&lt;=2003$3,SHA1+RC4,collider#2</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9400</td>
+<td>MSOffice2007</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9500</td>
+<td>MSOffice2010</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>9600</td>
+<td>MSOffice2013</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10400</td>
+<td>PDF1.1-1.3(Acrobat2-4)</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10410</td>
+<td>PDF1.1-1.3(Acrobat2-4),collider#1</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10420</td>
+<td>PDF1.1-1.3(Acrobat2-4),collider#2</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10500</td>
+<td>PDF1.4-1.6(Acrobat5-8)</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10600</td>
+<td>PDF1.7Level3(Acrobat9)</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>10700</td>
+<td>PDF1.7Level8(Acrobat10-11)</td>
+<td>Documents</td>
+</tr>
+<tr>
+<td>99999</td>
+<td>Plaintext</td>
+<td>Plaintext</td>
+</tr>
+</tbody></table>
+<p><strong>掩码设置</strong><br>常见的掩码字符集</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">l | abcdefghijklmnopqrstuvwxyz          纯小写字母</span><br><span class="line">u | ABCDEFGHIJKLMNOPQRSTUVWXYZ          纯大写字母</span><br><span class="line">d | 0123456789                  纯数字</span><br><span class="line">h | 0123456789abcdef                常见小写子目录和数字</span><br><span class="line">H | 0123456789ABCDEF                常见大写字母和数字</span><br><span class="line">s |  !<span class="string">&quot;#$%&amp;&#x27;()*+,-./:;&lt;=&gt;?@[\]^_`&#123;|&#125;~       特殊字符</span></span><br><span class="line"><span class="string">a | ?l?u?d?s                    键盘上所有可见的字符</span></span><br><span class="line"><span class="string">b | 0x00 - 0xff                 可能是用来匹配像空格这种密码的</span></span><br></pre></td></tr></table></figure>
+<p>掩码使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">八位数字密码：?d?d?d?d?d?d?d?d</span><br><span class="line">八位未知密码：?a?a?a?a?a?a?a?a</span><br><span class="line">前四位为大写字母，后面四位为数字：?u?u?u?u?d?d?d?d</span><br><span class="line">前四位为数字或者是小写字母，后四位为大写字母或者数字：?h?h?h?h?H?H?H?H</span><br><span class="line">前三个字符未知，中间为admin，后三位未知：?a?a?aadmin?a?a?a</span><br><span class="line">6-8位数字密码：--increment --increment-min 6 --increment-max 8 ?l?l?l?l?l?l?l?l</span><br><span class="line">6-8位数字+小写字母密码：--increment --increment-min 6 --increment-max 8 ?h?h?h?h?h?h?h?h</span><br></pre></td></tr></table></figure>
+<p>也可以自定义字符串，hashcat支持用户最多定义4组字符集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">--custom-charset1 [chars]等价于 -1</span><br><span class="line">--custom-charset2 [chars]等价于 -2</span><br><span class="line">--custom-charset3 [chars]等价于 -3</span><br><span class="line">--custom-charset4 [chars]等价于 -4</span><br><span class="line">在掩码中用?1、?2、?3、?4来表示。</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/SQL%E5%AD%A6%E4%B9%A0/" rel="tag"># SQL学习</a>
+              <a href="/tags/WEB%E5%AE%89%E5%85%A8/" rel="tag"># WEB安全</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/08/24/second-week-work/" rel="prev" title="第二周：认识 sql 并学习数据库的基础操作">
+                  <i class="fa fa-chevron-left"></i> 第二周：认识 sql 并学习数据库的基础操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peana</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>

@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;peana.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:&quot;default&quot;,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="记录在ubuntu子系统中首次搭建blog，使用annie主题美化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ubuntu系统中利用 github page+hexo搭建blog">
+<meta property="og:url" content="http://peana.github.io/2019/08/14/build-blog/index.html">
+<meta property="og:site_name" content="peana">
+<meta property="og:description" content="记录在ubuntu子系统中首次搭建blog，使用annie主题美化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/1.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/2.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/3.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/4.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/5.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/6.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/7.png">
+<meta property="og:image" content="http://peana.github.io/2019/08/14/build-blog/7.png">
+<meta property="article:published_time" content="2019-08-14T09:38:44.000Z">
+<meta property="article:modified_time" content="2021-05-11T15:01:46.824Z">
+<meta property="article:author" content="peana">
+<meta property="article:tag" content="环境搭建">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peana.github.io/2019/08/14/build-blog/1.png">
+
+
+<link rel="canonical" href="http://peana.github.io/2019/08/14/build-blog/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2019&#x2F;08&#x2F;14&#x2F;build-blog&#x2F;&quot;,&quot;path&quot;:&quot;2019&#x2F;08&#x2F;14&#x2F;build-blog&#x2F;&quot;,&quot;title&quot;:&quot;ubuntu系统中利用 github page+hexo搭建blog&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>ubuntu系统中利用 github page+hexo搭建blog | peana</title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="peana" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">peana</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">一、前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81git%E7%9B%B8%E5%85%B3"><span class="nav-number">2.</span> <span class="nav-text">二、git相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E6%B3%A8%E5%86%8Cgithub%E8%B4%A6%E5%8F%B7"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 注册github账号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%89%E8%A3%85git"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 客户端安装git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-3-%E5%B0%86ssh%E5%85%AC%E9%92%A5%E6%94%BE%E5%85%A5github"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 将ssh公钥放入github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-4-%E5%88%9B%E5%BB%BA%E4%B8%AA%E4%BA%BA%E4%BB%93%E5%BA%93"><span class="nav-number">2.4.</span> <span class="nav-text">2.4 创建个人仓库</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%AE%89%E8%A3%85node-js%E5%8F%8Ahexo"><span class="nav-number">3.</span> <span class="nav-text">三、安装node.js及hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E5%AE%89%E8%A3%85node-js"><span class="nav-number">3.1.</span> <span class="nav-text">3.1 安装node.js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-%E5%AE%89%E8%A3%85hexo"><span class="nav-number">3.2.</span> <span class="nav-text">3.2  安装hexo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-%E5%88%9D%E5%A7%8B%E5%8C%96%E5%8D%9A%E5%AE%A2"><span class="nav-number">3.3.</span> <span class="nav-text">3.3 初始化博客</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BE%8E%E5%8C%96%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84blog"><span class="nav-number">4.</span> <span class="nav-text">四、美化属于自己的blog</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E9%80%89%E6%8B%A9%E4%B8%BB%E9%A2%98"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 选择主题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E4%BF%AE%E6%94%B9%E9%85%8D%E7%BD%AE"><span class="nav-number">4.2.</span> <span class="nav-text">4.2 修改配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-%E5%88%A9%E7%94%A8github%E6%90%AD%E5%BB%BA%E4%BA%91%E5%9B%BE%E5%BA%93"><span class="nav-number">4.3.</span> <span class="nav-text">4.3 利用github搭建云图库</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="peana"
+      src="/images/peana_black.png">
+  <p class="site-author-name" itemprop="name">peana</p>
+  <div class="site-description" itemprop="description">胖花</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/peana" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;peana" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://peana.github.io/2019/08/14/build-blog/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/peana_black.png">
+      <meta itemprop="name" content="peana">
+      <meta itemprop="description" content="胖花">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="peana">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ubuntu系统中利用 github page+hexo搭建blog
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-08-14 17:38:44" itemprop="dateCreated datePublished" datetime="2019-08-14T17:38:44+08:00">2019-08-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-05-11 23:01:46" itemprop="dateModified" datetime="2021-05-11T23:01:46+08:00">2021-05-11</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/others/" itemprop="url" rel="index"><span itemprop="name">others</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">记录在ubuntu子系统中首次搭建blog，使用annie主题美化</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>1、为什么搭blog？<br>想有一个自由却又严谨的空间，认真的做笔记、记录成长、好好学习的空间。混乱的脑子与头绪需要理清，生活也需要有一个认真记录的地方。希望从今开始认真的生活，努力的朝着自己的梦想前行。</p>
+<p>2、此文为本胖记录自己搭建blog所踩过的坑，所以本文是按照本胖踩坑顺序所写。另外本胖电脑安装了ubuntu子系统，所以下文所安装的软件全是linux系统中安装的，超简单的命令行安装可以说是超级友好了。</p>
+<h1 id="二、git相关"><a href="#二、git相关" class="headerlink" title="二、git相关"></a>二、git相关</h1><p>git入门相关资料：<a href="https://link.juejin.im/?target=https://gitee.com/progit/">Pro Git（中文版）</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/git/git-tutorial.html">Git菜鸟教程</a>、<a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/git-guide.html">Github 简明教程</a></p>
+<h2 id="2-1-注册github账号"><a href="#2-1-注册github账号" class="headerlink" title="2.1 注册github账号"></a>2.1 注册github账号</h2><p>在<a target="_blank" rel="noopener" href="https://github.com/">github官网</a>上注册账号</p>
+<h2 id="2-2-客户端安装git"><a href="#2-2-客户端安装git" class="headerlink" title="2.2 客户端安装git"></a>2.2 客户端安装git</h2><p>ubuntu客户端下载安装git，并与github连接</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="comment">#将git与github账号绑定</span></span><br><span class="line">git config --global user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#生成ssh公私钥文件以便连接github</span></span><br><span class="line"><span class="comment">#确保回到家目录</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#创建私钥过程中直接回车，按照默认配置生成ssh公私钥文件</span></span><br><span class="line"><span class="comment">#在~/.ssh/文件夹中找到刚刚所创建的ssh公私钥，pub后缀的为公钥，下一步中需要将其中内容复制到github中</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-将ssh公钥放入github"><a href="#2-3-将ssh公钥放入github" class="headerlink" title="2.3 将ssh公钥放入github"></a>2.3 将ssh公钥放入github</h2><p>打开github的<a target="_blank" rel="noopener" href="https://github.com/settings/keys">setting key页面</a>，将刚刚创建的公钥中的文本内容复制进key的文本框中，如下图所示</p>
+<p><img src="1.png" alt="1"></p>
+<p>输入<code>ssh -T git@github.com</code>测试是否配置成功，若出现如下字样则说明配置成功</p>
+<p><img src="2.png" alt="2"></p>
+<h2 id="2-4-创建个人仓库"><a href="#2-4-创建个人仓库" class="headerlink" title="2.4 创建个人仓库"></a>2.4 创建个人仓库</h2><p>在github新建个人仓库，命名规则为<code>用户名.github.io</code>，例如本胖叫peana，则项目名为<code>peana.github.io</code>。这也是日后本胖博客的URL，创建方式如下图所示</p>
+<p><img src="3.png" alt="3"><br><img src="4.png" alt="4"></p>
+<h1 id="三、安装node-js及hexo"><a href="#三、安装node-js及hexo" class="headerlink" title="三、安装node.js及hexo"></a>三、安装node.js及hexo</h1><h2 id="3-1-安装node-js"><a href="#3-1-安装node-js" class="headerlink" title="3.1 安装node.js"></a>3.1 安装node.js</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#安装nodejs 9.x版本</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line"><span class="comment">#检查node版本</span></span><br><span class="line">node -v</span><br><span class="line"><span class="comment">#将node和npm设置为全局</span></span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="comment">#安装n模块，将node升至最新稳定版</span></span><br><span class="line">npm install-g n</span><br><span class="line">n stable</span><br><span class="line">node -v <span class="comment">#检查当前node版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-安装hexo"><a href="#3-2-安装hexo" class="headerlink" title="3.2  安装hexo"></a>3.2  安装hexo</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry http://registry.npm.taobao.org          //由于国外npm源网速过慢，建议更换为国内源</span><br><span class="line">npm config list               //查看换源是否成功</span><br><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-初始化博客"><a href="#3-3-初始化博客" class="headerlink" title="3.3 初始化博客"></a>3.3 初始化博客</h2><p>安装hexo完成后即可初始化本胖的博客了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在家目录下新建一个blog文件夹以完成hexo的初始化，文件夹无需自己创建，以下命令会自动创建</span></span><br><span class="line">hexo init ~/blog </span><br></pre></td></tr></table></figure>
+<p>检测博客是否搭建成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo generate         //生成静态文件,该命令可以简写为hexo g                </span><br><span class="line">hexo server           //启动服务器。默认情况下，访问网址为：http://localhost:4000/，该命令可以简写为hexo s 。</span><br><span class="line">hexo deploy           //部署网站</span><br><span class="line">hexo clean            //清除本地生成的静态文件</span><br></pre></td></tr></table></figure>
+
+<p>访问<code>localhost:4000</code>检查hexo是否启动<br><img src="5.png" alt="5"></p>
+<p>最后就可使用<code>hexo d</code>命令，将生成的静态文件部署到github上了</p>
+<h1 id="四、美化属于自己的blog"><a href="#四、美化属于自己的blog" class="headerlink" title="四、美化属于自己的blog"></a>四、美化属于自己的blog</h1><h2 id="4-1-选择主题"><a href="#4-1-选择主题" class="headerlink" title="4.1 选择主题"></a>4.1 选择主题</h2><p>选择喜欢的hexo主题，并修改相应配置<br>在hexo的官网主题平台寻找自己喜欢的hexo主题<code>https://hexo.io/themes/</code>，在本胖的两天的寻找下，终于找到了一个超级心满意足的主题Annie。感谢主题制作者Sariay 。齐全易懂的主题使用说明也相当友好了。</p>
+<h2 id="4-2-修改配置"><a href="#4-2-修改配置" class="headerlink" title="4.2 修改配置"></a>4.2 修改配置</h2><p>按照Annie主题作者所提供的readme修改配置<br><code>https://sariay.github.io/2018/08/27/Annie%E4%B8%BB%E9%A2%98%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</code></p>
+<h2 id="4-3-利用github搭建云图库"><a href="#4-3-利用github搭建云图库" class="headerlink" title="4.3 利用github搭建云图库"></a>4.3 利用github搭建云图库</h2><p>搭建annie主题所需要的云图库，采用github仓库创建仓库的方式为博客提供图片。</p>
+<p>A 创建一个新的代码仓库，命名为<code>Random-img</code></p>
+<p><img src="6.png" alt="6"></p>
+<p>B 在本地创建git本地仓库，连接到github远端仓库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#在家目录创建本地git仓库</span></span><br><span class="line">mkidr ~/git </span><br><span class="line"><span class="built_in">cd</span> ~/git</span><br><span class="line">git init</span><br><span class="line"><span class="comment">#添加远程库</span></span><br><span class="line">git remote add [shortname] [url]</span><br><span class="line"><span class="comment">#例 git remote add origin git@github.com:peana/-Random-img.git</span></span><br><span class="line">git remote <span class="comment">#查看当前连接的远程仓库</span></span><br><span class="line"><span class="comment">#git上传文件到github 需要三步骤，添加文件到暂存区，提交操作到本地的版本库，推送操作</span></span><br><span class="line">git add [textName]</span><br><span class="line">git commit -m <span class="string">&#x27;&#x27;</span> <span class="comment">#引号中写提交操作备注</span></span><br><span class="line">git push -u origin master <span class="comment">#origin为远程仓库别名，master为本地的项目分支</span></span><br></pre></td></tr></table></figure>
+<p>C 打开github代码仓库的page功能<br>打开<code>Random-img</code>代码仓库，settings–options–GitHub Pages （githua pages 设置在靠下位置，需要向下滑动才能查看<br><img src="7.png" alt="7"></p>
+<p>此URL即随机图片所需引用的地址，按4.2 配置说明修改相关配置文件<br><img src="7.png" alt="7"></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="tag"># 环境搭建</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/08/15/first-week-work/" rel="next" title="第一周：学籍备案以及环境准备">
+                  第一周：学籍备案以及环境准备 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peana</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>
