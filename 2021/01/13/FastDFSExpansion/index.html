@@ -8,8 +8,8 @@
 
 
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.ico">
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon.ico">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
@@ -24,11 +24,11 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="fastdfs扩容">
 <meta property="og:url" content="http://peana.github.io/2021/01/13/FastDFSExpansion/index.html">
-<meta property="og:site_name" content="peana">
+<meta property="og:site_name">
 <meta property="og:description" content="通过挂载新磁盘，添加store_path的方式完成fastdfs扩容操作">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-01-12T16:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-13T02:44:05.006Z">
+<meta property="article:modified_time" content="2021-05-13T07:48:39.042Z">
 <meta property="article:author" content="peana">
 <meta property="article:tag" content="存储">
 <meta property="article:tag" content="FastDFS">
@@ -42,7 +42,7 @@
 <script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2021&#x2F;01&#x2F;13&#x2F;FastDFSExpansion&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;01&#x2F;13&#x2F;FastDFSExpansion&#x2F;&quot;,&quot;title&quot;:&quot;fastdfs扩容&quot;}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
-<title>fastdfs扩容 | peana</title><script src="/js/config.js"></script>
+<title>fastdfs扩容 | </title><script src="/js/config.js"></script>
   
 
 
@@ -51,7 +51,7 @@
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
   </noscript>
-<link rel="alternate" href="/atom.xml" title="peana" type="application/atom+xml">
+<link rel="alternate" href="/atom.xml" title="" type="application/atom+xml">
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
@@ -72,7 +72,7 @@
 
     <a href="/" class="brand" rel="start">
       <i class="logo-line"></i>
-      <h1 class="site-title">peana</h1>
+      <h1 class="site-title"></h1>
       <i class="logo-line"></i>
     </a>
       <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
@@ -150,14 +150,14 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="nav-number">1.</span> <span class="nav-text">1、挂载磁盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81%E4%BF%AE%E6%94%B9fdfs%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">2、修改fdfs配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">3、执行步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4%E3%80%81%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">4、架构图</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1%E3%80%81%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98"><span class="nav-number">1.</span> <span class="nav-text">1、挂载磁盘</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2%E3%80%81%E4%BF%AE%E6%94%B9fdfs%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">2、修改fdfs配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3%E3%80%81%E6%89%A7%E8%A1%8C%E6%AD%A5%E9%AA%A4"><span class="nav-number">3.</span> <span class="nav-text">3、执行步骤</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
         <div class="site-overview-wrap sidebar-panel">
           <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <img class="site-author-image" itemprop="image" alt="peana"
-      src="/images/peana_black.png">
+      src="/img/head.png">
   <p class="site-author-name" itemprop="name">peana</p>
   <div class="site-description" itemprop="description"></div>
 </div>
@@ -233,13 +233,13 @@
     <link itemprop="mainEntityOfPage" href="http://peana.github.io/2021/01/13/FastDFSExpansion/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/peana_black.png">
+      <meta itemprop="image" content="/img/head.png">
       <meta itemprop="name" content="peana">
       <meta itemprop="description" content="">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="peana">
+      <meta itemprop="name" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -261,7 +261,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">更新于</span>
-        <time title="修改时间：2021-05-13 10:44:05" itemprop="dateModified" datetime="2021-05-13T10:44:05+08:00">2021-05-13</time>
+        <time title="修改时间：2021-05-13 15:48:39" itemprop="dateModified" datetime="2021-05-13T15:48:39+08:00">2021-05-13</time>
       </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -313,7 +313,6 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#存储目录个数</span></span><br><span class="line">store_path_count=2</span><br><span class="line"><span class="comment"># store_path</span></span><br><span class="line">store_path0=/data/fastdfs/storage</span><br><span class="line">store_path1=/data/fastdfs/storage1</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
 </ul>
 <h1 id="3、执行步骤"><a href="#3、执行步骤" class="headerlink" title="3、执行步骤"></a>3、执行步骤</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#关闭所有fastdfs服务</span></span><br><span class="line">sudo ps -aux | grep fdfs| grep -v grep |awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>| xargs  sudo <span class="built_in">kill</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动tracker</span></span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start</span><br><span class="line"><span class="comment">#启动storage</span></span><br><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf start</span><br><span class="line"><span class="comment">#测试上传</span></span><br><span class="line">fdfs_test /etc/fdfs/client.conf upload ~/test.jpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="4、架构图"><a href="#4、架构图" class="headerlink" title="4、架构图"></a>4、架构图</h1><p>【智能制造创新中心-团队】售后交付组 &gt; 【扩容】fastdfs增加store_path &gt; f377ed7ab838110c139221bb5c0fa72.png</p>
 
     </div>
 
