@@ -6,7 +6,7 @@
   <link href="http://peana.github.io/atom.xml" rel="self"/>
   
   <link href="http://peana.github.io/"/>
-  <updated>2021-05-13T10:02:14.850Z</updated>
+  <updated>2021-05-14T05:51:08.074Z</updated>
   <id>http://peana.github.io/</id>
   
   <author>
@@ -21,19 +21,19 @@
     <link href="http://peana.github.io/2021/05/13/hexoConf/"/>
     <id>http://peana.github.io/2021/05/13/hexoConf/</id>
     <published>2021-05-13T09:21:45.000Z</published>
-    <updated>2021-05-13T10:02:14.850Z</updated>
+    <updated>2021-05-14T05:51:08.074Z</updated>
     
     
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
-        
-      
+    <summary type="html">hexo常用配置记录&lt;br&gt;hexo使用next主题后的美化配置</summary>
     
     
     
+    <category term="Hexo" scheme="http://peana.github.io/categories/Hexo/"/>
+    
+    
+    <category term="配置" scheme="http://peana.github.io/tags/%E9%85%8D%E7%BD%AE/"/>
+    
+    <category term="Hexo" scheme="http://peana.github.io/tags/Hexo/"/>
     
   </entry>
   
@@ -201,17 +201,21 @@
     <link href="http://peana.github.io/2019/08/14/build-blog/"/>
     <id>http://peana.github.io/2019/08/14/build-blog/</id>
     <published>2019-08-14T09:38:44.000Z</published>
-    <updated>2021-05-11T15:01:46.824Z</updated>
+    <updated>2021-05-14T03:30:19.899Z</updated>
     
     
     <summary type="html">记录在ubuntu子系统中首次搭建blog，使用annie主题美化</summary>
     
     
     
-    <category term="others" scheme="http://peana.github.io/categories/others/"/>
+    <category term="Hexo" scheme="http://peana.github.io/categories/Hexo/"/>
     
     
     <category term="环境搭建" scheme="http://peana.github.io/tags/%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    
+    <category term="Blog" scheme="http://peana.github.io/tags/Blog/"/>
+    
+    <category term="Hexo" scheme="http://peana.github.io/tags/Hexo/"/>
     
   </entry>
   

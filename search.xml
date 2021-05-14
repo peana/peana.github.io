@@ -133,25 +133,99 @@
   <entry>
     <title>hexo主题美化+常用配置</title>
     <url>/2021/05/13/hexoConf/</url>
-    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>重新捡起blog，想好好记录学习和生活。<br>以前配置的主题因为有太多图片，确实不够轻便，加之已经不再更新，重新选择了一个主题“next”，star数遥遥领先并且持续更新。跟着大神准没错~</p>
-<h2 id="命名"><a href="#命名" class="headerlink" title="命名"></a>命名</h2><p>在Hexo中有2份主要的配置文件，其名称都是_config.yml。 其中，一份位于博客根目录下，主要包含 Hexo 本身的配置；另一份位于themes/next/目录下，用于配置主题相关的选项。</p>
+    <content><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>重新捡起blog，想好好记录学习和生活。<br>以前配置的主题因为有太多图片，确实不够轻便，加之已经不再更新，重新选择了一个主题“next”，star数遥遥领先并且持续更新。跟着大神准没错~</p>
+<h2 id="1-1-命名"><a href="#1-1-命名" class="headerlink" title="1.1 命名"></a>1.1 命名</h2><p>在Hexo中有2份主要的配置文件，其名称都是_config.yml。 其中，一份位于博客根目录下，主要包含 Hexo 本身的配置；另一份位于themes/next/目录下，用于配置主题相关的选项。</p>
 <ul>
-<li>博客配置文件：博客根目录下_config.yml</li>
-<li>主题配置文件：themes/next/目录下_config.yml 即 _config.next.yml <h1 id="主题安装"><a href="#主题安装" class="headerlink" title="主题安装"></a>主题安装</h1></li>
+<li>站点配置文件：博客根目录下_config.yml</li>
+<li>主题配置文件：themes/next/目录下_config.yml 即 _config.next.yml <h1 id="二、主题安装"><a href="#二、主题安装" class="headerlink" title="二、主题安装"></a>二、主题安装</h1></li>
 <li>下载next主题<br>安装方式可详见Next仓库中的readme.md 文档<br><a href="https://github.com/next-theme/hexo-theme-next">Next仓库地址</a></li>
 </ul>
-<p>git clone <a href="https://github.com/theme-next/hexo-theme-next">https://github.com/theme-next/hexo-theme-next</a> themes/next</p>
-<h1 id="常用配置"><a href="#常用配置" class="headerlink" title="常用配置"></a>常用配置</h1><p>常用配置也可参考next官方文档，由于<a href="https://github.com/next-theme/hexo-theme-next/issues/4#issuecomment-626205848">next团队历史原因</a>。此文档并非最新<br><a href="https://theme-next.iissnan.com/">Next配置文档</a></p>
-<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><p>_config.next.yml 配置文件<br>为了避免更新出现冲突，推荐使用 Alternate Theme Config 存储配置：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
-<h1 id="页面美化"><a href="#页面美化" class="headerlink" title="页面美化"></a>页面美化</h1><h3 id="rss功能："><a href="#rss功能：" class="headerlink" title="rss功能："></a>rss功能：</h3><ul>
-<li><h3 id="图片显示："><a href="#图片显示：" class="headerlink" title="图片显示："></a>图片显示：</h3></li>
+<p><code>git clone https://github.com/theme-next/hexo-theme-next themes/next</code></p>
+<h1 id="三、常用配置指南"><a href="#三、常用配置指南" class="headerlink" title="三、常用配置指南"></a>三、常用配置指南</h1><p>常用配置也可参考next官方文档，由于<a href="https://github.com/next-theme/hexo-theme-next/issues/4#issuecomment-626205848">next团队历史原因</a>。此文档并非最新<br><a href="https://theme-next.iissnan.com/">Next配置文档</a></p>
+<h2 id="3-1-常用配置"><a href="#3-1-常用配置" class="headerlink" title="3.1 常用配置"></a>3.1 常用配置</h2><p>_config.next.yml 配置文件<br>为了避免更新出现冲突，推荐使用 Alternate Theme Config 存储配置：<a href="https://theme-next.js.org/docs/getting-started/configuration.html">https://theme-next.js.org/docs/getting-started/configuration.html</a></p>
+<ul>
+<li>修改<strong>主题</strong>配置文件 _config.yml<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 选择自己喜欢的next主题</span><br><span class="line"># Schemes</span><br><span class="line">#scheme: Muse</span><br><span class="line">#scheme: Mist</span><br><span class="line">#scheme: Pisces</span><br><span class="line">#scheme: Gemini</span><br><span class="line"></span><br><span class="line"># 是否跟随系统的暗黑模式 </span><br><span class="line"># Dark Mode</span><br><span class="line">darkmode: true</span><br><span class="line"></span><br><span class="line">#站点图标设置</span><br><span class="line">favicon:</span><br><span class="line">  small: &#x2F;images&#x2F;favicon-16x16-next.png</span><br><span class="line">  medium: &#x2F;images&#x2F;favicon-32x32-next.png</span><br><span class="line">  apple_touch_icon: &#x2F;images&#x2F;apple-touch-icon-next.png</span><br><span class="line">  safari_pinned_tab: &#x2F;images&#x2F;logo.svg</span><br><span class="line">  #android_manifest: &#x2F;manifest.json</span><br><span class="line"></span><br><span class="line">#侧边栏头像设置</span><br><span class="line"># Sidebar Avatar</span><br><span class="line">avatar:</span><br><span class="line">  # Replace the default image and set the url here.</span><br><span class="line">  url: &#x2F;img&#x2F;head.png</span><br><span class="line"></span><br><span class="line">#菜单栏功能选择 自行取消注释开启功能</span><br><span class="line">menu:</span><br><span class="line">  home: &#x2F; || fa fa-home</span><br><span class="line">  about: &#x2F;about&#x2F; || fa fa-user</span><br><span class="line">  tags: &#x2F;tags&#x2F; || fa fa-tags</span><br><span class="line">  categories: &#x2F;categories&#x2F; || fa fa-th</span><br><span class="line">  archives: &#x2F;archives&#x2F; || fa fa-archive</span><br><span class="line">  #schedule: &#x2F;schedule&#x2F; || fa fa-calendar</span><br><span class="line">  #sitemap: &#x2F;sitemap.xml || fa fa-sitemap</span><br><span class="line">  #commonweal: &#x2F;404&#x2F; || fa fa-heartbeat</span><br><span class="line"></span><br><span class="line">#侧边栏社交显示 自行取消social下的注释</span><br><span class="line">social:</span><br><span class="line">  #GitHub: https:&#x2F;&#x2F;github.com&#x2F;yourname || fab fa-github</span><br><span class="line">  #E-Mail: mailto:yourname@gmail.com || fa fa-envelope</span><br><span class="line">  #Weibo: https:&#x2F;&#x2F;weibo.com&#x2F;yourname || fab fa-weibo</span><br><span class="line">  #Google: https:&#x2F;&#x2F;plus.google.com&#x2F;yourname || fab fa-google</span><br><span class="line">  #Twitter: https:&#x2F;&#x2F;twitter.com&#x2F;yourname || fab fa-twitter</span><br><span class="line">  #FB Page: https:&#x2F;&#x2F;www.facebook.com&#x2F;yourname || fab fa-facebook</span><br><span class="line">  #StackOverflow: https:&#x2F;&#x2F;stackoverflow.com&#x2F;yourname || fab fa-stack-overflow</span><br><span class="line">  #YouTube: https:&#x2F;&#x2F;youtube.com&#x2F;yourname || fab fa-youtube</span><br><span class="line">  #Instagram: https:&#x2F;&#x2F;instagram.com&#x2F;yourname || fab fa-instagram</span><br><span class="line">  #Skype: skype:yourname?call|chat || fab fa-skype</span><br></pre></td></tr></table></figure></li>
 </ul>
-<h3 id="背景图片"><a href="#背景图片" class="headerlink" title="背景图片"></a>背景图片</h3><p>custom_file_path:<br>  style: source/_data/styles.styl</p>
-<p><a href="https://tding.top/archives/761b6f4d.html">https://tding.top/archives/761b6f4d.html</a></p>
-<h3 id="动态模型"><a href="#动态模型" class="headerlink" title="动态模型"></a>动态模型</h3><p>live2dw</p>
-<h3 id="进度条"><a href="#进度条" class="headerlink" title="进度条"></a>进度条</h3><h3 id="hexo-自动部署"><a href="#hexo-自动部署" class="headerlink" title="hexo 自动部署"></a>hexo 自动部署</h3><p>npm install hexo-deployer-git –save</p>
+<h2 id="3-2-基础功能"><a href="#3-2-基础功能" class="headerlink" title="3.2 基础功能"></a>3.2 基础功能</h2><h3 id="3-2-1-站内搜索"><a href="#3-2-1-站内搜索" class="headerlink" title="3.2.1 站内搜索"></a>3.2.1 站内搜索</h3><ul>
+<li><p>安装依赖<br><code>npm install --save hexo-generator-search</code></p>
+</li>
+<li><p>配置生成搜索文件<br>修改<strong>站点</strong>配置文件 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># search</span><br><span class="line">search:</span><br><span class="line">  path: search.xml</span><br><span class="line">  field: post</span><br><span class="line">  format: html</span><br><span class="line">  limit: 10000</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-2-rss功能："><a href="#3-2-2-rss功能：" class="headerlink" title="3.2.2 rss功能："></a>3.2.2 rss功能：</h3></li>
+<li><p>安装依赖<br>npm install hexo-generator-feed –save</p>
+</li>
+<li><p>配置插件<br>修改<strong>站点</strong>配置文件 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># feed</span><br><span class="line"># Dependencies: https:&#x2F;&#x2F;github.com&#x2F;hexojs&#x2F;hexo-generator-feed</span><br><span class="line">plugins: hexo-generate-feed</span><br><span class="line"></span><br><span class="line"># rss配置</span><br><span class="line">feed:</span><br><span class="line">  type: atom</span><br><span class="line">  path: atom.xml</span><br><span class="line">  limit: 20</span><br><span class="line">  hub:</span><br><span class="line">  content:</span><br><span class="line">  content_limit: 140</span><br><span class="line">  content_limit_delim: &#39; &#39;</span><br><span class="line">  order_by: -date</span><br><span class="line"></span><br><span class="line">#type RSS的类型。[‘atom’, ‘rss2’]两种类型。（默认值：atom）</span><br><span class="line">#path 文件路径。（默认值：atom.xml &#x2F; rss2.xml）</span><br><span class="line">#limit 供稿中的最大帖子数（使用0或false显示所有帖子）</span><br><span class="line">#hub PubSubHubbub枢纽的网址（如果不使用，请将其留空）</span><br><span class="line">#content（可选）设置为“true”，以在Feed中包含整个帖子的内容。</span><br><span class="line">#content_limit（可选）摘要中使用的帖子内容的默认长度。仅在内容设置为false并且不存在自定义帖子描述时使用。</span><br><span class="line">#content_limit_delim（可选）如果使用content_limit来缩短帖子内容，则仅在达到字符限制之前在此定界符的最后一次出现时才进行剪切。默认情况下不使用。</span><br><span class="line">#order_by 订阅顺序。（默认值：date）</span><br><span class="line">#icon（可选）自定义Feed图标。默认为在主配置中指定的电子邮件摘要。</span><br><span class="line">#autodiscovery 添加提要自动发现。（默认值：true）</span><br><span class="line">#template 自定义模板路径。该文件将用于生成提要xml文件，请参阅默认模板：atom.xml和rss2.xml。</span><br></pre></td></tr></table></figure></li>
+<li><p>设置在侧边栏显示<br>修改<strong>主题</strong>配置文件 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">social:</span><br><span class="line">  RSS: &#x2F;atom.xml || fas fa-rss</span><br></pre></td></tr></table></figure>
+<h3 id="3-2-3-图片显示："><a href="#3-2-3-图片显示：" class="headerlink" title="3.2.3 图片显示："></a>3.2.3 图片显示：</h3></li>
+<li><p>hexo编译后会创建一个与该md文件同名的目录</p>
+</li>
+<li><p>故调用图片可直接在 <code>source/_post/</code>目录下创建于该md文件名相同的文件夹，并将图片放入</p>
+</li>
+<li><p>md文件中调用直接使用相对路径</p>
+<h3 id="3-2-4-hexo-自动部署"><a href="#3-2-4-hexo-自动部署" class="headerlink" title="3.2.4 hexo 自动部署"></a>3.2.4 hexo 自动部署</h3></li>
+<li><p>安装依赖<br><code>npm install hexo-deployer-git --save</code></p>
+</li>
+<li><p>配置部署信息<br>修改<strong>站点</strong>配置文件 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: git@github.com:peana&#x2F;peana.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-2-5-添加README-md-文件"><a href="#3-2-5-添加README-md-文件" class="headerlink" title="3.2.5 添加README.md 文件"></a>3.2.5 添加README.md 文件</h3><ul>
+<li>需求<br>想在github代码仓库中添加README.md</li>
+<li>操作<ul>
+<li>注： 因直接写readme.md 会被hexo编译为html文件</li>
+<li>直接在站点的<code>source</code>目录下直接创建<code>README.mdown</code>文件<br>.mdown后缀的文件不会被hexo编译，且能被github识别成md文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-2-6-使用自己的域名"><a href="#3-2-6-使用自己的域名" class="headerlink" title="3.2.6 使用自己的域名"></a>3.2.6 使用自己的域名</h3><ul>
+<li>需求：<br>当前博客的URL地址为<code>peana.github.io</code>，因自己已经申请了一个域名，想换成自己的域名。</li>
+<li>操作<ol>
+<li>同上“添加README.md 文件”中操作，在站点的<code>source</code>目录下直接创建<code>CNAME</code>文件</li>
+<li>编写<code>CNAME</code>文件<br>按照CNAME 文件规则编写，若只做简单转换，可直接填入需要转换成为的域名<blockquote>
+<p>blog.peana.ga</p>
+</blockquote>
+</li>
+<li>git 修改配置上传文件区分大小写<br>CNAME 文件区分大小写，且小写无效<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#进入博客家目录下的 .deploy_git</span></span><br><span class="line"><span class="built_in">cd</span> <span class="variable">$BLOG_HOME</span>/.deploy_git/</span><br><span class="line">git config --<span class="built_in">local</span> core.ignorecase <span class="literal">false</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ul>
+<h2 id="3-3-页面美化"><a href="#3-3-页面美化" class="headerlink" title="3.3 页面美化"></a>3.3 页面美化</h2><h3 id="3-3-1-背景图片"><a href="#3-3-1-背景图片" class="headerlink" title="3.3.1 背景图片"></a>3.3.1 背景图片</h3><ul>
+<li><p>启用个性化配置文件<br>修改<strong>主题</strong>配置文件 _config.yml</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">custom_file_path:</span><br><span class="line">  style: source&#x2F;_data&#x2F;styles.styl</span><br></pre></td></tr></table></figure></li>
+<li><p>在博客目录下创建<code>source/_data/styles.styl</code>文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F;网站背景图</span><br><span class="line">body &#123;</span><br><span class="line">    background:url(&#x2F;img&#x2F;background.jpg); &#x2F;&#x2F; 为图片路径，也可以直接使用链接。</span><br><span class="line">    background-repeat: no-repeat; &#x2F;&#x2F; 若果背景图片不能全屏，那么是否平铺显示，充满屏幕</span><br><span class="line">    background-attachment:fixed; &#x2F;&#x2F;背景是否随着网页上下滚动而滚动，fixed 为固定</span><br><span class="line">    background-position:50% 50%; &#x2F;&#x2F; 图片位置：居中</span><br><span class="line">    background-size: 100% 100%; &#x2F;&#x2F;图片展示大小，这里设置 100%，100% 的意义为：如果背景图片不能全屏，那么是否通过拉伸的方式将背景强制拉伸至全屏显示。</span><br><span class="line">    color: #3c3c3c;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 头部样式属性 我这边设置了全透明的图</span><br><span class="line">.header &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;transparent.png);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; title样式属性 即next中Pisces主题的 左上黑框部分</span><br><span class="line">.site-brand-container &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;white.png);</span><br><span class="line">  background-repeat: no-repeat;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 页面头样式属性 首页功能栏背景图</span><br><span class="line">.header-inner &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;frosted-glass.png);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 侧边样式属性 侧边栏背景图</span><br><span class="line">.sidebar-inner &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;frosted-glass.png);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 主体样式属性 博客右侧主图背景图</span><br><span class="line">.main-inner &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;transparent.png);</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 文章版块样式</span><br><span class="line">.post-block &#123;</span><br><span class="line">  background:url(&#x2F;img&#x2F;frosted-glass.png);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+<li><p>磨砂质感透明图制作<br>ps中操作</p>
+<ol>
+<li>新建白色背景图</li>
+<li>CTRL+J,复制背景图层，得到图层1图层</li>
+<li>CTRL+B 色彩平衡 色阶 0 0 -25 保存</li>
+<li>继续增加颗粒感，滤镜-杂色-添加杂色<br>数量6% 勾选单色</li>
+<li>右键图层-图层样式（混合选项）<br> 1.填充不透明度20%<br> 2.挖空：浅<br> 3.其他数据默认。</li>
+<li>ctrl+s 保存为png格式（png格式可保存透明图片）<h3 id="3-3-2-动态模型"><a href="#3-3-2-动态模型" class="headerlink" title="3.3.2 动态模型"></a>3.3.2 动态模型</h3>live2dw</li>
+</ol>
+</li>
+<li><p>安装依赖<br><code>npm install --save hexo-helper-live2d</code></p>
+</li>
+<li><p>安装模型</p>
+<blockquote>
+<p>模型仓库 <a href="https://github.com/xiazeyu/live2d-widget-models">https://github.com/xiazeyu/live2d-widget-models</a><br>模型效果可在此处预览 <a href="https://huaji8.top/post/live2d-plugin-2.0/">https://huaji8.top/post/live2d-plugin-2.0/</a><br>可用 npm install {packagename} 安装模型<br>例：npm install live2d-widget-model-tororo</p>
+</blockquote>
+</li>
+<li><p>配置live2d<br>修改<strong>站点</strong>配置文件 _config.yml 添加如下配置</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># Live2D</span><br><span class="line">## https:&#x2F;&#x2F;github.com&#x2F;EYHN&#x2F;hexo-helper-live2d</span><br><span class="line">live2d:</span><br><span class="line">  enable: true # 是否开启live2d</span><br><span class="line">  scriptFrom: local ## 脚本从本地引入</span><br><span class="line">  pluginRootPath: live2dw&#x2F; # 模型根目录(指hexo g后生成public\live2dw文件名)</span><br><span class="line">  pluginJsPath: lib&#x2F; # 依赖js的文件夹名(public\live2dw\lib)</span><br><span class="line">  pluginModelPath: assets&#x2F; # 模型存放目录(public\live2dw\assets)</span><br><span class="line">  tagMode: false # 标记模式(未知) </span><br><span class="line">  log: false # 日志</span><br><span class="line">  model: # 模型</span><br><span class="line">    use: live2d-widget-model-tororo # 使用的模型名称</span><br><span class="line">  display: # 显示</span><br><span class="line">    position: right # 显示在右边(left显示在左边)</span><br><span class="line">    width: 150 # 宽度</span><br><span class="line">    height: 300 # 高度</span><br><span class="line">  mobile:</span><br><span class="line">    show: true # 手机端是否显示</span><br><span class="line">  react:</span><br><span class="line">    opacity: 0.7 # 透明度</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="3-3-3-进度条-amp-进度百分比"><a href="#3-3-3-进度条-amp-进度百分比" class="headerlink" title="3.3.3 进度条&amp;进度百分比"></a>3.3.3 进度条&amp;进度百分比</h3><ul>
+<li>修改<strong>主题</strong>配置文件 _config.yml<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#博客顶部阅读进度条</span><br><span class="line"># Reading progress bar</span><br><span class="line">reading_progress:</span><br><span class="line">  enable: true</span><br><span class="line">  # Available values: left | right</span><br><span class="line">  startAt: left</span><br><span class="line">  # Available values: top | bottom</span><br><span class="line">  position: top</span><br><span class="line">  reversed: false</span><br><span class="line">  color: &quot;#37c6c0&quot;</span><br><span class="line">  height: 3px</span><br><span class="line">#进度百分比</span><br><span class="line">back2top:</span><br><span class="line">  enable: true</span><br><span class="line">  # Back to top in sidebar.</span><br><span class="line">  sidebar: false</span><br><span class="line">  # Scroll percent label in b2t button.</span><br><span class="line">  scrollpercent: true</span><br></pre></td></tr></table></figure></li>
+</ul>
 ]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>配置</tag>
+        <tag>Hexo</tag>
+      </tags>
   </entry>
   <entry>
     <title>第二周：认识 sql 并学习数据库的基础操作</title>
@@ -305,10 +379,12 @@
 <p>此URL即随机图片所需引用的地址，按4.2 配置说明修改相关配置文件<br><img src="7.png" alt="7"></p>
 ]]></content>
       <categories>
-        <category>others</category>
+        <category>Hexo</category>
       </categories>
       <tags>
         <tag>环境搭建</tag>
+        <tag>Blog</tag>
+        <tag>Hexo</tag>
       </tags>
   </entry>
   <entry>
