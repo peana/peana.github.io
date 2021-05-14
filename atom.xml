@@ -6,7 +6,7 @@
   <link href="http://peana.github.io/atom.xml" rel="self"/>
   
   <link href="http://peana.github.io/"/>
-  <updated>2021-05-13T02:44:03.097Z</updated>
+  <updated>2021-05-13T10:02:14.850Z</updated>
   <id>http://peana.github.io/</id>
   
   <author>
@@ -15,6 +15,27 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>hexo主题美化+常用配置</title>
+    <link href="http://peana.github.io/2021/05/13/hexoConf/"/>
+    <id>http://peana.github.io/2021/05/13/hexoConf/</id>
+    <published>2021-05-13T09:21:45.000Z</published>
+    <updated>2021-05-13T10:02:14.850Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
   
   <entry>
     <title>ceph集群部署+基于ceph的对象存储部署方案</title>
