@@ -6,7 +6,7 @@
   <link href="http://peana.github.io/atom.xml" rel="self"/>
   
   <link href="http://peana.github.io/"/>
-  <updated>2021-05-14T06:03:42.027Z</updated>
+  <updated>2021-11-02T09:24:45.000Z</updated>
   <id>http://peana.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://peana.github.io/2021/05/13/hexoConf/"/>
     <id>http://peana.github.io/2021/05/13/hexoConf/</id>
     <published>2021-05-13T09:21:45.000Z</published>
-    <updated>2021-05-14T06:03:42.027Z</updated>
+    <updated>2021-11-02T09:24:45.000Z</updated>
     
     
     <summary type="html">hexo常用配置记录&lt;br&gt;hexo使用next主题后的美化配置</summary>
@@ -42,7 +42,7 @@
     <link href="http://peana.github.io/2021/04/27/CEPHCluster+radosgwDeploy/"/>
     <id>http://peana.github.io/2021/04/27/CEPHCluster+radosgwDeploy/</id>
     <published>2021-04-26T16:00:00.000Z</published>
-    <updated>2021-05-13T02:44:03.097Z</updated>
+    <updated>2021-08-16T15:05:54.122Z</updated>
     
     
     <summary type="html">使用CEPH deploy 部署ceph集群，再基于ceph部的对象存储</summary>
