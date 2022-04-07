@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/p64.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/p32.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;peana.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:&quot;default&quot;,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="Kustomize管理多环境详解与规范">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CICD】:Kustomize 管理多环境部署文件">
+<meta property="og:url" content="http://peana.github.io/2021/08/30/CICDKustomize/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="Kustomize管理多环境详解与规范">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-30T09:00:45.000Z">
+<meta property="article:modified_time" content="2022-04-07T15:13:03.690Z">
+<meta property="article:author" content="peana">
+<meta property="article:tag" content="CICD">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="Kustomize">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://peana.github.io/2021/08/30/CICDKustomize/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2021&#x2F;08&#x2F;30&#x2F;CICDKustomize&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;08&#x2F;30&#x2F;CICDKustomize&#x2F;&quot;,&quot;title&quot;:&quot;【CICD】:Kustomize 管理多环境部署文件&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>【CICD】:Kustomize 管理多环境部署文件 | </title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title"></h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kustomize-%E7%AE%A1%E7%90%86%E5%A4%9A%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">Kustomize 管理多环境部署文件</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">1. 目录结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-kustomization-yaml-%E6%96%87%E4%BB%B6%E7%9A%84%E5%B8%B8%E8%A7%84%E5%86%99%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">2. kustomization.yaml 文件的常规写法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-yaml-%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E8%A7%84%E8%8C%83"><span class="nav-number">1.3.</span> <span class="nav-text">3. yaml 文件管理规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E9%81%97%E7%95%99%E9%97%AE%E9%A2%98"><span class="nav-number">1.4.</span> <span class="nav-text">3. 遗留问题</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="peana"
+      src="/img/head.png">
+  <p class="site-author-name" itemprop="name">peana</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/peana" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;peana" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5980201599" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5980201599" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://peana.github.io/2021/08/30/CICDKustomize/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/head.png">
+      <meta itemprop="name" content="peana">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【CICD】:Kustomize 管理多环境部署文件
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-30 17:00:45" itemprop="dateCreated datePublished" datetime="2021-08-30T17:00:45+08:00">2021-08-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-04-07 23:13:03" itemprop="dateModified" datetime="2022-04-07T23:13:03+08:00">2022-04-07</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">Kustomize管理多环境详解与规范</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="Kustomize-管理多环境部署文件"><a href="#Kustomize-管理多环境部署文件" class="headerlink" title="Kustomize 管理多环境部署文件"></a>Kustomize 管理多环境部署文件</h1><p><a target="_blank" rel="noopener" href="https://kubernetes.io/zh/docs/tasks/manage-kubernetes-objects/kustomization/">操作文档：使用 Kustomize 对 Kubernetes 对象进行声明式管理</a><br><a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kustomize">kustomize-github</a></p>
+<h2 id="1-目录结构"><a href="#1-目录结构" class="headerlink" title="1. 目录结构"></a>1. 目录结构</h2><ul>
+<li>base 该目录下存放基底yaml</li>
+<li>overlays 该目录下创建各个环境的个性化配置文件（仅需写修改部分）</li>
+<li>kustomization.yaml<br>Kustomize 入口，通过此文件声明调用，根据其生成完整的部署yaml文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">tree -l test-web-kust/</span><br><span class="line">└── base</span><br><span class="line">│   ├── configmap.yaml</span><br><span class="line">│   ├── deployment.yaml</span><br><span class="line">│   ├── service.yaml</span><br><span class="line">│   └── kustomization.yaml</span><br><span class="line">└──  overlays</span><br><span class="line">    ├── dev</span><br><span class="line">    │   ├── configmap.yaml</span><br><span class="line">    │   ├── deployment.yaml</span><br><span class="line">    │   └── kustomization.yaml</span><br><span class="line">    ├── <span class="built_in">test</span></span><br><span class="line">    │   ├── configmap.yaml</span><br><span class="line">    │   ├── deployment.yaml</span><br><span class="line">    │   └── kustomization.yaml</span><br><span class="line">    └── prod</span><br><span class="line">        ├── configmap.yaml</span><br><span class="line">        ├── deployment.yaml</span><br><span class="line">        └── kustomization.yaml</span><br></pre></td></tr></table></figure>
+<h2 id="2-kustomization-yaml-文件的常规写法"><a href="#2-kustomization-yaml-文件的常规写法" class="headerlink" title="2. kustomization.yaml 文件的常规写法"></a>2. kustomization.yaml 文件的常规写法</h2></li>
+</ul>
+<ol>
+<li>base/kustomization.yaml<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">#指定基底依赖文件</span></span><br><span class="line"><span class="attr">resources:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">configmap.yaml</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="comment">#修改新镜像,镜像匹配通过原镜像名匹配,为防止修改出错，所有</span></span><br><span class="line"><span class="attr">images:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">VAR_NAMESPACE</span></span><br><span class="line">  <span class="attr">newName:</span> <span class="string">fat178.testeameastcmiot.cn/test/horn_server_2</span></span><br><span class="line">  <span class="attr">newTag:</span> <span class="string">master-1b8ef290508f3663dca223284a56a029cb8909f2</span></span><br></pre></td></tr></table></figure></li>
+<li>overlays/prod/kustomization.yaml<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="comment">#指定基底文件夹</span></span><br><span class="line"><span class="attr">bases:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">../../base</span></span><br><span class="line"><span class="comment">#指定补丁文件</span></span><br><span class="line"><span class="attr">patchesStrategicMerge:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">configmap.yaml</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="comment">#指定命名空间</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">my-namespace</span></span><br><span class="line"><span class="comment">#为各个服务增加前缀</span></span><br><span class="line"><span class="attr">namePrefix:</span> <span class="string">dev-</span></span><br><span class="line"><span class="comment">#为各个服务增加前缀</span></span><br><span class="line"><span class="attr">nameSuffix:</span> <span class="string">&quot;-001&quot;</span></span><br></pre></td></tr></table></figure></li>
+<li>注：kustomize按照kustomization.yaml中的配置自上而下逐层替换<h2 id="3-yaml-文件管理规范"><a href="#3-yaml-文件管理规范" class="headerlink" title="3. yaml 文件管理规范"></a>3. yaml 文件管理规范</h2></li>
+<li>base文件夹中</li>
+<li>存放所有公共信息的yaml文件</li>
+<li><strong>所有的镜像修改更新在 base/kustomization.yaml 中</strong></li>
+<li>overlays/xxx 下</li>
+<li>仅存放当前环境的特殊定义信息 <strong>（其余冗余信息全部删除）</strong><br>如，在test环境中的<code>replicas</code>需设为<code>1</code>而生产中<code>replicas</code>需配置为<code>2</code><br>则在base为全量信息的情况下    - overlays/test/xxx.yaml中 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line"><span class="comment">#元数据中必须填写 name 和 namespace(标志位)</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">test-Deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">VAR_NAMESPACE</span></span><br><span class="line"><span class="comment">#需逐层写好信息，kustomize才可识别出</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br></pre></td></tr></table></figure>    - overlays/prod/xxx.yaml中
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">prod-Deployment</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">VAR_NAMESPACE</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">2</span></span><br></pre></td></tr></table></figure></li>
+<li>如需要指定namespace 写在环境下的 <code>overlays/xxx/kustomization.yaml</code> 文件最末尾<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">kustomize.config.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Kustomization</span></span><br><span class="line"><span class="attr">resources:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">../../base</span></span><br><span class="line"><span class="attr">patchesStrategicMerge:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">test</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>两个标志位</strong></li>
+</ol>
+<ul>
+<li><code>image</code><br>在 <code>base/deployment.yaml</code> 中使用的镜像需要使用占位符，实际替换通过 <code>base/kustomization.yaml</code> 中指定<ul>
+<li><code>base/deployment.yaml</code><br>占位符命名规则 <code>VAR_</code> + <code>业务名大写</code> + <code>_IMAGE</code><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">example</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">VAR_EXAMPLE_IMAGE</span></span><br></pre></td></tr></table></figure></li>
+<li><code>base/kustomization.yaml</code><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">resources:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">service.yaml</span></span><br><span class="line"><span class="attr">images:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">VAR_EXAMPLE_IMAGE</span></span><br><span class="line">    <span class="attr">newName:</span> <span class="string">hub.iot.chinamobile.com/example</span></span><br><span class="line">    <span class="attr">newTag:</span> <span class="number">1.0</span><span class="number">.0</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li>【注意事项】    1. 所有image信息均需要使用 占位符 写在 base 目录中     2. 使用 占位符 指定的 image 均需要在 <code>base/kustomization.yaml</code> 进行替换、    3. <code>overlays</code> 目录下的<strong>各个环境中不得出现image信息</strong>，否则会被替换</li>
+<li><code>namespace</code><br>所有涉及命名空间的 yaml 中使用的<code>namespace</code>需要使用占位符，实际替换通过 <code>overlays/xxx/kustomization.yaml</code> 中指定<ul>
+<li><code>base/deployment.yaml</code><br>占位符命名规则 <code>VAR_NAMESPACE</code><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">example</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">VAR_NAMESPACE</span></span><br></pre></td></tr></table></figure></li>
+<li><code>overlays/xxx/kustomization.yaml</code><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">kustomize.config.k8s.io/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Kustomization</span></span><br><span class="line"><span class="attr">resources:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">../../base</span></span><br><span class="line"><span class="attr">patchesStrategicMerge:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployment.yaml</span></span><br><span class="line"><span class="attr">namespace:</span> <span class="string">test</span></span><br></pre></td></tr></table></figure></li>
+<li>【注意事项】<ol>
+<li>所有涉及命名空间的 yaml 均需要将 namespace 指定成占位符形式： <code>namespace: VAR_NAMESPACE</code><br>包括<code>base</code>和<code>overlays/xxx</code>目录下</li>
+<li>最后指定namespace 需在 <code>overlays/xxx/kustomization.yaml</code> 文件中的 <code>patchesStrategicMerge</code> 之下</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<ol start="4">
+<li>【注意事项】</li>
+<li>元数据中必须填写 namespace 和 name</li>
+<li>需逐层写好信息，kustomize才可识别出<br>如遇到<code>containers</code>或<code>volumes</code>等，内有多个，需要 <code>name</code> 区别，则也需要（逐层）写上<code>name</code><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">containers:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">container1</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">hub.iot.chinamobile.com/szhcpb/fsis/ax-opens-2.1.0:2021-10-11-12-50.wuxi-dev.h5</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">port1</span></span><br><span class="line">        <span class="attr">containerPort:</span> <span class="number">80</span></span><br><span class="line">        <span class="attr">protocol:</span> <span class="string">TCP</span></span><br></pre></td></tr></table></figure></li>
+<li><strong>两个标志位</strong> 中注意事项见上</li>
+</ol>
+<h2 id="3-遗留问题"><a href="#3-遗留问题" class="headerlink" title="3. 遗留问题"></a>3. 遗留问题</h2><ol>
+<li>configmap的处理<br>当configmap以如下形式写，kustomize认定为一行，无法进项多环境仅写 非共有的信息<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ConfigMap</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">fsis-ais-service-application</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">VAR_NAMESPACE</span></span><br><span class="line"><span class="attr">data:</span></span><br><span class="line">  <span class="attr">application.yml:</span> <span class="string">|</span></span><br><span class="line">    <span class="attr">server:</span></span><br><span class="line">      <span class="attr">port:</span> <span class="number">8280</span></span><br></pre></td></tr></table></figure>
+待测试的解决方法：<a target="_blank" rel="noopener" href="https://github.com/kubernetes-sigs/kustomize/blob/master/examples/zh/springboot.md">https://github.com/kubernetes-sigs/kustomize/blob/master/examples/zh/springboot.md</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CICD/" rel="tag"># CICD</a>
+              <a href="/tags/Kubernetes/" rel="tag"># Kubernetes</a>
+              <a href="/tags/Kustomize/" rel="tag"># Kustomize</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/10/CICDInKubernetes/" rel="prev" title="云原生下的CICD流程">
+                  <i class="fa fa-chevron-left"></i> 云原生下的CICD流程
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/15/CICDGitlabCI/" rel="next" title="【CICD】:GitlabCI基础使用">
+                  【CICD】:GitlabCI基础使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peana</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>

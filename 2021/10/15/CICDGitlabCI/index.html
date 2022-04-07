@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/p64.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/p32.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;peana.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:&quot;default&quot;,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="GitlabCI基础概念和应用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【CICD】:GitlabCI基础使用">
+<meta property="og:url" content="http://peana.github.io/2021/10/15/CICDGitlabCI/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="GitlabCI基础概念和应用">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-15T09:21:45.000Z">
+<meta property="article:modified_time" content="2022-04-07T15:12:58.667Z">
+<meta property="article:author" content="peana">
+<meta property="article:tag" content="CICD">
+<meta property="article:tag" content="Kubernetes">
+<meta property="article:tag" content="GitlabCI">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://peana.github.io/2021/10/15/CICDGitlabCI/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2021&#x2F;10&#x2F;15&#x2F;CICDGitlabCI&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;10&#x2F;15&#x2F;CICDGitlabCI&#x2F;&quot;,&quot;title&quot;:&quot;【CICD】:GitlabCI基础使用&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>【CICD】:GitlabCI基础使用 | </title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title"></h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#GitlabCI%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">GitlabCI基础使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5%E5%87%86%E5%A4%87"><span class="nav-number">1.1.</span> <span class="nav-text">1. 基础概念准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-GitlabRunner%E9%83%A8%E7%BD%B2"><span class="nav-number">1.2.</span> <span class="nav-text">2. GitlabRunner部署</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-gitlab-ci-yml-%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.3.</span> <span class="nav-text">3. .gitlab-ci.yml 详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-%E5%AE%9E%E4%BE%8B%E8%AF%A6%E8%A7%A3"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 实例详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-gitlab-ci-yml-%E4%B9%A6%E5%86%99%E6%A0%BC%E5%BC%8F"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 .gitlab-ci.yml 书写格式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%BC%98%E5%8C%96"><span class="nav-number">1.4.</span> <span class="nav-text">4. 优化</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="peana"
+      src="/img/head.png">
+  <p class="site-author-name" itemprop="name">peana</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/peana" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;peana" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5980201599" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5980201599" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://peana.github.io/2021/10/15/CICDGitlabCI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/head.png">
+      <meta itemprop="name" content="peana">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          【CICD】:GitlabCI基础使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-15 17:21:45" itemprop="dateCreated datePublished" datetime="2021-10-15T17:21:45+08:00">2021-10-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-04-07 23:12:58" itemprop="dateModified" datetime="2022-04-07T23:12:58+08:00">2022-04-07</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">GitlabCI基础概念和应用</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="GitlabCI基础使用"><a href="#GitlabCI基础使用" class="headerlink" title="GitlabCI基础使用"></a>GitlabCI基础使用</h1><h2 id="1-基础概念准备"><a href="#1-基础概念准备" class="headerlink" title="1. 基础概念准备"></a>1. 基础概念准备</h2><ul>
+<li>GitlabRunner：<ul>
+<li>用来执行GitCI项目的客户端，可与gitlab独立部署，需实现 GitlabRunner 到Gitlab的单向访问</li>
+<li>可做标签实现指定执行</li>
+<li>常见部署方式：shell,docker,k8s<ul>
+<li>shell executor: 最简单的executor, 所有依赖都必须手动安装<ul>
+<li>不能保证每次构建都是相同的环境</li>
+<li>不方便迁移</li>
+<li>需要手动配置</li>
+</ul>
+</li>
+<li>docker:<ul>
+<li>gitlabrunner 使用docker启动，保证环境一致。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>.gitlab-ci.yml：GitlabCI 任务文件</li>
+</ul>
+<h2 id="2-GitlabRunner部署"><a href="#2-GitlabRunner部署" class="headerlink" title="2. GitlabRunner部署"></a>2. GitlabRunner部署</h2><ul>
+<li><p>方案<br>gitlab-runner docker in docker：<br>gitlab-runner部署在docker中，所编写的job使用gitlab-runner也将生成新的docker</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/runner/install/kubernetes.html">K8S helm 部署</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm repo add gitlab http://charts.gitlab.io/</span><br><span class="line">helm install my-gitlab-runner gitlab/gitlab-runner --version 0.34.0-rc1</span><br></pre></td></tr></table></figure>
+<ul>
+<li>配置values.yaml<br>仅列出修改项,<strong>{} 大括号</strong>中为自定义变量<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">gitlabUrl:</span> &#123;<span class="string">gitlabUrl</span>&#125;</span><br><span class="line"><span class="attr">runnerRegistrationToken:</span> &#123;<span class="string">runnerRegistrationToken</span>&#125;</span><br><span class="line"><span class="comment">#runners 配置信息，挂载目录需要提前创建</span></span><br><span class="line"><span class="attr">runners:</span></span><br><span class="line">  <span class="attr">config:</span> <span class="string">|</span></span><br><span class="line">[[<span class="string">runners</span>]]</span><br><span class="line">  <span class="string">url</span> <span class="string">=</span> &#123;<span class="string">gitlabUrl</span>&#125;</span><br><span class="line">  <span class="string">token</span> <span class="string">=</span> &#123;<span class="string">runnerRegistrationToken</span>&#125;</span><br><span class="line">  <span class="string">executor</span> <span class="string">=</span> <span class="string">&quot;kubernetes&quot;</span></span><br><span class="line">  [<span class="string">runners.kubernetes</span>]</span><br><span class="line">    <span class="string">namespace</span> <span class="string">=</span> <span class="string">&quot;gitops&quot;</span></span><br><span class="line">    <span class="string">namespace_overwrite_allowed</span> <span class="string">=</span> <span class="string">&quot;ci-.*&quot;</span></span><br><span class="line">    <span class="string">bearer_token_overwrite_allowed</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">    <span class="string">privileged</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">    <span class="string">cpu_limit</span> <span class="string">=</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">    <span class="string">memory_limit</span> <span class="string">=</span> <span class="string">&quot;1Gi&quot;</span></span><br><span class="line">    <span class="string">service_cpu_limit</span> <span class="string">=</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">    <span class="string">service_memory_limit</span> <span class="string">=</span> <span class="string">&quot;500Mi&quot;</span></span><br><span class="line">    <span class="string">helper_cpu_limit</span> <span class="string">=</span> <span class="string">&quot;500m&quot;</span></span><br><span class="line">    <span class="string">helper_memory_limit</span> <span class="string">=</span> <span class="string">&quot;100Mi&quot;</span></span><br><span class="line">    <span class="string">poll_interval</span> <span class="string">=</span> <span class="number">5</span></span><br><span class="line">    <span class="string">poll_timeout</span> <span class="string">=</span> <span class="number">3600</span></span><br><span class="line">    <span class="string">dns_policy</span> <span class="string">=</span> <span class="string">&quot;cluster-first&quot;</span></span><br><span class="line">    [[<span class="string">runners.kubernetes.volumes.host_path</span>]]</span><br><span class="line">      <span class="string">name</span> <span class="string">=</span> <span class="string">&quot;maven&quot;</span></span><br><span class="line">      <span class="string">mount_path</span> <span class="string">=</span> <span class="string">&quot;/.m2/&quot;</span></span><br><span class="line">      <span class="string">read_only</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">      <span class="string">host_path</span> <span class="string">=</span> <span class="string">&quot;/data/gitlab-runner/.m2/&quot;</span></span><br><span class="line">    [[<span class="string">runners.kubernetes.volumes.host_path</span>]]</span><br><span class="line">      <span class="string">name</span> <span class="string">=</span> <span class="string">&quot;ssh&quot;</span></span><br><span class="line">      <span class="string">mount_path</span> <span class="string">=</span> <span class="string">&quot;/root/.ssh/&quot;</span></span><br><span class="line">      <span class="string">read_only</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">      <span class="string">host_path</span> <span class="string">=</span> <span class="string">&quot;/data/gitlab-runner/.ssh/&quot;</span></span><br><span class="line">    [[<span class="string">runners.kubernetes.volumes.host_path</span>]]</span><br><span class="line">      <span class="string">name</span> <span class="string">=</span> <span class="string">&quot;sdk&quot;</span></span><br><span class="line">      <span class="string">mount_path</span> <span class="string">=</span> <span class="string">&quot;/sdk/&quot;</span></span><br><span class="line">      <span class="string">read_only</span> <span class="string">=</span> <span class="literal">true</span></span><br><span class="line">      <span class="string">host_path</span> <span class="string">=</span> <span class="string">&quot;/data/gitlab-runner/sdk/&quot;</span></span><br><span class="line">  <span class="comment">#k8s 中rbac配置</span></span><br><span class="line">  <span class="attr">rbac:</span></span><br><span class="line">    <span class="attr">serviceAccountName:</span> <span class="string">gitlab-runner</span></span><br></pre></td></tr></table></figure></li>
+<li>RBAC配置<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. 创建gitlab-runner所用的serviceaccount</span></span><br><span class="line">kubectl create serviceaccount gitlab-runner -n gitlab-runner</span><br><span class="line"><span class="comment">#2. 创建登录habor 所用的secret：xnpt-regcred</span></span><br><span class="line">kubectl -n gitlab-runner create secret docker-registry xnpt-regcred \</span><br><span class="line">  --docker-server=<span class="string">&quot;http://hub.iot.chinamobile.com&quot;</span> \</span><br><span class="line">  --docker-username=<span class="string">&quot;scapi&quot;</span>  \</span><br><span class="line">  --docker-password=&#123;password&#125;</span><br><span class="line"><span class="comment">#3. 将登录habor 所用的secret绑入gitlab-runner所用的serviceaccount</span></span><br><span class="line">kubectl patch serviceaccount  gitlab-runner  -n gitlab-runner -p <span class="string">&#x27;&#123;&quot;imagePullSecrets&quot;: [&#123;&quot;name&quot;: &quot;xnpt-regcred&quot;&#125;]&#125;&#x27;</span></span><br><span class="line"><span class="comment">#4. 创建clusterrolebinding 绑定cluster-admin角色给gitlab-runner这个serviceaccount</span></span><br><span class="line">kubectl create clusterrolebinding gitlab-runner-cluster-admin --clusterrole=cluster-admin --serviceaccount=gitlab-runner:gitlab-runner --namespace=gitlab-runner</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>docker部署</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#准备docker 环境并启动</span></span><br><span class="line">docker run -d --name gitlab-runner --restart always -v /data/gitlab-runner/config:/etc/gitlab-runner -v /var/run/docker.sock:/var/run/docker.sock gitlab/gitlab-runner:v12.9.0</span><br><span class="line"><span class="comment">#注册：（同一机器上可运行多个gitlab-runner）</span></span><br><span class="line">docker <span class="built_in">exec</span> -it gitlab-runner bash</span><br><span class="line">gitlab-runner register</span><br><span class="line"><span class="comment">#存储卷映射，通过与宿主机共享docker.sock文件实现docker in docker 方案</span></span><br><span class="line"><span class="comment">#映射maven编译依赖文件夹/.m2/到宿主机，避免maven依赖多次下载，减少编译时长</span></span><br><span class="line">vim /etc/gitlab-runner/config.toml</span><br><span class="line">  volumes = [<span class="string">&quot;/cache&quot;</span>,<span class="string">&quot;/var/run/docker.sock:/var/run/docker.sock&quot;</span>,<span class="string">&quot;/data/gitlab-runner/.m2/:/.m2/&quot;</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>常用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列出runners</span></span><br><span class="line">gitlab-runner list</span><br><span class="line"><span class="comment">#gitlab-runner删除无效runner</span></span><br><span class="line">gitlab-runner verify --delete --name xxx</span><br></pre></td></tr></table></figure></li>
+<li><p>常见问题</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1. ERROR: Uploading artifacts to coordinator... error  error=couldn&#x27;t execute POST against http://code.iot.chinamobile.com/api/v4/jobs/27549/artifacts?artifact_format=zip&amp;artifact_type=archive&amp;expire_in=7+days: Post http://code.iot.chinamobile.com/api/v4/jobs/27549/artifacts?artifact_format=zip&amp;artifact_type=archive&amp;expire_in=7+days: dial tcp: lookup code.iot.chinamobile.com on 223.6.6.6:53: no such host id=27549 token=dNwJDCRs</span></span><br><span class="line">注册gitlabrunner用ip</span><br><span class="line"><span class="comment">#2. ERROR: Uploading artifacts to coordinator... too large archive  id=27567 responseStatus=413 Request Entity Too Large status=413 Request Entity Too Large token=5s64Wc4z</span></span><br><span class="line">上传大小过大</span><br><span class="line"><span class="comment">#3. 删除多余runner</span></span><br><span class="line"><span class="comment">#获取runner信息</span></span><br><span class="line">curl --header <span class="string">&quot;PRIVATE-TOKEN: &lt;your_access_token&gt;&quot;</span> <span class="string">&quot;https://gitlab.example.com/api/v4/runners&quot;</span></span><br><span class="line"><span class="comment">#通过burp删除</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="3-gitlab-ci-yml-详解"><a href="#3-gitlab-ci-yml-详解" class="headerlink" title="3. .gitlab-ci.yml 详解"></a>3. .gitlab-ci.yml 详解</h2><p><a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/ci/">GitlabCI官方文档</a></p>
+<h3 id="3-1-实例详解"><a href="#3-1-实例详解" class="headerlink" title="3.1 实例详解"></a>3.1 实例详解</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#阶段定义：此任务共三个阶段build、publish、deployFile</span></span><br><span class="line"><span class="attr">stages:</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">build</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">publish</span></span><br><span class="line"><span class="bullet">-</span> <span class="string">deployFile</span></span><br><span class="line"><span class="comment">#全局变量</span></span><br><span class="line"><span class="attr">variables:</span></span><br><span class="line">  <span class="attr">PROJECT:</span> <span class="string">&quot;ci-demo&quot;</span></span><br><span class="line"><span class="comment"># 这里定义了Maven的jar包存放地址，与我们构建maven私服的时候设置的存放地址一致</span></span><br><span class="line">  <span class="attr">MAVEN_REPO:</span> <span class="string">&quot;/.m2&quot;</span></span><br><span class="line">  <span class="comment"># harbor地址</span></span><br><span class="line">  <span class="attr">hubName:</span> <span class="string">&quot;hub.iot.chinamobile.com/szhcpb/viot&quot;</span></span><br><span class="line">  <span class="comment"># 代码仓目录结构的判断依据，jarNames置空则认为是单一微服务的代码仓(根目录既是微服务代码根目录)，</span></span><br><span class="line">  <span class="comment"># 例：jarNames: &quot;gateway,gatewayeruka,mgmt,order,ordereruka,user&quot;</span></span><br><span class="line">  <span class="attr">jarNames:</span> <span class="string">&quot;&quot;</span></span><br><span class="line">  <span class="comment"># 项目名称：用作构建habor镜像路径</span></span><br><span class="line">  <span class="attr">ProjectName:</span> <span class="string">&quot;pubservice&quot;</span></span><br><span class="line"><span class="attr">make_jar:</span></span><br><span class="line">  <span class="comment">#编译任务所用的镜像</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">maven:3.5.4-jdk-8</span></span><br><span class="line">  <span class="comment">#所处阶段，见上`stages:`中定义</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">build</span></span><br><span class="line">  <span class="comment">#脚本</span></span><br><span class="line">  <span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;当前主机名&quot;</span> <span class="string">`hostname`</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;当前路径&quot;</span> <span class="string">`pwd`</span></span><br><span class="line">  <span class="comment">#将maven源替换为阿里源</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">sed</span> <span class="string">-i</span>  <span class="string">&#x27;s/&lt;mirrors&gt;/&amp;\n    &lt;mirror&gt;\n        &lt;id&gt;aliyun-central&lt;\/id&gt;\n        &lt;mirrorOf&gt;central&lt;\/mirrorOf&gt;\n        &lt;name&gt;aliyun central&lt;\/name&gt;\n        &lt;url&gt;https:\/\/maven.aliyun.com\/repository\/central&lt;\/url&gt;\n    &lt;\/mirror&gt;\n/&#x27;</span>  <span class="string">/usr/share/maven/conf/settings.xml</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;=============== 开始编译源码，在target目录生成jar文件 ===============&quot;</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">mvn</span>  <span class="string">-Dmaven.repo.local=$MAVEN_REPO</span> <span class="string">clean</span> <span class="string">install</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="string">ls</span> <span class="string">-l</span></span><br><span class="line">  <span class="comment">#仅web触发</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">web</span></span><br><span class="line">  <span class="comment">#使用tags 为xnpt的 gitlab-runner</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">xnpt</span></span><br><span class="line">  <span class="comment">#制品上传</span></span><br><span class="line">  <span class="attr">artifacts:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">$PROJECT</span></span><br><span class="line">    <span class="comment">#保存时间：0.5h，当前上传的制品若为lastest,则也不会被删除</span></span><br><span class="line">    <span class="attr">expire_in:</span> <span class="number">0.5</span> <span class="string">h</span></span><br><span class="line">    <span class="comment">#需要上传的制品文件，</span></span><br><span class="line">    <span class="attr">paths:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">target/*.jar</span></span><br><span class="line"><span class="attr">Generate_mirror:</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">docker:stable</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">publish</span></span><br><span class="line">  <span class="comment">#script脚本前的执行脚本</span></span><br><span class="line">  <span class="comment">#注：before_script和script有前后关系</span></span><br><span class="line">  <span class="attr">before_script:</span></span><br><span class="line">    <span class="comment">#【脚本功能】：登录 harbor</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">docker</span> <span class="string">login</span> <span class="string">--username</span> <span class="string">$CI_REGISTRY_USER</span> <span class="string">--password</span> <span class="string">$CI_REGISTRY_PASSWORD</span> <span class="string">$CI_REGISTRY</span></span><br><span class="line">    <span class="comment">#【脚本功能】：记录版本号</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Project_Version=`ls</span>  <span class="string">|</span> <span class="string">awk</span> <span class="string">&#x27;/README.md|readme.md/&#x27;</span><span class="string">|xargs</span> <span class="string">cat</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">curVersion</span> <span class="string">|</span> <span class="string">sed</span> <span class="string">&#x27;s/.*\=\([[:alpha:]]\|\s\)*\([[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\)\(\w\|\s\)*/\2/g&#x27;</span><span class="string">`</span></span><br><span class="line">  <span class="comment">#【脚本功能】：生成docker镜像并上传到 harbor</span></span><br><span class="line">  <span class="comment">#以$&#123;jarNames&#125;变量作为判断标准，</span></span><br><span class="line">  <span class="comment"># 若为空，则认定当前代码仓库为单个微服务类型的代码仓类型（即代码直接存放在根目录中）</span></span><br><span class="line">  <span class="comment"># 若非空，则认定当前代码仓库为多个微服务类型的代码仓类型（即根目录下有以微服务名命名的目录，代码存放在以微服务名命名的目录中）</span></span><br><span class="line">  <span class="comment"># 非空情况下，根据$&#123;jarNames&#125;中变量循环</span></span><br><span class="line">  <span class="attr">script:</span> <span class="string">&gt;</span></span><br><span class="line">    <span class="string">if</span> [ <span class="string">!</span> <span class="string">-n</span> <span class="string">&quot;$&#123;jarNames&#125;&quot;</span> ]<span class="string">;then</span></span><br><span class="line">      <span class="string">IMAGE_FULL_NAME=$&#123;hubName&#125;/$&#123;ProjectName&#125;/$&#123;CI_PROJECT_NAME&#125;:$&#123;CI_COMMIT_REF_SLUG&#125;.$&#123;Project_Version&#125;.$&#123;CI_COMMIT_SHA:0:7&#125;;</span></span><br><span class="line">      <span class="string">echo</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">      <span class="string">cat</span> <span class="string">*.docker;</span></span><br><span class="line">      <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;</span> <span class="string">-f</span> <span class="string">*.docker</span>  <span class="string">.;</span></span><br><span class="line">      <span class="string">docker</span> <span class="string">push</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">      <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">    <span class="string">else</span></span><br><span class="line">      <span class="string">for</span> <span class="string">jarName</span> <span class="string">in</span> <span class="string">$&#123;jarNames//,/</span> <span class="string">&#125;;</span></span><br><span class="line">      <span class="string">do</span></span><br><span class="line">        <span class="string">IMAGE_FULL_NAME=$&#123;hubName&#125;/$&#123;ProjectName&#125;/$&#123;jarName&#125;:$&#123;CI_COMMIT_REF_SLUG&#125;.$&#123;Project_Version&#125;.$&#123;CI_COMMIT_SHA:0:7&#125;;</span></span><br><span class="line">        <span class="string">cd</span> <span class="string">$&#123;jarName&#125;;</span></span><br><span class="line">        <span class="string">echo</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">        <span class="string">docker</span> <span class="string">build</span> <span class="string">-t</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;</span> <span class="string">-f</span> <span class="string">*.docker</span>  <span class="string">.;</span></span><br><span class="line">        <span class="string">docker</span> <span class="string">push</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">        <span class="string">docker</span> <span class="string">rmi</span> <span class="string">$&#123;IMAGE_FULL_NAME&#125;;</span></span><br><span class="line">        <span class="string">cd</span> <span class="string">../</span></span><br><span class="line">      <span class="string">done</span></span><br><span class="line">    <span class="string">fi</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">web</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">xnpt</span></span><br><span class="line"><span class="attr">deploy-dev_gateway:</span></span><br><span class="line">  <span class="comment">#更新部署文件</span></span><br><span class="line">  <span class="attr">stage:</span> <span class="string">deployFile</span></span><br><span class="line">  <span class="attr">image:</span> <span class="string">hub.iot.chinamobile.com/szhcpb/viot/cicd/kustomize:v1.1</span></span><br><span class="line">  <span class="comment">#变量，若与全局变量冲突，则会以局部变量为准</span></span><br><span class="line">  <span class="attr">variables:</span></span><br><span class="line">    <span class="attr">projName:</span> <span class="string">common-privilege-mgmt</span></span><br><span class="line">    <span class="attr">gitUrl:</span> <span class="string">git@10.12.3.198:znzz/gitops/pubserviceyaml/common-privilege-mgmt.git</span></span><br><span class="line">    <span class="attr">gitUser:</span> <span class="string">&quot;huayuxiang&quot;</span></span><br><span class="line">    <span class="attr">gitEmail:</span> <span class="string">&quot;huayuxiang@cmiot.chinamobile.com&quot;</span></span><br><span class="line">  <span class="comment">#【脚本功能】：拉去 yaml 文件所在的代码仓库</span></span><br><span class="line">  <span class="attr">before_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">echo</span> <span class="string">&quot;StrictHostKeyChecking no&quot;</span> <span class="string">&gt;&gt;</span> <span class="string">/etc/ssh/ssh_config</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">Project_Version=`ls</span>  <span class="string">|</span> <span class="string">awk</span> <span class="string">&#x27;/README.md|readme.md/&#x27;</span><span class="string">|xargs</span> <span class="string">cat</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">curVersion</span> <span class="string">|</span> <span class="string">sed</span> <span class="string">&#x27;s/.*\=\([[:alpha:]]\|\s\)*\([[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\)\(\w\|\s\)*/\2/g&#x27;</span><span class="string">`</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">clone</span>  <span class="string">$&#123;gitUrl&#125;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--local</span> <span class="string">user.name</span> <span class="string">$&#123;gitUser&#125;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">--local</span> <span class="string">user.email</span> <span class="string">$&#123;gitEmail&#125;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">cd</span> <span class="string">$&#123;projName&#125;/overlays/dev</span></span><br><span class="line">  <span class="comment">#【脚本功能】：生成镜像全名并更新到kustomization.yaml中</span></span><br><span class="line">  <span class="comment">#以$&#123;jarNames&#125;变量作为判断标准，</span></span><br><span class="line">  <span class="comment"># 若为空，则认定当前代码仓库为单个微服务类型的代码仓类型（即代码直接存放在根目录中）</span></span><br><span class="line">  <span class="comment"># 若非空，则认定当前代码仓库为多个微服务类型的代码仓类型（即根目录下有以微服务名命名的目录，代码存放在以微服务名命名的目录中）</span></span><br><span class="line">  <span class="comment"># 非空情况下，根据$&#123;jarNames&#125;中变量循环</span></span><br><span class="line">  <span class="attr">script:</span> <span class="string">&gt;</span></span><br><span class="line">    <span class="string">if</span> [ <span class="string">!</span> <span class="string">-n</span> <span class="string">&quot;$&#123;jarNames&#125;&quot;</span> ]<span class="string">;then</span></span><br><span class="line">      <span class="string">IMAGE_FULL_NAME=$&#123;hubName&#125;/$&#123;ProjectName&#125;/$&#123;CI_PROJECT_NAME&#125;:$&#123;CI_COMMIT_REF_SLUG&#125;.$&#123;Project_Version&#125;.$&#123;CI_COMMIT_SHA:0:7&#125;;</span></span><br><span class="line">      <span class="string">kustomize</span> <span class="string">edit</span> <span class="string">set</span> <span class="string">image</span>  <span class="string">$IMAGE_FULL_NAME;</span></span><br><span class="line">    <span class="attr">else:</span></span><br><span class="line">      <span class="string">for</span> <span class="string">jarName</span> <span class="string">in</span> <span class="string">$&#123;jarNames//,/</span> <span class="string">&#125;;</span></span><br><span class="line">      <span class="string">do</span></span><br><span class="line">        <span class="string">IMAGE_FULL_NAME=$&#123;hubName&#125;/$&#123;ProjectName&#125;/$&#123;jarName&#125;:$&#123;CI_COMMIT_REF_SLUG&#125;.$&#123;Project_Version&#125;.$&#123;CI_COMMIT_SHA:0:7&#125;;</span></span><br><span class="line">        <span class="string">kustomize</span> <span class="string">edit</span> <span class="string">set</span> <span class="string">image</span>  <span class="string">$IMAGE_FULL_NAME;</span></span><br><span class="line">      <span class="string">done</span></span><br><span class="line">    <span class="string">fi</span></span><br><span class="line">  <span class="comment">#script脚本后的需要执行的脚本</span></span><br><span class="line">  <span class="comment">#注：script中执行的脚本与after_script无关系，</span></span><br><span class="line">  <span class="comment">#    可理解成after_script为新开一个shell脚本执行操作</span></span><br><span class="line">  <span class="comment">#【脚本功能】：上传更新到 yaml 文件所在的代码仓库</span></span><br><span class="line">  <span class="attr">after_script:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">pwd</span> <span class="string">&amp;&amp;</span> <span class="string">ls</span> </span><br><span class="line">    <span class="bullet">-</span> <span class="string">cd</span> <span class="string">$&#123;projName&#125;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">add</span> <span class="string">.</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">commit</span> <span class="string">-m</span> <span class="string">&quot;【CI更新tag】:$&#123;CI_COMMIT_TIMESTAMP:0:10&#125;.$&#123;CI_COMMIT_SHA:0:7&#125;&quot;</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">git</span> <span class="string">push</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">web</span></span><br><span class="line">  <span class="attr">tags:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">xnpt</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-gitlab-ci-yml-书写格式"><a href="#3-2-gitlab-ci-yml-书写格式" class="headerlink" title="3.2 .gitlab-ci.yml 书写格式"></a>3.2 .gitlab-ci.yml 书写格式</h3><ul>
+<li><strong>概念</strong></li>
+</ul>
+<ol>
+<li><p>Job</p>
+<p>YAML 文件使用一系列约束叙述定义了 <strong>Job</strong> 启动时所要做的事情。<strong>Job</strong> 被定义为具名的顶级元素，并且至少包括一条脚本语句。Job 被 Runner 拿到并在 Runner 的环境下执行。<strong>重要的是，每个 Job 都会与其他 Job 分离开来，独立进行。</strong>如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">job1:</span><br><span class="line">    script: <span class="string">&quot;execute-script-for-job1&quot;</span></span><br><span class="line">job2:</span><br><span class="line">    script: <span class="string">&quot;execute-script-for-job2&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的例子是两个在ci中能起作用的最简单的，分离的任务，每一个任务执行一条不同的命令。每条命令都会被Runners拿到并在Runner的环境下被执行。重要的是，每个任务将会独立进行，与其他任务分离开来。</p>
+</li>
+</ol>
+<ul>
+<li><strong>关键字</strong></li>
+</ul>
+<ol>
+<li><p>不可以被用于 Job名 的保留字</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>是否必须</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>image</td>
+<td>no</td>
+<td>使用的docker镜像。</td>
+</tr>
+<tr>
+<td>services</td>
+<td>no</td>
+<td>使用的docker服务。</td>
+</tr>
+<tr>
+<td>stages</td>
+<td>no</td>
+<td>定义构建场景</td>
+</tr>
+<tr>
+<td>types</td>
+<td>no</td>
+<td>stages的别名(<strong>不赞成使用</strong>)</td>
+</tr>
+<tr>
+<td>before_script</td>
+<td>no</td>
+<td>定义每个任务的脚本启动前所需执行的命令</td>
+</tr>
+<tr>
+<td>after_script</td>
+<td>no</td>
+<td>定义每个任务的脚本执行结束后所需执行的命令</td>
+</tr>
+<tr>
+<td>variables</td>
+<td>no</td>
+<td>定义构建变量</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>no</td>
+<td>定义哪些文件需要缓存，让后续执行可用</td>
+</tr>
+</tbody></table>
+</li>
+<li><p>Job 的保留字</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>是否必须</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>script</td>
+<td>yes</td>
+<td>Runner执行的命令或脚本。可以包含多条命令</td>
+</tr>
+<tr>
+<td>image</td>
+<td>no</td>
+<td>使用的docker镜像。</td>
+</tr>
+<tr>
+<td>services</td>
+<td>no</td>
+<td>使用的docker服务。</td>
+</tr>
+<tr>
+<td>stage</td>
+<td>no</td>
+<td>定义job stage（默认：test）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>no</td>
+<td>stage的别名（已弃用）</td>
+</tr>
+<tr>
+<td>variables</td>
+<td>no</td>
+<td>定义job级别的变量</td>
+</tr>
+<tr>
+<td>only</td>
+<td>no</td>
+<td>定义一列git分支，并为其创建job</td>
+</tr>
+<tr>
+<td>except</td>
+<td>no</td>
+<td>定义一列git分支，不创建job</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>no</td>
+<td>定义一列tags，用来指定选择哪个Runner（同时Runner也要设置tags）</td>
+</tr>
+<tr>
+<td>allow_failure</td>
+<td>no</td>
+<td>允许job失败。失败的job不影响commit状态</td>
+</tr>
+<tr>
+<td>when</td>
+<td>no</td>
+<td>定义何时开始job。可以是on_success，on_failure，always或者manual</td>
+</tr>
+<tr>
+<td>dependencies</td>
+<td>no</td>
+<td>定义job依赖关系，这样他们就可以互相传递artifacts</td>
+</tr>
+<tr>
+<td>cache</td>
+<td>no</td>
+<td>定义应在后续运行之间缓存的文件列表</td>
+</tr>
+<tr>
+<td>before_script</td>
+<td>no</td>
+<td>重写一组在作业前执行的命令</td>
+</tr>
+<tr>
+<td>after_script</td>
+<td>no</td>
+<td>重写一组在作业后执行的命令</td>
+</tr>
+<tr>
+<td>environment</td>
+<td>no</td>
+<td>定义此作业完成部署的环境名称</td>
+</tr>
+<tr>
+<td>coverage</td>
+<td>no</td>
+<td>定义给定作业的代码覆盖率设置</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>only</strong> and <strong>except</strong> 保留字</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>branches</td>
+<td>当一个分支被push上来</td>
+</tr>
+<tr>
+<td>tags</td>
+<td>当一个打了tag的分支被push上来</td>
+</tr>
+<tr>
+<td>api</td>
+<td>当一个pipline被piplines api所触发调起，详见piplines api</td>
+</tr>
+<tr>
+<td>external</td>
+<td>当使用了GitLab以外的CI服务</td>
+</tr>
+<tr>
+<td>pipelines</td>
+<td>针对多项目触发器而言，当使用CI_JOB_TOKEN并使用gitlab所提供的api创建多个pipelines的时候</td>
+</tr>
+<tr>
+<td>pushes</td>
+<td>当pipeline被用户的git push操作所触发的时候</td>
+</tr>
+<tr>
+<td>schedules</td>
+<td>针对预定好的pipline而言（每日构建一类）</td>
+</tr>
+<tr>
+<td>triggers</td>
+<td>用token创建piplines的时候</td>
+</tr>
+<tr>
+<td>web</td>
+<td>在GitLab页面上Pipelines标签页下，你按了run pipline的时候</td>
+</tr>
+</tbody></table>
+</li>
+</ol>
+<p><strong>重要的关键字解析</strong></p>
+<ol>
+<li><p><strong>after_script</strong></p>
+<p><code>before_script</code> 和 <code>script</code> 在一个上下文中是串行执行的，<code>after_script</code> 是独立执行的。所以根据执行器(在runner注册的时候，可以选择执行器，docker,shell 等)的不同，工作树之外的变化可能不可见，例如，在before_script中执行软件的安装。</p>
+<p>你可以在任务中定义 <code>before_script</code>，<code>after_script</code>，也可以将其定义为顶级元素，定义为顶级元素将为每一个任务都执行相应阶段的脚本或命令。</p>
+</li>
+<li><p><strong>stages</strong></p>
+<p>stages的允许定义多个，灵活的场景阶段的pipline。定义的元素的顺序决定了任务执行的顺序。例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">stages:</span><br><span class="line">  - build</span><br><span class="line">  - <span class="built_in">test</span></span><br><span class="line">  - deploy</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>build场景的任务将被并行执行。test、deploy 同理</li>
+<li>build 任务成功后，test 执行。test 成功后，deploy 执行</li>
+<li>所有的都成功了，提交将会标记为成功</li>
+<li>任何一步任务失败了，提交标记为失败并之后的场景，任务都不回执行。</li>
+</ol>
+</li>
+<li><p><strong>variables</strong></p>
+<p>GitLab CI允许你为.gitlab-ci.yml增加变量，该变量将会被设置入任务环境。这些变量是你存储在git仓库里，并且非敏感的项目配置，例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">variables:</span><br><span class="line">    DATABASE_URL: <span class="string">&quot;postgres://postgres@postgres/my_database&quot;</span></span><br><span class="line"><span class="comment"># 注意:整数和字符串一样，对于设置变量名和变量值来说都是合法的。但浮点数是非法的。</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>script</strong><br> script是一段由Runner执行的shell脚本，例如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    script: <span class="string">&quot;bundle exec rspec&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>这个参数也可以使用数组包涵好几条命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    script:</span><br><span class="line">        - uname -a</span><br><span class="line">        - bundle <span class="built_in">exec</span> rspec</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>有些时候，script命令需要被单引号或者双引号所包裹。例如：当命令中包涵冒号的时候，该命令需要被引号所包裹。这样YAML解析器才知道该命令语句不是“key: value”语法的一部分。当命令中包涵以下字符时需要注意打引号:`: { } [ ] , &amp; * # ? | - &lt; &gt; = ! % @ ``</p>
+</li>
+<li><p><strong>only and except</strong></p>
+<p>only和except两个参数说明了job什么时候将会被创建:</p>
+<ol>
+<li>only定义了job需要执行的所在分支或者标签</li>
+<li>except定义了job不会执行的所在分支或者标签</li>
+</ol>
+<p>以下是这两个参数的几条用法规则：</p>
+<ol>
+<li>only和except如果都存在在一个job声明中，则所需引用将会被only和except所定义的分支过滤.</li>
+<li>only和except允许使用正则</li>
+<li>only和except允许使用指定仓库地址，但是不forks仓库</li>
+</ol>
+<p>例子解析：</p>
+<ol>
+<li><p>job将会只在issue-开头的refs下执行，反之则其他所有分支被跳过：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    <span class="comment"># use regexp</span></span><br><span class="line">    only:</span><br><span class="line">        - /^issue-.*$/</span><br><span class="line">    <span class="comment"># use special keyword</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        - branches</span><br></pre></td></tr></table></figure></li>
+<li><p>job只会在打了tag的分支，或者被api所触发，或者每日构建任务上运行，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    <span class="comment"># use special keywords</span></span><br><span class="line">    only:</span><br><span class="line">        - tags      <span class="comment"># tag 分支 commit 之后触发</span></span><br><span class="line">        - triggers  <span class="comment"># API 触发</span></span><br><span class="line">        - schedules <span class="comment"># 每日构建触发</span></span><br></pre></td></tr></table></figure></li>
+<li><p>job将会在父仓库gitlab-org/gitlab-ce的非master分支有提交时运行。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    only:</span><br><span class="line">        - branches@gitlab-org/gitlab-ce</span><br><span class="line">    except:</span><br><span class="line">        - master@gitlab-org/gitlab-ce</span><br></pre></td></tr></table></figure></li>
+<li><p>在计划被触发时或者master分支被push时触发，并且先决条件是kubernetes服务是活跃的（你启用了kubernetes服务作为执行器，相关请看gitlab ci runner的文档，ce用户一般用求不到）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    only:</span><br><span class="line">        refs:</span><br><span class="line">            - master</span><br><span class="line">            - schedules</span><br><span class="line">        kubernetes: active</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p><strong>artifacts</strong></p>
+<p>artifacts 被用于在 job 作业成功后将制定列表里的文件或文件夹附加到 job 上，传递给下一个 job ，如果要在两个 job 之间传递 artifacts，你必须设置dependencies,下面有几个例子</p>
+<ol>
+<li><p>传递所有binaries和.config：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">artifacts:</span><br><span class="line">    paths:</span><br><span class="line">        - binaries&#x2F;</span><br><span class="line">        - .config</span><br></pre></td></tr></table></figure></li>
+<li><p>传递所有git没有追踪的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">artifacts:</span><br><span class="line">    untracked: <span class="literal">true</span></span><br></pre></td></tr></table></figure></li>
+<li><p>传递binaries文件夹里所有内容和git没有追踪的文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">artifacts:</span><br><span class="line">    untracked: <span class="literal">true</span></span><br><span class="line">    paths:</span><br><span class="line">        - binaries/</span><br></pre></td></tr></table></figure></li>
+<li><p>禁止传递来的artifact:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    stage: build</span><br><span class="line">    script: make build</span><br><span class="line">    dependencies: []</span><br></pre></td></tr></table></figure></li>
+<li><p>只为打tags的行为创建artifacts。artifacts将会在job执行完毕后送到GitLab ui前台来，你可以直接下载它(tag、details、pipeline 的下载按钮上都会出现)。</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">default</span>-job:</span><br><span class="line">    script:</span><br><span class="line">        - mvn test -U</span><br><span class="line">    except:</span><br><span class="line">        - tags</span><br><span class="line"></span><br><span class="line">release-job:</span><br><span class="line">    script:</span><br><span class="line">        - mvn <span class="keyword">package</span> -U</span><br><span class="line">    artifacts:</span><br><span class="line">        paths:</span><br><span class="line">            - target<span class="comment">/*.war</span></span><br><span class="line"><span class="comment">        only:</span></span><br><span class="line"><span class="comment">            - tags</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>artifacts:name</strong></p>
+<p>name指令允许你对artifacts压缩包重命名，你可以为每个artifect压缩包都指定一个特别的名字，这样对你在gitlab上下载artifect的压缩包有用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    artifacts:</span><br><span class="line">        name: <span class="string">&quot;<span class="variable">$CI_JOB_NAME</span>&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>artifacts:when</strong><br> 用于job失败或者未失败时使用。artifacts:when能设置以下值：</p>
+<ol>
+<li>on_success 这个值是默认的，当job成功时上传artifacts</li>
+<li>on_failure 当job执行失败时，上传artifacts</li>
+<li>always 不管失败与否，都上传</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    artifacts:</span><br><span class="line">        <span class="keyword">when</span>: on_failure    <span class="meta">#当失败时上传artifacts</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>artifacts:expire_in</strong><br> artifacts:expire_in 用于设置 artifacts 上传包的失效时间. 如果不设置，artifacts 的打包是永远存在于 gitlab上 的。当指定 artifacts 过期时间的时候, 在该期间内，artifacts 包将储存在 gitLab 上。并且你可以在 job 页面找到一个 keep 按钮，按了以后可以覆盖过期时间，让 artifacts 永远存在。过期之后，用户将无法访问到 artifacts 包。时间的例子如下:</p>
+<ul>
+<li>‘3 mins 4 sec’</li>
+<li>‘2 hrs 20 min’</li>
+<li>‘2h20min’</li>
+<li>‘6 mos 1 day’</li>
+<li>‘47 yrs 6 mos and 4d’</li>
+<li>‘3 weeks and 2 days’</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">job:</span><br><span class="line">    artifacts:</span><br><span class="line">        expire_in: 1 week <span class="comment"># 一周后过期</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="4-优化"><a href="#4-优化" class="headerlink" title="4. 优化"></a>4. 优化</h2><p><a target="_blank" rel="noopener" href="https://juejin.cn/post/6951263132123988004">前端编译加速</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CICD/" rel="tag"># CICD</a>
+              <a href="/tags/Kubernetes/" rel="tag"># Kubernetes</a>
+              <a href="/tags/GitlabCI/" rel="tag"># GitlabCI</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/30/CICDKustomize/" rel="prev" title="【CICD】:Kustomize 管理多环境部署文件">
+                  <i class="fa fa-chevron-left"></i> 【CICD】:Kustomize 管理多环境部署文件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/15/CICDArgoCD/" rel="next" title="【CICD】:ArgoCD 基础使用">
+                  【CICD】:ArgoCD 基础使用 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peana</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>

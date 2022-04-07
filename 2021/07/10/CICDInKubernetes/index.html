@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/img/p64.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/img/p32.ico">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;peana.github.io&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Pisces&quot;,&quot;version&quot;:&quot;8.4.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:&quot;default&quot;,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.xml&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:false}}</script>
+<meta name="description" content="基于Gitops理念实现的云原生CICD流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云原生下的CICD流程">
+<meta property="og:url" content="http://peana.github.io/2021/07/10/CICDInKubernetes/index.html">
+<meta property="og:site_name">
+<meta property="og:description" content="基于Gitops理念实现的云原生CICD流程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://peana.github.io/2021/07/10/CICDInKubernetes/CICDInKubernetes.png">
+<meta property="article:published_time" content="2021-07-10T09:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-07T15:08:15.310Z">
+<meta property="article:author" content="peana">
+<meta property="article:tag" content="CICD">
+<meta property="article:tag" content="Kubernetes">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://peana.github.io/2021/07/10/CICDInKubernetes/CICDInKubernetes.png">
+
+
+<link rel="canonical" href="http://peana.github.io/2021/07/10/CICDInKubernetes/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;peana.github.io&#x2F;2021&#x2F;07&#x2F;10&#x2F;CICDInKubernetes&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;07&#x2F;10&#x2F;CICDInKubernetes&#x2F;&quot;,&quot;title&quot;:&quot;云原生下的CICD流程&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>云原生下的CICD流程 | </title><script src="/js/config.js"></script>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title"></h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">人生没有白走的路，每一步都算数</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%80%E7%94%A8%E5%B7%A5%E5%85%B7"><span class="nav-number">1.1.</span> <span class="nav-text">所用工具</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E7%AE%80%E8%BF%B0"><span class="nav-number">2.</span> <span class="nav-text">流程简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CI-%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-number">2.1.</span> <span class="nav-text">CI - 持续集成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CD-%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.</span> <span class="nav-text">CD - 持续部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#kustomize%E7%AE%A1%E7%90%86yaml%E7%9A%84%E5%AE%9E%E4%BE%8B%E4%BB%93%E5%BA%93"><span class="nav-number">2.2.1.</span> <span class="nav-text">kustomize管理yaml的实例仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArgoCD%E7%9A%84%E6%8C%81%E7%BB%AD%E9%83%A8%E7%BD%B2"><span class="nav-number">2.2.2.</span> <span class="nav-text">ArgoCD的持续部署</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="peana"
+      src="/img/head.png">
+  <p class="site-author-name" itemprop="name">peana</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/peana" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;peana" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/u/5980201599" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;u&#x2F;5980201599" rel="noopener" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/atom.xml" title="RSS → &#x2F;atom.xml"><i class="fas fa-rss fa-fw"></i>RSS</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://peana.github.io/2021/07/10/CICDInKubernetes/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/img/head.png">
+      <meta itemprop="name" content="peana">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云原生下的CICD流程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-10 17:00:00" itemprop="dateCreated datePublished" datetime="2021-07-10T17:00:00+08:00">2021-07-10</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-04-07 23:08:15" itemprop="dateModified" datetime="2022-04-07T23:08:15+08:00">2022-04-07</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/CICD/" itemprop="url" rel="index"><span itemprop="name">CICD</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+</div>
+
+            <div class="post-description">基于Gitops理念实现的云原生CICD流程</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>敏捷迭代需求旺盛的今日，Devops领域作为支撑起快速工作的基石，是必不可少的。<br>本文主要介绍在云原生环境中，一套CICD任务的具体流程。</p>
+<h2 id="所用工具"><a href="#所用工具" class="headerlink" title="所用工具"></a>所用工具</h2><ul>
+<li>GitlabCI<br>GitLab提供持续集成服务的一整套系统。在GitLab8.0以后的版本是默认集成了GitLab-CI并且默认启用的。<br>使用GitlabRunner做任务构建。</li>
+<li>Kustomize<br>便捷管理多环境yaml文件的开源工具。</li>
+<li>ArgoCD<br>一个声明式，Gitops理念下用于Kubernetes的持续交付工具</li>
+</ul>
+<h1 id="流程简述"><a href="#流程简述" class="headerlink" title="流程简述"></a>流程简述</h1><p><img src="CICDInKubernetes.png" alt="云原生CICD流程"></p>
+<h2 id="CI-持续集成"><a href="#CI-持续集成" class="headerlink" title="CI - 持续集成"></a>CI - 持续集成</h2><ul>
+<li><p>相关概念</p>
+<ol>
+<li><code>源代码仓</code><br>业务代码所在仓库</li>
+<li><code>daployYaml代码仓</code><br>存放kubernetes部署的yaml文件代码仓库，基于kustomize管理多个环境下的部署yaml文件</li>
+<li><code>.gitlab-ci.yml</code><br>定义CI任务的工作流，存放在源代码仓的各个分支的根目录下</li>
+<li><code>GitlabRunner</code><br>运行CI任务的工具，可有多种方式部署：二进制、docker、kubernetes等</li>
+<li><code>镜像仓库</code><br>存放业务包镜像的harbor镜像仓库</li>
+</ol>
+</li>
+<li><p>CI任务的启动</p>
+<ol>
+<li>利用<code>源代码仓</code>根目录下的 <code>.gitlab-ci.yml</code> 所定义的CI流程，根据触发规则自动或手动触发CI任务</li>
+<li>基于docker in docker 部署的<code>GitlabRunner</code> 构建CI任务</li>
+</ol>
+</li>
+<li><p>CI步骤</p>
+<ol>
+<li>构建镜像并上传到<code>镜像仓库</code></li>
+<li>将当前CI任务所生成的新镜像地址和tag号传递到<code>daployYaml代码仓</code>的base/kustomization.yaml 中，供ArgoCD获取和部署</li>
+</ol>
+</li>
+</ul>
+<h2 id="CD-持续部署"><a href="#CD-持续部署" class="headerlink" title="CD - 持续部署"></a>CD - 持续部署</h2><h3 id="kustomize管理yaml的实例仓库"><a href="#kustomize管理yaml的实例仓库" class="headerlink" title="kustomize管理yaml的实例仓库"></a>kustomize管理yaml的实例仓库</h3><ul>
+<li><p>环境区分的实现</p>
+<ol>
+<li>base/kustomization.yaml<br>存放CI任务生成的新镜像地址和tag号，通过<strong>分支</strong>区分环境</li>
+<li>overlays/xxx 目录<br>在daployYaml代码仓中，每个环境都有自己的<strong>overlays/ 目录</strong>，用来自定义各个环境的不同的配置</li>
+</ol>
+</li>
+<li><p>优势<br>通过分支区分镜像地址 加 overlays/xxx定义各个环境配置 共同合作区分环境环境，实现：</p>
+<ol>
+<li>减少人为操作，镜像地址+tag号均通过CI自动输出到daployYaml代码仓的base/kustomization.yaml，</li>
+<li>提测和上线时需要合并分支，自然而然地增加了审核机制</li>
+<li>统一镜像地址，保证CI文件的稳定性（不需要多一个环境就在CI文件中新增配置）</li>
+<li>更好的版本管理，每个环境的版本迭代记录均在各自分支下</li>
+</ol>
+</li>
+</ul>
+<h3 id="ArgoCD的持续部署"><a href="#ArgoCD的持续部署" class="headerlink" title="ArgoCD的持续部署"></a>ArgoCD的持续部署</h3><ul>
+<li>ArgoCD通过kubernetes的apiserver接入多集群</li>
+<li>使用自带RABC组件管理多用户</li>
+<li>将gitlab中的<code>daployYaml代码仓</code>接入ArgoCD集群</li>
+<li>ArgoCD集群拉取<code>daployYaml代码仓</code>各环境的部署文件，实现持续交付工作</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/CICD/" rel="tag"># CICD</a>
+              <a href="/tags/Kubernetes/" rel="tag"># Kubernetes</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/13/hexoConf/" rel="prev" title="hexo主题美化+常用配置">
+                  <i class="fa fa-chevron-left"></i> hexo主题美化+常用配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/30/CICDKustomize/" rel="next" title="【CICD】:Kustomize 管理多环境部署文件">
+                  【CICD】:Kustomize 管理多环境部署文件 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+<script src="/js/comments.js"></script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">peana</span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/tororo.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":true},"react":{"opacity":0.7}});</script></body>
+</html>

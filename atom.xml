@@ -6,7 +6,7 @@
   <link href="http://peana.github.io/atom.xml" rel="self"/>
   
   <link href="http://peana.github.io/"/>
-  <updated>2021-11-02T09:24:45.000Z</updated>
+  <updated>2022-04-07T15:12:49.265Z</updated>
   <id>http://peana.github.io/</id>
   
   <author>
@@ -15,6 +15,96 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>【CICD】:ArgoCD 基础使用</title>
+    <link href="http://peana.github.io/2021/11/15/CICDArgoCD/"/>
+    <id>http://peana.github.io/2021/11/15/CICDArgoCD/</id>
+    <published>2021-11-15T05:00:45.000Z</published>
+    <updated>2022-04-07T15:12:49.265Z</updated>
+    
+    
+    <summary type="html">ArgoCD的部署和常用操作</summary>
+    
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/categories/CICD/"/>
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/tags/CICD/"/>
+    
+    <category term="Kubernetes" scheme="http://peana.github.io/tags/Kubernetes/"/>
+    
+    <category term="ArgoCD" scheme="http://peana.github.io/tags/ArgoCD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【CICD】:GitlabCI基础使用</title>
+    <link href="http://peana.github.io/2021/10/15/CICDGitlabCI/"/>
+    <id>http://peana.github.io/2021/10/15/CICDGitlabCI/</id>
+    <published>2021-10-15T09:21:45.000Z</published>
+    <updated>2022-04-07T15:12:58.667Z</updated>
+    
+    
+    <summary type="html">GitlabCI基础概念和应用</summary>
+    
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/categories/CICD/"/>
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/tags/CICD/"/>
+    
+    <category term="Kubernetes" scheme="http://peana.github.io/tags/Kubernetes/"/>
+    
+    <category term="GitlabCI" scheme="http://peana.github.io/tags/GitlabCI/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>【CICD】:Kustomize 管理多环境部署文件</title>
+    <link href="http://peana.github.io/2021/08/30/CICDKustomize/"/>
+    <id>http://peana.github.io/2021/08/30/CICDKustomize/</id>
+    <published>2021-08-30T09:00:45.000Z</published>
+    <updated>2022-04-07T15:13:03.690Z</updated>
+    
+    
+    <summary type="html">Kustomize管理多环境详解与规范</summary>
+    
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/categories/CICD/"/>
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/tags/CICD/"/>
+    
+    <category term="Kubernetes" scheme="http://peana.github.io/tags/Kubernetes/"/>
+    
+    <category term="Kustomize" scheme="http://peana.github.io/tags/Kustomize/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>云原生下的CICD流程</title>
+    <link href="http://peana.github.io/2021/07/10/CICDInKubernetes/"/>
+    <id>http://peana.github.io/2021/07/10/CICDInKubernetes/</id>
+    <published>2021-07-10T09:00:00.000Z</published>
+    <updated>2022-04-07T15:08:15.310Z</updated>
+    
+    
+    <summary type="html">基于Gitops理念实现的云原生CICD流程</summary>
+    
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/categories/CICD/"/>
+    
+    
+    <category term="CICD" scheme="http://peana.github.io/tags/CICD/"/>
+    
+    <category term="Kubernetes" scheme="http://peana.github.io/tags/Kubernetes/"/>
+    
+  </entry>
   
   <entry>
     <title>hexo主题美化+常用配置</title>
