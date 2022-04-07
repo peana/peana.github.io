@@ -37,146 +37,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ubuntu系统中利用 github page+hexo搭建blog</title>
-    <url>/2019/08/14/build-blog/</url>
-    <content><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>1、为什么搭blog？<br>想有一个自由却又严谨的空间，认真的做笔记、记录成长、好好学习的空间。混乱的脑子与头绪需要理清，生活也需要有一个认真记录的地方。希望从今开始认真的生活，努力的朝着自己的梦想前行。</p>
-<p>2、此文为本胖记录自己搭建blog所踩过的坑，所以本文是按照本胖踩坑顺序所写。另外本胖电脑安装了ubuntu子系统，所以下文所安装的软件全是linux系统中安装的，超简单的命令行安装可以说是超级友好了。</p>
-<h1 id="二、git相关"><a href="#二、git相关" class="headerlink" title="二、git相关"></a>二、git相关</h1><p>git入门相关资料：<a href="https://link.juejin.im/?target=https://gitee.com/progit/">Pro Git（中文版）</a>、<a href="https://www.runoob.com/git/git-tutorial.html">Git菜鸟教程</a>、<a href="https://www.runoob.com/w3cnote/git-guide.html">Github 简明教程</a></p>
-<h2 id="2-1-注册github账号"><a href="#2-1-注册github账号" class="headerlink" title="2.1 注册github账号"></a>2.1 注册github账号</h2><p>在<a href="https://github.com/">github官网</a>上注册账号</p>
-<h2 id="2-2-客户端安装git"><a href="#2-2-客户端安装git" class="headerlink" title="2.2 客户端安装git"></a>2.2 客户端安装git</h2><p>ubuntu客户端下载安装git，并与github连接</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="comment">#将git与github账号绑定</span></span><br><span class="line">git config --global user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#生成ssh公私钥文件以便连接github</span></span><br><span class="line"><span class="comment">#确保回到家目录</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#创建私钥过程中直接回车，按照默认配置生成ssh公私钥文件</span></span><br><span class="line"><span class="comment">#在~/.ssh/文件夹中找到刚刚所创建的ssh公私钥，pub后缀的为公钥，下一步中需要将其中内容复制到github中</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="2-3-将ssh公钥放入github"><a href="#2-3-将ssh公钥放入github" class="headerlink" title="2.3 将ssh公钥放入github"></a>2.3 将ssh公钥放入github</h2><p>打开github的<a href="https://github.com/settings/keys">setting key页面</a>，将刚刚创建的公钥中的文本内容复制进key的文本框中，如下图所示</p>
-<p><img src="1.png" alt="1"></p>
-<p>输入<code>ssh -T git@github.com</code>测试是否配置成功，若出现如下字样则说明配置成功</p>
-<p><img src="2.png" alt="2"></p>
-<h2 id="2-4-创建个人仓库"><a href="#2-4-创建个人仓库" class="headerlink" title="2.4 创建个人仓库"></a>2.4 创建个人仓库</h2><p>在github新建个人仓库，命名规则为<code>用户名.github.io</code>，例如本胖叫peana，则项目名为<code>peana.github.io</code>。这也是日后本胖博客的URL，创建方式如下图所示</p>
-<p><img src="3.png" alt="3"><br><img src="4.png" alt="4"></p>
-<h1 id="三、安装node-js及hexo"><a href="#三、安装node-js及hexo" class="headerlink" title="三、安装node.js及hexo"></a>三、安装node.js及hexo</h1><h2 id="3-1-安装node-js"><a href="#3-1-安装node-js" class="headerlink" title="3.1 安装node.js"></a>3.1 安装node.js</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装nodejs 9.x版本</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line"><span class="comment">#检查node版本</span></span><br><span class="line">node -v</span><br><span class="line"><span class="comment">#将node和npm设置为全局</span></span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="comment">#安装n模块，将node升至最新稳定版</span></span><br><span class="line">npm install-g n</span><br><span class="line">n stable</span><br><span class="line">node -v <span class="comment">#检查当前node版本</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="3-2-安装hexo"><a href="#3-2-安装hexo" class="headerlink" title="3.2  安装hexo"></a>3.2  安装hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry http://registry.npm.taobao.org          //由于国外npm源网速过慢，建议更换为国内源</span><br><span class="line">npm config list               //查看换源是否成功</span><br><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-
-<h2 id="3-3-初始化博客"><a href="#3-3-初始化博客" class="headerlink" title="3.3 初始化博客"></a>3.3 初始化博客</h2><p>安装hexo完成后即可初始化本胖的博客了</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在家目录下新建一个blog文件夹以完成hexo的初始化，文件夹无需自己创建，以下命令会自动创建</span></span><br><span class="line">hexo init ~/blog </span><br></pre></td></tr></table></figure>
-<p>检测博客是否搭建成功</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate         //生成静态文件,该命令可以简写为hexo g                </span><br><span class="line">hexo server           //启动服务器。默认情况下，访问网址为：http://localhost:4000/，该命令可以简写为hexo s 。</span><br><span class="line">hexo deploy           //部署网站</span><br><span class="line">hexo clean            //清除本地生成的静态文件</span><br></pre></td></tr></table></figure>
-
-<p>访问<code>localhost:4000</code>检查hexo是否启动<br><img src="5.png" alt="5"></p>
-<p>最后就可使用<code>hexo d</code>命令，将生成的静态文件部署到github上了</p>
-<h1 id="四、美化属于自己的blog"><a href="#四、美化属于自己的blog" class="headerlink" title="四、美化属于自己的blog"></a>四、美化属于自己的blog</h1><h2 id="4-1-选择主题"><a href="#4-1-选择主题" class="headerlink" title="4.1 选择主题"></a>4.1 选择主题</h2><p>选择喜欢的hexo主题，并修改相应配置<br>在hexo的官网主题平台寻找自己喜欢的hexo主题<code>https://hexo.io/themes/</code>，在本胖的两天的寻找下，终于找到了一个超级心满意足的主题Annie。感谢主题制作者Sariay 。齐全易懂的主题使用说明也相当友好了。</p>
-<h2 id="4-2-修改配置"><a href="#4-2-修改配置" class="headerlink" title="4.2 修改配置"></a>4.2 修改配置</h2><p>按照Annie主题作者所提供的readme修改配置<br><code>https://sariay.github.io/2018/08/27/Annie%E4%B8%BB%E9%A2%98%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</code></p>
-<h2 id="4-3-利用github搭建云图库"><a href="#4-3-利用github搭建云图库" class="headerlink" title="4.3 利用github搭建云图库"></a>4.3 利用github搭建云图库</h2><p>搭建annie主题所需要的云图库，采用github仓库创建仓库的方式为博客提供图片。</p>
-<p>A 创建一个新的代码仓库，命名为<code>Random-img</code></p>
-<p><img src="6.png" alt="6"></p>
-<p>B 在本地创建git本地仓库，连接到github远端仓库</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在家目录创建本地git仓库</span></span><br><span class="line">mkidr ~/git </span><br><span class="line"><span class="built_in">cd</span> ~/git</span><br><span class="line">git init</span><br><span class="line"><span class="comment">#添加远程库</span></span><br><span class="line">git remote add [shortname] [url]</span><br><span class="line"><span class="comment">#例 git remote add origin git@github.com:peana/-Random-img.git</span></span><br><span class="line">git remote <span class="comment">#查看当前连接的远程仓库</span></span><br><span class="line"><span class="comment">#git上传文件到github 需要三步骤，添加文件到暂存区，提交操作到本地的版本库，推送操作</span></span><br><span class="line">git add [textName]</span><br><span class="line">git commit -m <span class="string">&#x27;&#x27;</span> <span class="comment">#引号中写提交操作备注</span></span><br><span class="line">git push -u origin master <span class="comment">#origin为远程仓库别名，master为本地的项目分支</span></span><br></pre></td></tr></table></figure>
-<p>C 打开github代码仓库的page功能<br>打开<code>Random-img</code>代码仓库，settings–options–GitHub Pages （githua pages 设置在靠下位置，需要向下滑动才能查看<br><img src="7.png" alt="7"></p>
-<p>此URL即随机图片所需引用的地址，按4.2 配置说明修改相关配置文件<br><img src="7.png" alt="7"></p>
-]]></content>
-      <categories>
-        <category>Hexo</category>
-      </categories>
-      <tags>
-        <tag>环境搭建</tag>
-        <tag>Hexo</tag>
-        <tag>Blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>PostGreSQL常用命令</title>
-    <url>/2020/05/10/PostgreSQLInstructions/</url>
-    <content><![CDATA[<h1 id="PostGreSQL常用命令"><a href="#PostGreSQL常用命令" class="headerlink" title="PostGreSQL常用命令"></a>PostGreSQL常用命令</h1><h2 id="1-基础使用"><a href="#1-基础使用" class="headerlink" title="1. 基础使用"></a>1. 基础使用</h2><ul>
-<li><p>官方文档<br><a href="https://www.pgpool.net/docs/pgpool-II-3.5.4/doc/pgpool-zh_cn.html">pgpool-II-3.5.4</a><br><a href="http://www.postgres.cn/docs/11/index.html">postgresql-11</a></p>
-</li>
-<li><p>shell命令</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#默认的用户和数据库是postgres</span></span><br><span class="line">psql -U user -d dbname -h localhost -p port -d databaseName</span><br><span class="line">	<span class="comment"># -U指定用户 -d要连接的数据库 -h要连接的主机 -W提示输入密码 -p指定端口 -d 指定连接数据库</span></span><br><span class="line"><span class="comment">#导入sql</span></span><br><span class="line"> psql -h localhost -p port -d postgres -f *.sql</span><br><span class="line"><span class="comment">#pgpool启停</span></span><br><span class="line">sudo pgpool -C -D -n &gt; /data/pgpool/logfile/pgpool.log 2&gt;&amp;1 &amp;</span><br><span class="line">pgpool -m fast stop</span><br><span class="line">	<span class="comment">#-C --clear-oidmaps Clear query cache oidmaps when memqcache_method is memcached</span></span><br><span class="line">	<span class="comment">#-D --discard-status Discard pgpool_status file and do not restore previous status</span></span><br><span class="line">	<span class="comment">#-C，在memqcache_method=memcached时清除查询缓存oidmaps（如果是shmem，则在pgpool启动时丢弃。）</span></span><br><span class="line">	<span class="comment">#-D，--放弃状态放弃pgpool_status文件，不还原以前的状态 </span></span><br></pre></td></tr></table></figure>
-<h3 id="1-1增"><a href="#1-1增" class="headerlink" title="1.1增"></a>1.1增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#创建用户</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> userName <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;passwd&#x27;</span> ;</span><br><span class="line">#创建角色</span><br><span class="line"><span class="keyword">CREATE</span> ROLE rolename;</span><br><span class="line">#创建数据库  </span><br><span class="line"><span class="keyword">create</span> database [数据库名]; </span><br><span class="line">#创建模式</span><br><span class="line"><span class="keyword">create</span> schema [schema_name];</span><br><span class="line">#创建表  </span><br><span class="line"><span class="keyword">create</span>  <span class="keyword">TABLE</span> ([字段名<span class="number">1</span>] [类型<span class="number">1</span>] <span class="operator">&lt;</span><span class="keyword">references</span> 关联表名(关联的字段名)<span class="operator">&gt;</span>;,[字段名<span class="number">2</span>] [类型<span class="number">2</span>],......<span class="operator">&lt;</span>,<span class="keyword">primary</span> key (字段名m,字段名n,...)<span class="operator">&gt;</span>;); \copyright </span><br></pre></td></tr></table></figure>
-<h3 id="1-2-删"><a href="#1-2-删" class="headerlink" title="1.2 删"></a>1.2 删</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#删除数据库  </span><br><span class="line"><span class="keyword">DROP</span> database [数据库名];  </span><br><span class="line">	#删除数据库是提示 有进程在连接该数据库则执行如下<span class="keyword">sql</span></span><br><span class="line">	#pg_terminate_backend 用来终止与数据库的连接的进程id的函数</span><br><span class="line">	#pg_stat_activity 是一个系统表，用于存储服务进程的属性和状态</span><br><span class="line">	#pg_backend_pid() 是一个系统函数，获取附加到当前会话的服务器进程的ID</span><br><span class="line"><span class="keyword">SELECT</span> pg_terminate_backend(pg_stat_activity.pid)</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line"><span class="keyword">WHERE</span> datname<span class="operator">=</span><span class="string">&#x27;smart_horn&#x27;</span> <span class="keyword">AND</span> pid<span class="operator">&lt;&gt;</span>pg_backend_pid();</span><br><span class="line">#删除一个表</span><br><span class="line"><span class="keyword">DROP</span>  <span class="keyword">TABLE</span> [表名]; </span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> [表名];</span><br><span class="line">#清空表</span><br><span class="line"><span class="keyword">TRUNCATE</span> table_name;</span><br><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> table_name RESTART <span class="keyword">IDENTITY</span>;#postgresql 的自增字段 是通过序列sequence来实现的，在清空表的时候，还需要还原序列</span><br><span class="line">#删除表中的字段  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">DROP</span> <span class="keyword">column</span> [字段名]; </span><br><span class="line">#删除表中某行数据  </span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> [表名] <span class="keyword">WHERE</span> [该行特征]; </span><br><span class="line">#删除库表保留表结构 执行如下<span class="keyword">sql</span>生成删除<span class="keyword">sql</span>脚本语句</span><br><span class="line"><span class="keyword">select</span> CONCAT(<span class="string">&#x27;TRUNCATE  TABLE &#x27;</span>,table_name,<span class="string">&#x27; CASCADE&#x27;</span>,<span class="string">&#x27;;&#x27;</span>) <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> TABLE_SCHEMA <span class="operator">=</span> <span class="string">&#x27;public&#x27;</span> <span class="keyword">and</span> table_type <span class="operator">=</span> <span class="string">&#x27;BASE  TABLE&#x27;</span>;</span><br><span class="line"><span class="keyword">TRUNCATE</span>  <span class="keyword">TABLE</span> tablename CASCADE;#会删除引用此表的关联表数据、此命令为清空表命令</span><br><span class="line">##删除表</span><br><span class="line">#若该表有字段被其他表引用成外键，要用级联方式删所有关联的数据 CASCADE</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> tablename CASCADE;##会删除引用此表的引用表外键</span><br><span class="line">#删除用户和组</span><br><span class="line"><span class="keyword">DROP</span> ROLE IF <span class="keyword">EXISTS</span> role_name;</span><br><span class="line">#回收用户的所有权限再删除</span><br><span class="line"><span class="keyword">revoke</span> <span class="keyword">all</span> <span class="keyword">on</span> database databasename <span class="keyword">from</span> username;</span><br></pre></td></tr></table></figure>
-<h3 id="1-3-改"><a href="#1-3-改" class="headerlink" title="1.3 改"></a>1.3 改</h3></li>
-<li><p>修改用户属性</p>
-</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#修改用户权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE username <span class="keyword">WITH</span> attribute_options;</span><br><span class="line">	#禁止用户登录 配置无权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE username <span class="keyword">WITH</span> NOLOGIN;</span><br><span class="line">#修改用户密码</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> userName <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;passwd&#x27;</span>;</span><br><span class="line">#设置访问权限</span><br><span class="line"><span class="keyword">GRANT</span> permission_type <span class="keyword">ON</span> table_name <span class="keyword">TO</span> role_name;</span><br><span class="line">	#permission_type</span><br><span class="line">	<span class="keyword">ALL</span>:所有权限</span><br><span class="line">	#role_name <span class="operator">=</span> PUBLIC 表示所有用户</span><br><span class="line">#撤销用户访问权限</span><br><span class="line"><span class="keyword">REVOKE</span> permission_type <span class="keyword">ON</span> table_name <span class="keyword">FROM</span> user_name;</span><br><span class="line">#INHERIT权限 该属性使组成员拥有组的所有权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE test_user INHERIT;</span><br><span class="line"></span><br><span class="line">#切换到role_name用户</span><br><span class="line"><span class="keyword">SET</span> ROLE role_name;</span><br><span class="line">#切换回最初的role</span><br><span class="line">RESET ROLE;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>修改表</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#重命名一个表  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名A] rename <span class="keyword">to</span> [表名B]; </span><br><span class="line">#设置表主键</span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名]  <span class="keyword">add</span> <span class="keyword">constraint</span> PK_SysUser <span class="keyword">primary</span> key(&quot;UserId&quot;); </span><br><span class="line">#重命名一个字段   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] rename <span class="keyword">column</span> [字段名A] <span class="keyword">to</span> [字段名B]; </span><br><span class="line">#在已有的表里添加字段  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">add</span> <span class="keyword">column</span> [字段名] [类型]; </span><br><span class="line">#给一个字段设置缺省值   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">ALTER</span> <span class="keyword">column</span> [字段名] <span class="keyword">SET</span> <span class="keyword">default</span> [新的默认值];</span><br><span class="line">#去除缺省值   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">ALTER</span> <span class="keyword">column</span> [字段名] <span class="keyword">DROP</span> <span class="keyword">default</span>; </span><br><span class="line">#在表中插入数据  </span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">INTO</span> 表名 ([字段名m],[字段名n],......) <span class="keyword">values</span> ([列m的值],[列n的值],......); </span><br><span class="line">#修改表中的某行某列的数据  </span><br><span class="line">update [表名] <span class="keyword">SET</span> [目标字段名]<span class="operator">=</span>[目标值] <span class="keyword">WHERE</span> [该行特征]; </span><br></pre></td></tr></table></figure>
-<h3 id="1-4-查"><a href="#1-4-查" class="headerlink" title="1.4 查"></a>1.4 查</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#<span class="keyword">SQL</span> 命令语法上的说明，用 <span class="operator">*</span> 显示全部命令</span><br><span class="line">\h [名称]      </span><br><span class="line">#查看用户</span><br><span class="line">\du</span><br><span class="line">#切换数据库,相当于mysql的USE dbname</span><br><span class="line">\c dbname</span><br><span class="line">#列举数据库，相当于mysql的<span class="keyword">SHOW</span> databases</span><br><span class="line">\l</span><br><span class="line"><span class="keyword">select</span> pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) <span class="keyword">AS</span> size <span class="keyword">from</span> pg_database;#例举database和数据库大小</span><br><span class="line">#列举表，相当于mysql的<span class="keyword">SHOW</span> tables</span><br><span class="line">\dt</span><br><span class="line">#查看表结构，相当于<span class="keyword">DESC</span> tablename,<span class="keyword">SHOW</span> columns <span class="keyword">FROM</span> tbname</span><br><span class="line">\d tablename</span><br><span class="line">#查看索引 </span><br><span class="line">\di </span><br><span class="line">#显示 PostgreSQL 的使用和发行条款</span><br><span class="line"> #显示或设定用户端字元编码</span><br><span class="line">\encoding [字元编码名称]</span><br><span class="line"> #提示用户设定内部变数</span><br><span class="line">\prompt [文本] 名称</span><br><span class="line"> #securely change the password <span class="keyword">for</span> a <span class="keyword">user</span></span><br><span class="line">\password [USERNAME]</span><br><span class="line">#查看拓展函数</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> pg_extension;</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-常见问题"><a href="#2-常见问题" class="headerlink" title="2. 常见问题"></a>2. 常见问题</h2><h3 id="1-pgpool集群互斥问题"><a href="#1-pgpool集群互斥问题" class="headerlink" title="1. pgpool集群互斥问题"></a>1. pgpool集群互斥问题</h3><h3 id="2-pgsql主从流复制问题"><a href="#2-pgsql主从流复制问题" class="headerlink" title="2. pgsql主从流复制问题"></a>2. pgsql主从流复制问题</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看进程 ps -aux</span></span><br><span class="line">主库有sender进程</span><br><span class="line">从库有receiver进程</span><br><span class="line"><span class="comment">#查看复制状态</span></span><br><span class="line">select * from pg_stat_replication;</span><br><span class="line"><span class="comment">#查看当前是否正在进程流复制</span></span><br><span class="line">select pg_is_in_recovery();</span><br></pre></td></tr></table></figure>
-<h3 id="3-pgsql归档备份问题"><a href="#3-pgsql归档备份问题" class="headerlink" title="3. pgsql归档备份问题"></a>3. pgsql归档备份问题</h3><ol>
-<li><p>如何使用归档备份<br>pg_waldump<br><a href="https://www.escapelife.site/posts/b47f1fcb.html">https://www.escapelife.site/posts/b47f1fcb.html</a><br><a href="https://www.infoq.cn/article/Yh39wx9xlrjJMC90TFPN">https://www.infoq.cn/article/Yh39wx9xlrjJMC90TFPN</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在数据库查看具体的日志编号LSN</span></span><br><span class="line">select proname from pg_proc <span class="built_in">where</span> proname like <span class="string">&#x27;pg_%_location&#x27;</span>;</span><br><span class="line"><span class="comment">#查询到当前的日志编号情况</span></span><br><span class="line">select pg_current_xlog_location();</span><br><span class="line"><span class="comment">#获得当前预写式日志写入位置</span></span><br><span class="line">select pg_current_wal_lsn();</span><br><span class="line"><span class="comment">#强制切换到一个新的预写式日志文件（默认只限于超级用户，但是可以授予其他用户 EXECUTE 特权来执行该函数）</span></span><br><span class="line">pg_switch_wal()</span><br><span class="line"></span><br><span class="line">pg_resetwal -f /data/pgsql11/data/</span><br></pre></td></tr></table></figure>
-<p>问题：归档后主从不同步</p>
-</li>
-<li><p>优雅clean wal目录</p>
-</li>
-</ol>
-<h3 id="4-pgsql-配置文件软载入"><a href="#4-pgsql-配置文件软载入" class="headerlink" title="4. pgsql 配置文件软载入"></a>4. pgsql 配置文件软载入</h3><p>pg_ctl -D /data/pgsql11/data -l /data/pgsql11/log/pgsql.log reload </p>
-<h3 id="5-pgsql主从切换问题"><a href="#5-pgsql主从切换问题" class="headerlink" title="5. pgsql主从切换问题"></a>5. pgsql主从切换问题</h3><ol>
-<li>主库挂了后，pgpool会进入只读，需重启（主库和pgpool主节点为统一节点）<br>当pgpool状态改变后，需要重启pgpool集群才能改变？</li>
-<li><a href="https://www.cnblogs.com/miclis/p/10480979.html">https://www.cnblogs.com/miclis/p/10480979.html</a></li>
-</ol>
-<h3 id="6-pgsql-监控"><a href="#6-pgsql-监控" class="headerlink" title="6. pgsql 监控"></a>6. pgsql 监控</h3><p>并发\执行时间\集群状态<br><a href="https://blog.csdn.net/peterwanghao/article/details/88542715">数据库监控指标</a></p>
-<p><a href="https://github.com/digoal/blog/blob/master/201705/20170521_01.md">PostgreSQL 锁等待监控 珍藏级SQL - 谁堵塞了谁</a><br><a href="https://cloud.tencent.com/developer/article/1632699">PostgreSQL 用系统表来分析postgresql的问题</a></p>
-<h3 id="6-pgpool"><a href="#6-pgpool" class="headerlink" title="6. pgpool"></a>6. pgpool</h3><ul>
-<li><p>问题原因</p>
-<blockquote>
-<p>pgpool作为postgresql的中间件，当集群内存在至少两个节点时，就会进行选举，如果此时第三个节点还没起来，当选举完成后，pgpool不会将没有参加选举的节点自动加入集群，需要手工attach进集群，或者同时重启pgpool进行重启选举，即pgpool本身不具有重启后能自动加入集群并恢复的机制。</p>
-</blockquote>
-</li>
-<li><p>解决方案</p>
-<ul>
-<li>方案1：手动attach<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将掉线节点手动重新加入数据库集群中，例如掉线节点为192.168.1.1并且node id为0，执行下面的attach命令：</span></span><br><span class="line"><span class="comment">#pcp port :9898</span></span><br><span class="line">pcp_attach_node -n 0 -p 9898 -h 192.168.1.1 -U app</span><br><span class="line"></span><br><span class="line">pcp_attach_node -n 2</span><br></pre></td></tr></table></figure></li>
-<li>方案2：重启pgpool，触发重新选举<br>Pgpool每次选举都会读取pgpool状态文件，为了避免影响下次选举，所以需要删除该状态文件</li>
-</ul>
-</li>
-</ul>
-<p><a href="https://segmentfault.com/a/1190000020850773">Postgresql &amp; Pgpool 场景问题和解决方案</a></p>
-]]></content>
-      <categories>
-        <category>运维</category>
-        <category>数据库</category>
-      </categories>
-      <tags>
-        <tag>study</tag>
-        <tag>数据库</tag>
-        <tag>PostgreSQL</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>fastdfs扩容</title>
-    <url>/2021/01/13/FastDFSExpansion/</url>
-    <content><![CDATA[<ul>
-<li><p>功能：<br>通过挂载新磁盘，添加store_path的方式完成fastdfs扩容操作</p>
-<h1 id="1、挂载磁盘"><a href="#1、挂载磁盘" class="headerlink" title="1、挂载磁盘"></a>1、挂载磁盘</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line">	n p 剩余全选默认值</span><br><span class="line">mkdir /data/fastdfs/storage1</span><br><span class="line">mount /dev/sdb1 /data/fastdfs/storage1</span><br></pre></td></tr></table></figure>
-<h1 id="2、修改fdfs配置"><a href="#2、修改fdfs配置" class="headerlink" title="2、修改fdfs配置"></a>2、修改fdfs配置</h1></li>
-<li><p>修改tracker配置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#选择上传group的方式，0轮询、1指定组、2选择较大空间组</span></span><br><span class="line">store_lookup=2</span><br><span class="line"><span class="comment">#选择上传文件服务器，0轮询、1ip较小者、2按优先级</span></span><br><span class="line">store_server=0</span><br><span class="line"><span class="comment">#选择</span></span><br><span class="line">store_path=2</span><br><span class="line"><span class="comment">#预留存储空间，实际空间小于此将不允许上传</span></span><br><span class="line">reserved_storage_space = 50G</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>此配置下，若需数据全存在group1的store_path1下，需满足如下条件</p>
-<ol>
-<li>group1中空间大于group2（此空间由较小的store_server决定</li>
-<li>group1下的两个store_server中的store_path0的存储空间均小于store_path1</li>
-</ol>
-</blockquote>
-</li>
-<li><p>修改storage配置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#存储目录个数</span></span><br><span class="line">store_path_count=2</span><br><span class="line"><span class="comment"># store_path</span></span><br><span class="line">store_path0=/data/fastdfs/storage</span><br><span class="line">store_path1=/data/fastdfs/storage1</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="3、执行步骤"><a href="#3、执行步骤" class="headerlink" title="3、执行步骤"></a>3、执行步骤</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#关闭所有fastdfs服务</span></span><br><span class="line">sudo ps -aux | grep fdfs| grep -v grep |awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>| xargs  sudo <span class="built_in">kill</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动tracker</span></span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start</span><br><span class="line"><span class="comment">#启动storage</span></span><br><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf start</span><br><span class="line"><span class="comment">#测试上传</span></span><br><span class="line">fdfs_test /etc/fdfs/client.conf upload ~/test.jpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>运维</category>
-        <category>存储</category>
-      </categories>
-      <tags>
-        <tag>存储</tag>
-        <tag>FastDFS</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo主题美化+常用配置</title>
     <url>/2021/05/13/hexoConf/</url>
     <content><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>重新捡起blog，想好好记录学习和生活。<br>以前配置的主题因为有太多图片，确实不够轻便，加之已经不再更新，重新选择了一个主题“next”，star数遥遥领先并且持续更新。跟着大神准没错~</p>
@@ -271,6 +131,146 @@
       <tags>
         <tag>Hexo</tag>
         <tag>配置</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ubuntu系统中利用 github page+hexo搭建blog</title>
+    <url>/2019/08/14/build-blog/</url>
+    <content><![CDATA[<h1 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h1><p>1、为什么搭blog？<br>想有一个自由却又严谨的空间，认真的做笔记、记录成长、好好学习的空间。混乱的脑子与头绪需要理清，生活也需要有一个认真记录的地方。希望从今开始认真的生活，努力的朝着自己的梦想前行。</p>
+<p>2、此文为本胖记录自己搭建blog所踩过的坑，所以本文是按照本胖踩坑顺序所写。另外本胖电脑安装了ubuntu子系统，所以下文所安装的软件全是linux系统中安装的，超简单的命令行安装可以说是超级友好了。</p>
+<h1 id="二、git相关"><a href="#二、git相关" class="headerlink" title="二、git相关"></a>二、git相关</h1><p>git入门相关资料：<a href="https://link.juejin.im/?target=https://gitee.com/progit/">Pro Git（中文版）</a>、<a href="https://www.runoob.com/git/git-tutorial.html">Git菜鸟教程</a>、<a href="https://www.runoob.com/w3cnote/git-guide.html">Github 简明教程</a></p>
+<h2 id="2-1-注册github账号"><a href="#2-1-注册github账号" class="headerlink" title="2.1 注册github账号"></a>2.1 注册github账号</h2><p>在<a href="https://github.com/">github官网</a>上注册账号</p>
+<h2 id="2-2-客户端安装git"><a href="#2-2-客户端安装git" class="headerlink" title="2.2 客户端安装git"></a>2.2 客户端安装git</h2><p>ubuntu客户端下载安装git，并与github连接</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装git</span></span><br><span class="line">sudo apt install git</span><br><span class="line"><span class="comment">#将git与github账号绑定</span></span><br><span class="line">git config --global user.name <span class="string">&quot;你的GitHub用户名&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#生成ssh公私钥文件以便连接github</span></span><br><span class="line"><span class="comment">#确保回到家目录</span></span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">ssh-keygen -t rsa -C <span class="string">&quot;你的GitHub注册邮箱&quot;</span></span><br><span class="line"><span class="comment">#创建私钥过程中直接回车，按照默认配置生成ssh公私钥文件</span></span><br><span class="line"><span class="comment">#在~/.ssh/文件夹中找到刚刚所创建的ssh公私钥，pub后缀的为公钥，下一步中需要将其中内容复制到github中</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-3-将ssh公钥放入github"><a href="#2-3-将ssh公钥放入github" class="headerlink" title="2.3 将ssh公钥放入github"></a>2.3 将ssh公钥放入github</h2><p>打开github的<a href="https://github.com/settings/keys">setting key页面</a>，将刚刚创建的公钥中的文本内容复制进key的文本框中，如下图所示</p>
+<p><img src="1.png" alt="1"></p>
+<p>输入<code>ssh -T git@github.com</code>测试是否配置成功，若出现如下字样则说明配置成功</p>
+<p><img src="2.png" alt="2"></p>
+<h2 id="2-4-创建个人仓库"><a href="#2-4-创建个人仓库" class="headerlink" title="2.4 创建个人仓库"></a>2.4 创建个人仓库</h2><p>在github新建个人仓库，命名规则为<code>用户名.github.io</code>，例如本胖叫peana，则项目名为<code>peana.github.io</code>。这也是日后本胖博客的URL，创建方式如下图所示</p>
+<p><img src="3.png" alt="3"><br><img src="4.png" alt="4"></p>
+<h1 id="三、安装node-js及hexo"><a href="#三、安装node-js及hexo" class="headerlink" title="三、安装node.js及hexo"></a>三、安装node.js及hexo</h1><h2 id="3-1-安装node-js"><a href="#3-1-安装node-js" class="headerlink" title="3.1 安装node.js"></a>3.1 安装node.js</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装nodejs 9.x版本</span></span><br><span class="line">curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br><span class="line"><span class="comment">#检查node版本</span></span><br><span class="line">node -v</span><br><span class="line"><span class="comment">#将node和npm设置为全局</span></span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/node /usr/<span class="built_in">local</span>/bin/node</span><br><span class="line">sudo ln /home/ubuntu/node-v8.11.1-linux-x64/bin/npm /usr/<span class="built_in">local</span>/bin/npm</span><br><span class="line"><span class="comment">#安装n模块，将node升至最新稳定版</span></span><br><span class="line">npm install-g n</span><br><span class="line">n stable</span><br><span class="line">node -v <span class="comment">#检查当前node版本</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="3-2-安装hexo"><a href="#3-2-安装hexo" class="headerlink" title="3.2  安装hexo"></a>3.2  安装hexo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm config <span class="built_in">set</span> registry http://registry.npm.taobao.org          //由于国外npm源网速过慢，建议更换为国内源</span><br><span class="line">npm config list               //查看换源是否成功</span><br><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-3-初始化博客"><a href="#3-3-初始化博客" class="headerlink" title="3.3 初始化博客"></a>3.3 初始化博客</h2><p>安装hexo完成后即可初始化本胖的博客了</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在家目录下新建一个blog文件夹以完成hexo的初始化，文件夹无需自己创建，以下命令会自动创建</span></span><br><span class="line">hexo init ~/blog </span><br></pre></td></tr></table></figure>
+<p>检测博客是否搭建成功</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo generate         //生成静态文件,该命令可以简写为hexo g                </span><br><span class="line">hexo server           //启动服务器。默认情况下，访问网址为：http://localhost:4000/，该命令可以简写为hexo s 。</span><br><span class="line">hexo deploy           //部署网站</span><br><span class="line">hexo clean            //清除本地生成的静态文件</span><br></pre></td></tr></table></figure>
+
+<p>访问<code>localhost:4000</code>检查hexo是否启动<br><img src="5.png" alt="5"></p>
+<p>最后就可使用<code>hexo d</code>命令，将生成的静态文件部署到github上了</p>
+<h1 id="四、美化属于自己的blog"><a href="#四、美化属于自己的blog" class="headerlink" title="四、美化属于自己的blog"></a>四、美化属于自己的blog</h1><h2 id="4-1-选择主题"><a href="#4-1-选择主题" class="headerlink" title="4.1 选择主题"></a>4.1 选择主题</h2><p>选择喜欢的hexo主题，并修改相应配置<br>在hexo的官网主题平台寻找自己喜欢的hexo主题<code>https://hexo.io/themes/</code>，在本胖的两天的寻找下，终于找到了一个超级心满意足的主题Annie。感谢主题制作者Sariay 。齐全易懂的主题使用说明也相当友好了。</p>
+<h2 id="4-2-修改配置"><a href="#4-2-修改配置" class="headerlink" title="4.2 修改配置"></a>4.2 修改配置</h2><p>按照Annie主题作者所提供的readme修改配置<br><code>https://sariay.github.io/2018/08/27/Annie%E4%B8%BB%E9%A2%98%E4%BD%BF%E7%94%A8%E8%AF%B4%E6%98%8E/</code></p>
+<h2 id="4-3-利用github搭建云图库"><a href="#4-3-利用github搭建云图库" class="headerlink" title="4.3 利用github搭建云图库"></a>4.3 利用github搭建云图库</h2><p>搭建annie主题所需要的云图库，采用github仓库创建仓库的方式为博客提供图片。</p>
+<p>A 创建一个新的代码仓库，命名为<code>Random-img</code></p>
+<p><img src="6.png" alt="6"></p>
+<p>B 在本地创建git本地仓库，连接到github远端仓库</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在家目录创建本地git仓库</span></span><br><span class="line">mkidr ~/git </span><br><span class="line"><span class="built_in">cd</span> ~/git</span><br><span class="line">git init</span><br><span class="line"><span class="comment">#添加远程库</span></span><br><span class="line">git remote add [shortname] [url]</span><br><span class="line"><span class="comment">#例 git remote add origin git@github.com:peana/-Random-img.git</span></span><br><span class="line">git remote <span class="comment">#查看当前连接的远程仓库</span></span><br><span class="line"><span class="comment">#git上传文件到github 需要三步骤，添加文件到暂存区，提交操作到本地的版本库，推送操作</span></span><br><span class="line">git add [textName]</span><br><span class="line">git commit -m <span class="string">&#x27;&#x27;</span> <span class="comment">#引号中写提交操作备注</span></span><br><span class="line">git push -u origin master <span class="comment">#origin为远程仓库别名，master为本地的项目分支</span></span><br></pre></td></tr></table></figure>
+<p>C 打开github代码仓库的page功能<br>打开<code>Random-img</code>代码仓库，settings–options–GitHub Pages （githua pages 设置在靠下位置，需要向下滑动才能查看<br><img src="7.png" alt="7"></p>
+<p>此URL即随机图片所需引用的地址，按4.2 配置说明修改相关配置文件<br><img src="7.png" alt="7"></p>
+]]></content>
+      <categories>
+        <category>Hexo</category>
+      </categories>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>环境搭建</tag>
+        <tag>Blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>fastdfs扩容</title>
+    <url>/2021/01/13/FastDFSExpansion/</url>
+    <content><![CDATA[<ul>
+<li><p>功能：<br>通过挂载新磁盘，添加store_path的方式完成fastdfs扩容操作</p>
+<h1 id="1、挂载磁盘"><a href="#1、挂载磁盘" class="headerlink" title="1、挂载磁盘"></a>1、挂载磁盘</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">fdisk /dev/sdb</span><br><span class="line">	n p 剩余全选默认值</span><br><span class="line">mkdir /data/fastdfs/storage1</span><br><span class="line">mount /dev/sdb1 /data/fastdfs/storage1</span><br></pre></td></tr></table></figure>
+<h1 id="2、修改fdfs配置"><a href="#2、修改fdfs配置" class="headerlink" title="2、修改fdfs配置"></a>2、修改fdfs配置</h1></li>
+<li><p>修改tracker配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#选择上传group的方式，0轮询、1指定组、2选择较大空间组</span></span><br><span class="line">store_lookup=2</span><br><span class="line"><span class="comment">#选择上传文件服务器，0轮询、1ip较小者、2按优先级</span></span><br><span class="line">store_server=0</span><br><span class="line"><span class="comment">#选择</span></span><br><span class="line">store_path=2</span><br><span class="line"><span class="comment">#预留存储空间，实际空间小于此将不允许上传</span></span><br><span class="line">reserved_storage_space = 50G</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>此配置下，若需数据全存在group1的store_path1下，需满足如下条件</p>
+<ol>
+<li>group1中空间大于group2（此空间由较小的store_server决定</li>
+<li>group1下的两个store_server中的store_path0的存储空间均小于store_path1</li>
+</ol>
+</blockquote>
+</li>
+<li><p>修改storage配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#存储目录个数</span></span><br><span class="line">store_path_count=2</span><br><span class="line"><span class="comment"># store_path</span></span><br><span class="line">store_path0=/data/fastdfs/storage</span><br><span class="line">store_path1=/data/fastdfs/storage1</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="3、执行步骤"><a href="#3、执行步骤" class="headerlink" title="3、执行步骤"></a>3、执行步骤</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#关闭所有fastdfs服务</span></span><br><span class="line">sudo ps -aux | grep fdfs| grep -v grep |awk <span class="string">&#x27;&#123;print $2&#125;&#x27;</span>| xargs  sudo <span class="built_in">kill</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#启动tracker</span></span><br><span class="line">/usr/bin/fdfs_trackerd /etc/fdfs/tracker.conf start</span><br><span class="line"><span class="comment">#启动storage</span></span><br><span class="line">/usr/bin/fdfs_storaged /etc/fdfs/storage.conf start</span><br><span class="line"><span class="comment">#测试上传</span></span><br><span class="line">fdfs_test /etc/fdfs/client.conf upload ~/test.jpg</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>存储</category>
+      </categories>
+      <tags>
+        <tag>存储</tag>
+        <tag>FastDFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>PostGreSQL常用命令</title>
+    <url>/2020/05/10/PostgreSQLInstructions/</url>
+    <content><![CDATA[<h1 id="PostGreSQL常用命令"><a href="#PostGreSQL常用命令" class="headerlink" title="PostGreSQL常用命令"></a>PostGreSQL常用命令</h1><h2 id="1-基础使用"><a href="#1-基础使用" class="headerlink" title="1. 基础使用"></a>1. 基础使用</h2><ul>
+<li><p>官方文档<br><a href="https://www.pgpool.net/docs/pgpool-II-3.5.4/doc/pgpool-zh_cn.html">pgpool-II-3.5.4</a><br><a href="http://www.postgres.cn/docs/11/index.html">postgresql-11</a></p>
+</li>
+<li><p>shell命令</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#默认的用户和数据库是postgres</span></span><br><span class="line">psql -U user -d dbname -h localhost -p port -d databaseName</span><br><span class="line">	<span class="comment"># -U指定用户 -d要连接的数据库 -h要连接的主机 -W提示输入密码 -p指定端口 -d 指定连接数据库</span></span><br><span class="line"><span class="comment">#导入sql</span></span><br><span class="line"> psql -h localhost -p port -d postgres -f *.sql</span><br><span class="line"><span class="comment">#pgpool启停</span></span><br><span class="line">sudo pgpool -C -D -n &gt; /data/pgpool/logfile/pgpool.log 2&gt;&amp;1 &amp;</span><br><span class="line">pgpool -m fast stop</span><br><span class="line">	<span class="comment">#-C --clear-oidmaps Clear query cache oidmaps when memqcache_method is memcached</span></span><br><span class="line">	<span class="comment">#-D --discard-status Discard pgpool_status file and do not restore previous status</span></span><br><span class="line">	<span class="comment">#-C，在memqcache_method=memcached时清除查询缓存oidmaps（如果是shmem，则在pgpool启动时丢弃。）</span></span><br><span class="line">	<span class="comment">#-D，--放弃状态放弃pgpool_status文件，不还原以前的状态 </span></span><br></pre></td></tr></table></figure>
+<h3 id="1-1增"><a href="#1-1增" class="headerlink" title="1.1增"></a>1.1增</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#创建用户</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> userName <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;passwd&#x27;</span> ;</span><br><span class="line">#创建角色</span><br><span class="line"><span class="keyword">CREATE</span> ROLE rolename;</span><br><span class="line">#创建数据库  </span><br><span class="line"><span class="keyword">create</span> database [数据库名]; </span><br><span class="line">#创建模式</span><br><span class="line"><span class="keyword">create</span> schema [schema_name];</span><br><span class="line">#创建表  </span><br><span class="line"><span class="keyword">create</span>  <span class="keyword">TABLE</span> ([字段名<span class="number">1</span>] [类型<span class="number">1</span>] <span class="operator">&lt;</span><span class="keyword">references</span> 关联表名(关联的字段名)<span class="operator">&gt;</span>;,[字段名<span class="number">2</span>] [类型<span class="number">2</span>],......<span class="operator">&lt;</span>,<span class="keyword">primary</span> key (字段名m,字段名n,...)<span class="operator">&gt;</span>;); \copyright </span><br></pre></td></tr></table></figure>
+<h3 id="1-2-删"><a href="#1-2-删" class="headerlink" title="1.2 删"></a>1.2 删</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#删除数据库  </span><br><span class="line"><span class="keyword">DROP</span> database [数据库名];  </span><br><span class="line">	#删除数据库是提示 有进程在连接该数据库则执行如下<span class="keyword">sql</span></span><br><span class="line">	#pg_terminate_backend 用来终止与数据库的连接的进程id的函数</span><br><span class="line">	#pg_stat_activity 是一个系统表，用于存储服务进程的属性和状态</span><br><span class="line">	#pg_backend_pid() 是一个系统函数，获取附加到当前会话的服务器进程的ID</span><br><span class="line"><span class="keyword">SELECT</span> pg_terminate_backend(pg_stat_activity.pid)</span><br><span class="line"><span class="keyword">FROM</span> pg_stat_activity</span><br><span class="line"><span class="keyword">WHERE</span> datname<span class="operator">=</span><span class="string">&#x27;smart_horn&#x27;</span> <span class="keyword">AND</span> pid<span class="operator">&lt;&gt;</span>pg_backend_pid();</span><br><span class="line">#删除一个表</span><br><span class="line"><span class="keyword">DROP</span>  <span class="keyword">TABLE</span> [表名]; </span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> [表名];</span><br><span class="line">#清空表</span><br><span class="line"><span class="keyword">TRUNCATE</span> table_name;</span><br><span class="line"><span class="keyword">TRUNCATE</span> <span class="keyword">TABLE</span> table_name RESTART <span class="keyword">IDENTITY</span>;#postgresql 的自增字段 是通过序列sequence来实现的，在清空表的时候，还需要还原序列</span><br><span class="line">#删除表中的字段  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">DROP</span> <span class="keyword">column</span> [字段名]; </span><br><span class="line">#删除表中某行数据  </span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> [表名] <span class="keyword">WHERE</span> [该行特征]; </span><br><span class="line">#删除库表保留表结构 执行如下<span class="keyword">sql</span>生成删除<span class="keyword">sql</span>脚本语句</span><br><span class="line"><span class="keyword">select</span> CONCAT(<span class="string">&#x27;TRUNCATE  TABLE &#x27;</span>,table_name,<span class="string">&#x27; CASCADE&#x27;</span>,<span class="string">&#x27;;&#x27;</span>) <span class="keyword">FROM</span> information_schema.tables <span class="keyword">WHERE</span> TABLE_SCHEMA <span class="operator">=</span> <span class="string">&#x27;public&#x27;</span> <span class="keyword">and</span> table_type <span class="operator">=</span> <span class="string">&#x27;BASE  TABLE&#x27;</span>;</span><br><span class="line"><span class="keyword">TRUNCATE</span>  <span class="keyword">TABLE</span> tablename CASCADE;#会删除引用此表的关联表数据、此命令为清空表命令</span><br><span class="line">##删除表</span><br><span class="line">#若该表有字段被其他表引用成外键，要用级联方式删所有关联的数据 CASCADE</span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> tablename CASCADE;##会删除引用此表的引用表外键</span><br><span class="line">#删除用户和组</span><br><span class="line"><span class="keyword">DROP</span> ROLE IF <span class="keyword">EXISTS</span> role_name;</span><br><span class="line">#回收用户的所有权限再删除</span><br><span class="line"><span class="keyword">revoke</span> <span class="keyword">all</span> <span class="keyword">on</span> database databasename <span class="keyword">from</span> username;</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-改"><a href="#1-3-改" class="headerlink" title="1.3 改"></a>1.3 改</h3></li>
+<li><p>修改用户属性</p>
+</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#修改用户权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE username <span class="keyword">WITH</span> attribute_options;</span><br><span class="line">	#禁止用户登录 配置无权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE username <span class="keyword">WITH</span> NOLOGIN;</span><br><span class="line">#修改用户密码</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">USER</span> userName <span class="keyword">WITH</span> PASSWORD <span class="string">&#x27;passwd&#x27;</span>;</span><br><span class="line">#设置访问权限</span><br><span class="line"><span class="keyword">GRANT</span> permission_type <span class="keyword">ON</span> table_name <span class="keyword">TO</span> role_name;</span><br><span class="line">	#permission_type</span><br><span class="line">	<span class="keyword">ALL</span>:所有权限</span><br><span class="line">	#role_name <span class="operator">=</span> PUBLIC 表示所有用户</span><br><span class="line">#撤销用户访问权限</span><br><span class="line"><span class="keyword">REVOKE</span> permission_type <span class="keyword">ON</span> table_name <span class="keyword">FROM</span> user_name;</span><br><span class="line">#INHERIT权限 该属性使组成员拥有组的所有权限</span><br><span class="line"><span class="keyword">ALTER</span> ROLE test_user INHERIT;</span><br><span class="line"></span><br><span class="line">#切换到role_name用户</span><br><span class="line"><span class="keyword">SET</span> ROLE role_name;</span><br><span class="line">#切换回最初的role</span><br><span class="line">RESET ROLE;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>修改表</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#重命名一个表  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名A] rename <span class="keyword">to</span> [表名B]; </span><br><span class="line">#设置表主键</span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名]  <span class="keyword">add</span> <span class="keyword">constraint</span> PK_SysUser <span class="keyword">primary</span> key(&quot;UserId&quot;); </span><br><span class="line">#重命名一个字段   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] rename <span class="keyword">column</span> [字段名A] <span class="keyword">to</span> [字段名B]; </span><br><span class="line">#在已有的表里添加字段  </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">add</span> <span class="keyword">column</span> [字段名] [类型]; </span><br><span class="line">#给一个字段设置缺省值   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">ALTER</span> <span class="keyword">column</span> [字段名] <span class="keyword">SET</span> <span class="keyword">default</span> [新的默认值];</span><br><span class="line">#去除缺省值   </span><br><span class="line"><span class="keyword">ALTER</span>  <span class="keyword">TABLE</span> [表名] <span class="keyword">ALTER</span> <span class="keyword">column</span> [字段名] <span class="keyword">DROP</span> <span class="keyword">default</span>; </span><br><span class="line">#在表中插入数据  </span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">INTO</span> 表名 ([字段名m],[字段名n],......) <span class="keyword">values</span> ([列m的值],[列n的值],......); </span><br><span class="line">#修改表中的某行某列的数据  </span><br><span class="line">update [表名] <span class="keyword">SET</span> [目标字段名]<span class="operator">=</span>[目标值] <span class="keyword">WHERE</span> [该行特征]; </span><br></pre></td></tr></table></figure>
+<h3 id="1-4-查"><a href="#1-4-查" class="headerlink" title="1.4 查"></a>1.4 查</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line">#<span class="keyword">SQL</span> 命令语法上的说明，用 <span class="operator">*</span> 显示全部命令</span><br><span class="line">\h [名称]      </span><br><span class="line">#查看用户</span><br><span class="line">\du</span><br><span class="line">#切换数据库,相当于mysql的USE dbname</span><br><span class="line">\c dbname</span><br><span class="line">#列举数据库，相当于mysql的<span class="keyword">SHOW</span> databases</span><br><span class="line">\l</span><br><span class="line"><span class="keyword">select</span> pg_database.datname, pg_size_pretty(pg_database_size(pg_database.datname)) <span class="keyword">AS</span> size <span class="keyword">from</span> pg_database;#例举database和数据库大小</span><br><span class="line">#列举表，相当于mysql的<span class="keyword">SHOW</span> tables</span><br><span class="line">\dt</span><br><span class="line">#查看表结构，相当于<span class="keyword">DESC</span> tablename,<span class="keyword">SHOW</span> columns <span class="keyword">FROM</span> tbname</span><br><span class="line">\d tablename</span><br><span class="line">#查看索引 </span><br><span class="line">\di </span><br><span class="line">#显示 PostgreSQL 的使用和发行条款</span><br><span class="line"> #显示或设定用户端字元编码</span><br><span class="line">\encoding [字元编码名称]</span><br><span class="line"> #提示用户设定内部变数</span><br><span class="line">\prompt [文本] 名称</span><br><span class="line"> #securely change the password <span class="keyword">for</span> a <span class="keyword">user</span></span><br><span class="line">\password [USERNAME]</span><br><span class="line">#查看拓展函数</span><br><span class="line"><span class="keyword">select</span> <span class="operator">*</span> <span class="keyword">from</span> pg_extension;</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-常见问题"><a href="#2-常见问题" class="headerlink" title="2. 常见问题"></a>2. 常见问题</h2><h3 id="1-pgpool集群互斥问题"><a href="#1-pgpool集群互斥问题" class="headerlink" title="1. pgpool集群互斥问题"></a>1. pgpool集群互斥问题</h3><h3 id="2-pgsql主从流复制问题"><a href="#2-pgsql主从流复制问题" class="headerlink" title="2. pgsql主从流复制问题"></a>2. pgsql主从流复制问题</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#查看进程 ps -aux</span></span><br><span class="line">主库有sender进程</span><br><span class="line">从库有receiver进程</span><br><span class="line"><span class="comment">#查看复制状态</span></span><br><span class="line">select * from pg_stat_replication;</span><br><span class="line"><span class="comment">#查看当前是否正在进程流复制</span></span><br><span class="line">select pg_is_in_recovery();</span><br></pre></td></tr></table></figure>
+<h3 id="3-pgsql归档备份问题"><a href="#3-pgsql归档备份问题" class="headerlink" title="3. pgsql归档备份问题"></a>3. pgsql归档备份问题</h3><ol>
+<li><p>如何使用归档备份<br>pg_waldump<br><a href="https://www.escapelife.site/posts/b47f1fcb.html">https://www.escapelife.site/posts/b47f1fcb.html</a><br><a href="https://www.infoq.cn/article/Yh39wx9xlrjJMC90TFPN">https://www.infoq.cn/article/Yh39wx9xlrjJMC90TFPN</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#在数据库查看具体的日志编号LSN</span></span><br><span class="line">select proname from pg_proc <span class="built_in">where</span> proname like <span class="string">&#x27;pg_%_location&#x27;</span>;</span><br><span class="line"><span class="comment">#查询到当前的日志编号情况</span></span><br><span class="line">select pg_current_xlog_location();</span><br><span class="line"><span class="comment">#获得当前预写式日志写入位置</span></span><br><span class="line">select pg_current_wal_lsn();</span><br><span class="line"><span class="comment">#强制切换到一个新的预写式日志文件（默认只限于超级用户，但是可以授予其他用户 EXECUTE 特权来执行该函数）</span></span><br><span class="line">pg_switch_wal()</span><br><span class="line"></span><br><span class="line">pg_resetwal -f /data/pgsql11/data/</span><br></pre></td></tr></table></figure>
+<p>问题：归档后主从不同步</p>
+</li>
+<li><p>优雅clean wal目录</p>
+</li>
+</ol>
+<h3 id="4-pgsql-配置文件软载入"><a href="#4-pgsql-配置文件软载入" class="headerlink" title="4. pgsql 配置文件软载入"></a>4. pgsql 配置文件软载入</h3><p>pg_ctl -D /data/pgsql11/data -l /data/pgsql11/log/pgsql.log reload </p>
+<h3 id="5-pgsql主从切换问题"><a href="#5-pgsql主从切换问题" class="headerlink" title="5. pgsql主从切换问题"></a>5. pgsql主从切换问题</h3><ol>
+<li>主库挂了后，pgpool会进入只读，需重启（主库和pgpool主节点为统一节点）<br>当pgpool状态改变后，需要重启pgpool集群才能改变？</li>
+<li><a href="https://www.cnblogs.com/miclis/p/10480979.html">https://www.cnblogs.com/miclis/p/10480979.html</a></li>
+</ol>
+<h3 id="6-pgsql-监控"><a href="#6-pgsql-监控" class="headerlink" title="6. pgsql 监控"></a>6. pgsql 监控</h3><p>并发\执行时间\集群状态<br><a href="https://blog.csdn.net/peterwanghao/article/details/88542715">数据库监控指标</a></p>
+<p><a href="https://github.com/digoal/blog/blob/master/201705/20170521_01.md">PostgreSQL 锁等待监控 珍藏级SQL - 谁堵塞了谁</a><br><a href="https://cloud.tencent.com/developer/article/1632699">PostgreSQL 用系统表来分析postgresql的问题</a></p>
+<h3 id="6-pgpool"><a href="#6-pgpool" class="headerlink" title="6. pgpool"></a>6. pgpool</h3><ul>
+<li><p>问题原因</p>
+<blockquote>
+<p>pgpool作为postgresql的中间件，当集群内存在至少两个节点时，就会进行选举，如果此时第三个节点还没起来，当选举完成后，pgpool不会将没有参加选举的节点自动加入集群，需要手工attach进集群，或者同时重启pgpool进行重启选举，即pgpool本身不具有重启后能自动加入集群并恢复的机制。</p>
+</blockquote>
+</li>
+<li><p>解决方案</p>
+<ul>
+<li>方案1：手动attach<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将掉线节点手动重新加入数据库集群中，例如掉线节点为192.168.1.1并且node id为0，执行下面的attach命令：</span></span><br><span class="line"><span class="comment">#pcp port :9898</span></span><br><span class="line">pcp_attach_node -n 0 -p 9898 -h 192.168.1.1 -U app</span><br><span class="line"></span><br><span class="line">pcp_attach_node -n 2</span><br></pre></td></tr></table></figure></li>
+<li>方案2：重启pgpool，触发重新选举<br>Pgpool每次选举都会读取pgpool状态文件，为了避免影响下次选举，所以需要删除该状态文件</li>
+</ul>
+</li>
+</ul>
+<p><a href="https://segmentfault.com/a/1190000020850773">Postgresql &amp; Pgpool 场景问题和解决方案</a></p>
+]]></content>
+      <categories>
+        <category>运维</category>
+        <category>数据库</category>
+      </categories>
+      <tags>
+        <tag>study</tag>
+        <tag>数据库</tag>
+        <tag>PostgreSQL</tag>
       </tags>
   </entry>
   <entry>
