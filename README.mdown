@@ -1,7 +1,7 @@
 # README.md
 
 - **这是我的博客**
-[**Peana's blog**](https://blog.peana.ga/)
+[**Peana's blog**](https://blog.peana.top/)
 
 - **链接地址**
-https://blog.peana.ga/
+https://blog.peana.top/
